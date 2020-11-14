@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { signin, signInWithGoogle, signInWithGitHub } from "../../helpers/auth";
 import Header from "../../components/Header";
+import * as ROUTES from '../../helpers/routes';
 
 export default class Login extends Component {
   constructor() {
@@ -14,7 +15,6 @@ export default class Login extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.googleSignIn = this.googleSignIn.bind(this);
-    this.githubSignIn = this.githubSignIn.bind(this);
   }
 
   handleChange(event) {
@@ -36,14 +36,6 @@ export default class Login extends Component {
   async googleSignIn() {
     try {
       await signInWithGoogle();
-    } catch (error) {
-      this.setState({ error: error.message });
-    }
-  }
-
-  async githubSignIn() {
-    try {
-      await signInWithGitHub();
     } catch (error) {
       this.setState({ error: error.message });
     }
@@ -96,12 +88,9 @@ export default class Login extends Component {
           <button className="btn btn-danger mr-2" type="button" onClick={this.googleSignIn}>
             Sign in with Google
           </button>
-          <button className="btn btn-secondary" type="button" onClick={this.githubSignIn}>
-            Sign in with GitHub
-          </button>
           <hr />
           <p>
-            Don't have an account? <Link to="/signup">Sign up</Link>
+            Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign up</Link>
           </p>
         </form>
 

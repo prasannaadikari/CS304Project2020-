@@ -19,7 +19,50 @@ import { auth } from "../../services/firebase";
 
 import './App.css';
 
-function PrivateRoute({ component: Component, authenticated, ...rest }) {
+class App extends Component {
+
+  render() {
+      return (
+          <div>
+              
+              <Router>
+                  <Switch>
+                      <Route exact path={ROUTES.HOME}>
+                          <HomeView />
+                      </Route>
+                      <Route exact path={ROUTES.LOG_IN}>
+                          <Login />
+                      </Route>
+                      <Route exact path={ROUTES.SIGN_UP}>
+                          <Signup />
+                      </Route>
+                      
+                      <Route exact path={ROUTES.APPOINTMENT}>
+                          <Appointments />
+                      </Route>
+                      <Route exact path={ROUTES.CREATE_APPOINTMENT}>
+                          <CreateAppointment />
+                      </Route>
+                      
+                      
+                      <Route exact path={ROUTES.SEARCH_VEHICLE}>
+                          <SearchVehicle />
+                      </Route>
+                      <Route exact path={ROUTES.VEHICLE_DETAILS}>
+                          <VehicleDetails />
+                      </Route>
+                      
+                  </Switch>
+              </Router >
+          </div>
+      )
+  }
+}
+
+export default App;
+
+
+/*function PrivateRoute({ component: Component, authenticated, ...rest }) {
     return (
       <Route
         {...rest}
@@ -115,4 +158,4 @@ constructor() {
     }
 }
 
-export default App;
+export default App;*/

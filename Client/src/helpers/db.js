@@ -1,19 +1,28 @@
-import { db } from "../services/firebase";
+import firebase from "../services/firebase";
 
-export function readChats() {
-  let abc = [];
-  db.ref("chats").on("value", snapshot => {
-    snapshot.forEach(snap => {
-      abc.push(snap.val())
-    });
-    return abc;
-  });
+const DB = firebase.ref("/appointments");
+
+class Db {
+  getAll() {
+    return DB;
+  }
+
+  create(appointment) {
+    return DB.push(appointment);
+  }
+
+  update(key, value) {
+    return DB.child(key).update(value);
+  }
+
+  delete(key) {
+    return DB.child(key).remove();
+  }
+
+  deleteAll() {
+    return DB.remove();
+  }
 }
 
-export function writeChats(message) {
-  return db.ref("chats").push({
-    content: message.content,
-    timestamp: message.timestamp,
-    uid: message.uid
-  });
-}
+export default new Db();
+

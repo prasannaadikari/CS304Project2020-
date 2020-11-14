@@ -26,15 +26,15 @@ export class HomeView extends Component {
     services = [
         {
             title: 'Our Services',
-            description: 'Patients of AromedMedical enjoy access to the collective expertise of health professionals across our wide range of health services'
+            description: 'description'
         },
         {
             title: 'Vision',
-            description: 'We should be concerned not only about the health of individual patients, but also the health of our entire society'
+            description: 'description'
         },
         {
             title: 'Latest Technologies',
-            description: 'We have all the modern services and equipment necessary to provide all-inclusive services.'
+            description: 'description'
         }
     ]
 
@@ -46,7 +46,7 @@ export class HomeView extends Component {
                         <CardBody>
                             <CardTitle><p className="font-weight-bold">APPOINTMENTS</p></CardTitle>
                             <CardText>Make a reservation ahead of time to guarantee your spot. You can now make appointments through our website or give us a call.</CardText>
-                            <button  className="btn-block CardButton" href={ROUTES.CREATE_APPOINTMENT}>MAKE AN APPOINTMENT</button>
+                            <Button  className="btn-block CardButton" href={ROUTES.CREATE_APPOINTMENT}>MAKE AN APPOINTMENT</Button>
                         </CardBody>
                     </Card>
                 </Col >

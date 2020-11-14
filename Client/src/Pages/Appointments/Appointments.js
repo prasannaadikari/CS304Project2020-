@@ -1,64 +1,75 @@
 import React, { Component } from 'react'
-//import _ from './node_modules/lodash';
 import {Card, CardTitle, CardBody, Button, Row, Col} from 'reactstrap';
 import Header from "../../components/Header";
-
+import Db from "../../helpers/Db";
 import { auth } from "../../services/firebase";
-import { db } from "../../services/firebase";
+import * as ROUTES from '../../helpers/routes';
+import moment from 'moment'
+import _ from 'lodash';
+
+var a=moment().format("dddd Do MMMM YYYY");
 
 export class Appointment extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          user: auth().currentUser,
           appointment: [],
-          writeError: null,
-          loadingAppointments: false
+          user:auth().currentUser
         };
-    }
+      }
+      componentDidMount() {
+        Db.getAll().on("value", this.onDataChange);
+      }
     
-      async componentDidMount() {
-        this.setState({ readError: null, loadingAppointments: true });
-        const chatArea = this.myRef.current;
-        try {
-          db.ref("appointments").on("value", snapshot => {
-            let appointment = [];
-            snapshot.forEach((snap) => {
-                appointment.push(snap.val());
-            });
-            appointment.sort(function (a,b,c) { return a.vehicleNo - b.appointmentDate - c.status })
-            this.setState({ appointment });
-            this.setState({ loadingAppointments: false });
-          });
-        } catch (error) {
-          this.setState({ readError: error.message, loadingAppointments: false });
-        }
+      componentWillUnmount() {
+        Db.getAll().off("value", this.onDataChange);
       }
 
-    /*Vehicles = [
-    {   vehicleNo:'cp MM-XXXX',
-        date: '2020-xx-yy',
-        status: 'waiting'
-    }
-    ]
+      onDataChange(items) {
+        let appointment = [];
+    
+        items.forEach((item) => {
+          let data = item.val();
+          if ((data.uid == this.state.user.uid && data.status != "Done") || (data.ADate == a)) {
+          appointment.push({
+            ADate: data.ADate,
+            VNo: data.VNo,
+            status: data.status,
+          });
+        }});
+    
+        this.setState({
+          appointment: appointment,
+        });
+      }
+
+deleteappointment() {
+  Db.delete(this.state.appointment.key)
+    .then(() => {
+      this.props.refreshList();
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+}
 
     renderVehicles = () => {
         return (
-            _.map(this.Vehicles, (Vehicle) => {
+            _.map(this.appointment, (appointment) => {
                 return (
                     <Col md="12" className="py-3">
                         <Card className="h-100 shadow" style={{ 'background': '#FFF', 'color': '#000' }}>
                             <CardBody>
                                 <Row>
                                     <Col xs="6">
-                                        <CardTitle ><b>{Vehicle.vehicleNo}</b></CardTitle>
-                                        <CardTitle >{Vehicle.date}</CardTitle>
+                                        <CardTitle ><b>{appointment.VNo}</b></CardTitle>
+                                        <CardTitle >{appointment.ADate}</CardTitle>
                                     </Col>
                                     <Col xs="">
                                     </Col>
                                     <Col xs="auto">
-                                        <CardTitle className="ml-3 text-left text-uppercase" >{Vehicle.status}</CardTitle>
-                                        <Button className="btn-block" color="primary">Cancle Appointment</Button>             
+                                        <CardTitle className="ml-3 text-left text-uppercase" >{appointment.status}</CardTitle>
+                                        <Button className="btn-block" onClick={this.deleteappointment} color="primary">Cancle Appointment</Button>             
                                     </Col>    
                                 </Row>
                             </CardBody>
@@ -67,51 +78,31 @@ export class Appointment extends Component {
                 )
             })
         )
-    }*/
+    }
 
     render() {
         return (
+            <div className="container py-5"><Header/>
             <div className="container py-5">
-                <Header />
                 <Row>
                     <Col xs="9">
                         <h3>Appointments</h3>
                     </Col>
                     <Col xs="auto" >
-                        <Button color="primary">Make an Appointment</Button>{' '}
+                        <Button color="primary" href={ROUTES.CREATE_APPOINTMENT}>Make an Appointment</Button>
                     </Col>
                 </Row>
                 <hr md="12" className="py-3"/>
                 <div className="py-4">
                     <Row>
-                        {this.state.appointment.map(appointment => {
-                            return (
-                                <Col md="12" className="py-3">
-                                    <Card className="h-100 shadow" style={{ 'background': '#FFF', 'color': '#000' }}>
-                                        <CardBody>
-                                            <Row>
-                                                <Col xs="6">
-                                                    <CardTitle ><b>{appointment.vehicleNo}</b></CardTitle>
-                                                    <CardTitle >{appointment.appointmentDate}</CardTitle>
-                                                </Col>
-                                                <Col xs="">
-                                                </Col>
-                                                <Col xs="auto">
-                                        <CardTitle className="ml-3 text-left text-uppercase" >{appointment.status}</CardTitle>
-                                        <Button className="btn-block" color="primary">Cancle Appointment</Button>             
-                                    </Col>    
-                                </Row>
-                            </CardBody>
-                        </Card>
-                    </Col>
-                )
-            })}
+                    {this.renderVehicles()}
                     </Row>
                 </div>
-            </div>
+            </div></div>
         )
     }
 }  
 
 
 export default Appointment
+

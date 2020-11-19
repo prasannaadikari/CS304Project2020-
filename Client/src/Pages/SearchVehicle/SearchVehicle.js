@@ -5,7 +5,7 @@ import Header from "../../components/Header";
 export class SearchVehicle extends Component {
     render() {
         return (
-            <div className="container py-5"><Header />
+            <div className="container py-5"><Header /><div className="container py-5">
                 <h3>Search Vehicle</h3>
                 <Row>
                     <Form inline className="py-3">
@@ -22,7 +22,7 @@ export class SearchVehicle extends Component {
                     </Form>
                 </Row>
                 <hr md="12" className="py-3"/>
-            </div>
+            </div></div>
         )
     }
 }

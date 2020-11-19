@@ -1,19 +1,25 @@
 import React, { Component } from 'react'
 import _ from 'lodash';
-import { Container, Row, Col, Card, CardImg, CardTitle, CardBody, CardText, CardSubtitle, Button} from 'reactstrap';
+import { Container, Row, Col, Card, CardTitle, CardBody, CardText} from 'reactstrap';
 import Header from "../../components/Header";
-
+import Footer from "../../components/Footer";
 import AwesomeSlider from 'react-awesome-slider';
 import withAutoplay from 'react-awesome-slider/dist/autoplay';
 import 'react-awesome-slider/dist/styles.css';
 import Images from "../../assets/images";
 import * as ROUTES from '../../helpers/routes';
 import { Link } from 'react-router-dom';
+import { auth } from '../../services/firebase';
 
 const AutoplaySlider = withAutoplay(AwesomeSlider);
 
 export class HomeView extends Component {
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            user:auth().currentUser
+        };
+    }
     sliderItems = [
         {
             styles: {
@@ -46,7 +52,6 @@ export class HomeView extends Component {
                         <CardBody>
                             <CardTitle><p className="font-weight-bold">APPOINTMENTS</p></CardTitle>
                             <CardText>Make a reservation ahead of time to guarantee your spot. You can now make appointments through our website or give us a call.</CardText>
-                            <Button  className="btn-block CardButton" href={ROUTES.CREATE_APPOINTMENT}>MAKE AN APPOINTMENT</Button>
                         </CardBody>
                     </Card>
                 </Col >
@@ -91,15 +96,29 @@ export class HomeView extends Component {
                             <div style={{ 'font-size': '4vw' }} className="col-md-8 text-white mb-3">Welcome to AUTO Vehicle Setvice Center</div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-6 ml-3 mb-3">
-                            <Link className="btn btn-outline-primary" to={ROUTES.CREATE_APPOINTMENT}>MAKE AN APPOINTMENT</Link>
+                        {auth().currentUser
+                            ?<div>
+                                <div class="col-xs-6 ml-3 mb-3">
+                                <Link className="btn btn-outline-primary" to={ROUTES.CREATE_APPOINTMENT}>MAKE AN APPOINTMENT</Link>
+                                </div>
+                                <div class="col-xs-6 ml-3 mb-3">
+                                <Link className="btn btn-outline-primary" to={ROUTES.APPOINTMENT}>APPOINTMENTS</Link>
+                                </div>
+                                <div class="col-xs-6 ml-3 mb-3">
+                                <Link className="btn btn-outline-primary" onClick={() => auth().signOut()}>LOG OUT</Link>
+                                </div>
                             </div>
-                            <div class="col-xs-6 ml-3 mb-3">
-                            <Link className="btn btn-outline-primary" to={ROUTES.SIGN_UP}>Sign up</Link>
-                            </div>
-                            <div class="col-xs-6 ml-3 mb-3">
-                            <Link className="btn btn-outline-primary" to={ROUTES.LOG_IN}>Log in</Link>
-                            </div>
+                            :<div>
+                                <div class="col-xs-6 ml-3 mb-3">
+                                <Link className="btn btn-outline-primary" to={ROUTES.CREATE_APPOINTMENT}>MAKE AN APPOINTMENT</Link>
+                                </div>
+                                <div class="col-xs-6 ml-3 mb-3">
+                                <Link className="btn btn-outline-primary" to={ROUTES.SIGN_UP}>Sign up</Link>
+                                </div>
+                                <div class="col-xs-6 ml-3 mb-3">
+                                <Link className="btn btn-outline-primary" to={ROUTES.LOG_IN}>Log in</Link>
+                                </div>
+                            </div>}
                         </div>
                     </div >
                 )
@@ -109,7 +128,7 @@ export class HomeView extends Component {
 
     render() {
         return (
-            <div><Header />
+            <div><Header></Header><div>
                 <div>
                     <AutoplaySlider buttons={false} bullets={false} /*play={true}*/ cancelOnInteraction={false} interval={5000}>
                         {this.renderSlider()}
@@ -131,37 +150,8 @@ export class HomeView extends Component {
                         </div>
                     </Container>
                 </div>
-                
-                <footer className="pt-3 mt-5">
-                    <div className="bg-dark pt-5">
-                        <div className="p-3"></div>
-                        <div className="container">
-                            <div className="row ">
-                                <div className="col-md-4 text-center text-md-left ">
-                                    <div className="py-0">
-                                        
-                                        <p className="footer-links font-weight-bold">
-                                            <a className="text-white mr-2" href={ROUTES.HOME}>Home</a>
-                                            <a className="text-white mr-2" href={ROUTES.APPOINTMENT}>Appointment</a>
-                                        </p>
-                                        <p className="text-light py-4 mb-4">&copy;2020 All rights reserved</p>
-                                    </div>
-                                </div>
-                                <div className="col-md-4 text-white my-4 text-center text-md-left ">
-                                    <span className=" font-weight-bold ">Address</span>
-                                    
-                                    <span className=" font-weight-bold ">Phone</span>
-                                   
-                                </div>
-                                <div className="col-md-4 text-white my-4 text-center text-md-left ">
-                                    <span className=" font-weight-bold ">About Us</span>
-                                    <p className="text-light" >Our Service Centre facilitates in all necessary services which is our priority at all costs.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
-            </div >
+                <Footer/>
+            </div ></div>
         )
     }
 }

@@ -78,7 +78,7 @@ export class VehicleDetails extends Component {
     
     render() {
         return (
-            <div className="container py-5"><Header />
+            <div className="container py-5"><Header /><div className="container py-5">
                 <h3 >My Vehicles</h3>    
                 <hr md="12"/>
                     <Row>
@@ -86,7 +86,7 @@ export class VehicleDetails extends Component {
                     </Row>
                 <hr md="12"/>
                     {this.renderDetails()}
-            </div>
+            </div></div>
         )
     }
 }

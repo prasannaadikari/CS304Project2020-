@@ -17,7 +17,7 @@ function Footer() {
                                 <p className="footer-links font-weight-bold">
                                     <span className="text-white font-weight-bold ">Address: No 41,peradeniya road,Kandy.</span>
                                 </p>
-                                    <span className="text-white font-weight-bold ">🤳Phone: 099 1234567</span>
+                                    <span className="text-white font-weight-bold ">Phone: 099 1234567</span>
                             </div>
                         </div>
                         <div className="col-md-4 text-center text-md-left ">

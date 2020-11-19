@@ -7,9 +7,6 @@ class Db {
     return DB;
   }
 
-  create(appointment) {
-    return DB.push(appointment);
-  }
 
   update(key, value) {
     return DB.child(key).update(value);

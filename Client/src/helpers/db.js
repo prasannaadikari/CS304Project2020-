@@ -1,6 +1,7 @@
 import firebase from "../services/firebase";
 
 const DB = firebase.ref("/appointments");
+//const DB = firebase.ref("/profile");
 
 class Db {
   getAll() {

@@ -16,3 +16,7 @@ export function signInWithGoogle() {
 export function logout() {
   return auth().signOut();
 }
+
+export function doPasswordReset(email) {
+  return auth().sendPasswordResetEmail(email);
+}

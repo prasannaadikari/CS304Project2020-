@@ -1,75 +1,86 @@
 import React, { Component } from 'react'
-import {Card, CardTitle, CardBody, Button, Row, Col} from 'reactstrap';
+import {Card, CardTitle, Form,Input, FormGroup, CardBody, Button, Row, Col} from 'reactstrap';
 import Header from "../../components/Header";
 import Db from "../../helpers/Db";
 import { auth } from "../../services/firebase";
 import * as ROUTES from '../../helpers/routes';
-import moment from 'moment'
 import _ from 'lodash';
 
-var a=moment().format("dddd Do MMMM YYYY");
-
 export class Appointment extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-          appointment: [],
-          user:auth().currentUser
-        };
-      }
-      componentDidMount() {
-        Db.getAll().on("value", this.onDataChange);
-      }
-    
-      componentWillUnmount() {
-        Db.getAll().off("value", this.onDataChange);
-      }
+  constructor(props) {
+    super(props);
+    this.onDataChange = this.onDataChange.bind(this);
+    this.onChangekey = this.onChangekey.bind(this);
 
-      onDataChange(items) {
-        let appointment = [];
-    
-        items.forEach((item) => {
-          let data = item.val();
-          if ((data.uid == this.state.user.uid && data.status != "Done") || (data.ADate == a)) {
-          appointment.push({
-            ADate: data.ADate,
-            VNo: data.VNo,
-            status: data.status,
-          });
-        }});
-    
+    this.state = {
+      appointments: [],
+      user: auth().currentUser,
+      error: null,
+      key: null ,
+    };
+  }
+
+  onChangekey(e) {
         this.setState({
-          appointment: appointment,
+          VNo: e.target.value,
         });
       }
 
-deleteappointment() {
-  Db.delete(this.state.appointment.key)
-    .then(() => {
-      this.props.refreshList();
-    })
-    .catch((e) => {
-      console.log(e);
-    });
-}
+  componentDidMount() {
+    Db.getAll().on("value", this.onDataChange);
+  }
 
-    renderVehicles = () => {
+  componentWillUnmount() {
+    Db.getAll().off("value", this.onDataChange);
+  }
+  onDataChange(items) {
+    let appointments = [];
+    
+    items.forEach((item) => {
+      let key = item.key;
+      let data = item.val();
+
+      if (data === null) {
+        this.setState({ error: 'You do not have any appointments yet' });
+      }else if (data.uid === this.state.user.uid) {
+      appointments.push({
+        key:key,
+        date: data.Adate,
+        vNo: data.VNo,
+        Status: data.status,
+      });appointments.sort(function (a, b) { return a.timestamp - b.timestamp })
+    }
+    });
+
+    this.setState({
+      appointments: appointments,
+    });
+  }
+
+    DeleteAppointment() {
+      if (this.state.key !== null) {
+
+        Db.delete(this.state.key)
+      } 
+   }
+
+renderVehicles = () => { const { tutorials, currentTutorial, currentIndex } = this.state;
         return (
-            _.map(this.appointment, (appointment) => {
+            _.map(this.state.appointments, (appointment, index) => {
                 return (
                     <Col md="12" className="py-3">
-                        <Card className="h-100 shadow" style={{ 'background': '#FFF', 'color': '#000' }}>
+                        <Card  className="h-100 shadow" style={{ 'background': '#FFF', 'color': '#000' }}>
                             <CardBody>
                                 <Row>
                                     <Col xs="6">
-                                        <CardTitle ><b>{appointment.VNo}</b></CardTitle>
-                                        <CardTitle >{appointment.ADate}</CardTitle>
+                                        <CardTitle ><b>{appointment.vNo}</b></CardTitle>
+                                        <CardTitle >{appointment.date}</CardTitle>
+                                        <CardTitle >KEY {appointment.key}</CardTitle>
                                     </Col>
                                     <Col xs="">
                                     </Col>
                                     <Col xs="auto">
-                                        <CardTitle className="ml-3 text-left text-uppercase" >{appointment.status}</CardTitle>
-                                        <Button className="btn-block" onClick={this.deleteappointment} color="primary">Cancle Appointment</Button>             
+                                        <CardTitle className="ml-3 text-left text-uppercase" ><b>{appointment.Status}</b></CardTitle>            
                                     </Col>    
                                 </Row>
                             </CardBody>
@@ -80,29 +91,37 @@ deleteappointment() {
         )
     }
 
-    render() {
+render() {  const {error } = this.state;
         return (
-            <div className="container py-5"><Header/>
-            <div className="container py-5">
+            <div className="container py-5"><Header/><div className="container py-5">
                 <Row>
                     <Col xs="9">
                         <h3>Appointments</h3>
                     </Col>
-                    <Col xs="auto" >
-                        <Button color="primary" href={ROUTES.CREATE_APPOINTMENT}>Make an Appointment</Button>
+                    <Col xs="">
                     </Col>
+                    <Col xs="auto">
+                      <Form>
+                        <FormGroup>
+                          <Input type="text" name="key" id="key" placeholder="Enter KEY" value={this.state.key} onChange={this.onChangekey} />
+                        </FormGroup> 
+                        <FormGroup>
+                          <Button onClick={this.DeleteAppointment()} className="btn-block" color="primary">Delete appointment</Button>
+                        </FormGroup>  
+                        </Form>
+                      </Col>    
                 </Row>
                 <hr md="12" className="py-3"/>
                 <div className="py-4">
                     <Row>
+                    <Form>{error ? <FormGroup className="mt-2 text-center text-danger">{error}</FormGroup> : null}</Form>
                     {this.renderVehicles()}
                     </Row>
                 </div>
-            </div></div>
+            </div>
+          </div>
         )
     }
 }  
-
-
 export default Appointment
 

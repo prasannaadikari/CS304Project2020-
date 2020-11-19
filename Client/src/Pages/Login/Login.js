@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { signin, signInWithGoogle, signInWithGitHub } from "../../helpers/auth";
+import { signin, signInWithGoogle } from "../../helpers/auth";
 import Header from "../../components/Header";
 import * as ROUTES from '../../helpers/routes';
+import { auth } from "../../services/firebase";
 
 export default class Login extends Component {
   constructor() {
@@ -10,7 +11,8 @@ export default class Login extends Component {
     this.state = {
       error: null,
       email: "",
-      password: ""
+      password: "",
+      user: auth().currentUser,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -28,6 +30,7 @@ export default class Login extends Component {
     this.setState({ error: "" });
     try {
       await signin(this.state.email, this.state.password);
+      this.props.history.push(ROUTES.HOME);
     } catch (error) {
       this.setState({ error: error.message });
     }
@@ -41,9 +44,9 @@ export default class Login extends Component {
     }
   }
 
-  render() {
+  render() { const {error } = this.state;
     return (
-      <div className="container"><Header />
+      <div className="container"><Header/><div className="container">
         <form
           className="mt-5 py-5 px-5"
           autoComplete="off"
@@ -82,18 +85,19 @@ export default class Login extends Component {
             {this.state.error ? (
               <p className="text-danger">{this.state.error}</p>
             ) : null}
-            <button className="btn btn-primary px-5" type="submit">Login</button>
+            <p> <Link to={ROUTES.PASSWORD_FORGET}>Forgot password?</Link> </p>
+             <button className="btn btn-primary px-5" type="submit">Log in</button>
           </div>
-          <p>You can also log in with any of these services</p>
+          <p>You can also log in with google services</p>
           <button className="btn btn-danger mr-2" type="button" onClick={this.googleSignIn}>
             Sign in with Google
           </button>
           <hr />
           <p>
-            Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign up</Link>
+            Don't have an account? <Link href={ROUTES.SIGN_UP}>Sign up</Link>
           </p>
         </form>
-
+        </div>
       </div>
     );
   }

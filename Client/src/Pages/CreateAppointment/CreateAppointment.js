@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Col, Row, FormGroup, Input, Form, Button} from 'reactstrap';
+import { Col, Row, FormGroup, Input, Form,Alert, Button} from 'reactstrap';
 import moment from 'moment'
-import Db from "../../helpers/Db";
 import { auth } from '../../services/firebase';
 import Header from "../../components/Header";
+import * as ROUTES from '../../helpers/routes';
+import Db from "../../helpers/Db";
 
 export class CreateAppointment extends Component {
     constructor(props) {
@@ -13,57 +14,56 @@ export class CreateAppointment extends Component {
         this.saveAppointment = this.saveAppointment.bind(this);
     
         this.state = {
-            ADate: "",
-            vNo: "",
-            status: "Waiting",
-            user:auth().currentUser 
+          Adate: null,
+          VNo: null,
+          status: "Waiting",
+          user: auth().currentUser,
+          error:null,
+          msg:null
         };
       }
-    
       onChangeAppointmentDate(e) {
         this.setState({
-            ADate: e.target.value,
+          Adate: e.target.value,
         });
       }
     
       onChangeVehicleNo(e) {
         this.setState({
-            VNo: e.target.value,
+          VNo: e.target.value,
         });
       }
-    
       saveAppointment() {
+        if (this.state.user === null) {
+          this.setState({ error: 'please log in to your account' });
+        }else if (this.state.Adate == null || this.state.VNo == null) {
+          this.setState({ error: 'Fill all fields' });
+        }else{ 
         let data = {
-            ADate: this.state.ADate,
-            VNo: this.state.VNo,
-            status: "Waiting",
-            uid: this.state.user.uid
+          Adate: this.state.Adate,
+          VNo: this.state.VNo,
+          status: this.state.status,
+          timestamp: Date.now(),
+          uid: this.state.user.uid,
         };
-    
-        Db.create(data)
-          .then(() => {
-            console.log("Created new appointment successfully!");
-            
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      }
-    render() {
-        return (
-            <div className="container py-5"><Header/>
-            <div className="container py-5">
+        this.setState({ msg: 'Created new appointment successfully!' });
+        Db.create(data)}
+  }
+      
+  render() {  const {error,msg } = this.state;
+      return ( 
+            <div className="container py-5"><Header/><div className="container py-5">
                 <h3>Create appointment</h3>
                 <Row>
-                    <Form  className="py-3">
+                    <Form className="py-3">
                         <Col xs="auto">
                             <FormGroup inline>
-                                <Input type="text" name="VNo" id="VNo" value={this.state.VNo} onChange={this.onChangeVehicleNo} placeholder="Enter Vehicle No" />
+                                <Input type="text" name="VNo" id="VNo" placeholder="Enter Vehicle No" value={this.state.VNo} onChange={this.onChangeVehicleNo} />
                             </FormGroup>
                         </Col>
                         <Col xs="auto">
                         <FormGroup>
-                                <Input type="select" name="ADate" id="ADate" value={this.state.ADate} onChange={this.onChangeAppointmentDate} className="mr-3">
+                                <Input className="mr-3" type="select" name="Adate" id="Adate" value={this.state.Adate} onChange={this.onChangeAppointmentDate} >
                                     <option className="d-none">Appointment date</option>
                                     <option>{moment().format("dddd Do MMMM YYYY")}</option>
                                     <option>{moment().add(1,'days').format("dddd Do MMMM YYYY")}</option>
@@ -74,8 +74,12 @@ export class CreateAppointment extends Component {
                             </FormGroup>
                         </Col>
                         <Col xs="auto">
+                                  {error ? <FormGroup className="mt-2 text-center text-danger">{error}</FormGroup> : null}
+                                  {msg ? <FormGroup className="mt-2 text-center text-success">{msg}</FormGroup> : null}
                             <FormGroup>
-                                <Button className="btn-block" color="primary">Make an appointment</Button>
+                            {auth().currentUser
+                                ? <Button onClick={this.saveAppointment} className="btn-block" color="primary">Make an appointment</Button>
+                                : <Button onClick={this.saveAppointment} className="btn-block" color="primary">Make an appointment</Button>}
                             </FormGroup>
                         </Col>
                     </Form>

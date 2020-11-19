@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import _ from 'lodash';
 import {Card, CardTitle, CardBody, Row, Col,Button, Input,Form, FormGroup} from 'reactstrap';
 
+import Header from "../../components/Header";
 export class Appointment extends Component {
 
     Appointments = [
@@ -107,7 +108,7 @@ export class Appointment extends Component {
 
     render() {
         return (
-            <div className="container py-5">
+            <div className="container py-5"><Header/><div className="container py-5">
                 <Row>
                     <Col xs="9">
                         <h3>Appointments</h3>
@@ -136,7 +137,7 @@ export class Appointment extends Component {
                         {this.renderDones()}
                     </Row>
                 </div>
-            </div>
+            </div></div>
         )
     }
 }  

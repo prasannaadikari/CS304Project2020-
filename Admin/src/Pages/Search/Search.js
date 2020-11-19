@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { Col, Row, FormGroup, Input, Form, Button, Card, CardTitle, CardBody} from 'reactstrap';
 import _ from 'lodash';
 
+import * as ROUTES from '../../helpers/routes';
+import { Link } from 'react-router-dom';
+import Header from "../../components/Header";
 export class SearchVehicle extends Component {
 
     Profiles = [
@@ -21,18 +24,16 @@ export class SearchVehicle extends Component {
                         <Card className="h-100 shadow" style={{ 'background': '#FFF', 'color': '#000' }}>
                             <CardBody>
                                 <Row>
-                                    <Col xs="9">
+                                    <Col xs="12">
                                 <CardTitle ><b>{Profile.name}</b></CardTitle>
                                 <CardTitle >{Profile.email}</CardTitle>
                                 <CardTitle >{Profile.tp}</CardTitle>
                                 <CardTitle >{Profile.address}</CardTitle>
                                 </Col>
-                                <Col xs="auto">
-                                <FormGroup>
-                                    <Input type="nic" name="nic" id="nic" placeholder="enter NIC" />
-                                </FormGroup>
-                                <Button className="btn-block" color="primary">Edit Profile</Button> 
-                                <Button className="btn-block" color="primary">Delete Profile</Button>             
+                                
+                                <Col xs="3">
+                                <Button className="btn-block" color="primary" href={ROUTES.PROFILE}>Edit</Button> 
+                                <Button className="btn-block" color="primary">Delete</Button>             
                                 </Col>
                                 </Row>
                             </CardBody>
@@ -45,19 +46,10 @@ export class SearchVehicle extends Component {
     
     render() {
         return (
-            <div className="container py-5">
+            <div className="container py-5"><Header/><div className="container py-5">
                 <h3>Search Customer</h3>
                 <Row>
                     <Form inline className="py-3">
-                        <Col xs="auto">
-                            <FormGroup>
-                                <Input type="select" name="select" id="select">
-                                    <option className="d-none">Search by</option>
-                                    <option>Email</option>
-                                    <option>NIC</option>
-                                </Input>
-                            </FormGroup>
-                        </Col>
                         <Col xs="auto">   
                             <FormGroup>
                                 <Input type="text" name="VehicleNo" id="VehicleNo" placeholder="Enter" />
@@ -76,7 +68,7 @@ export class SearchVehicle extends Component {
                         {this.renderProfiles()}
                     </Row>
                 </div>
-            </div>
+            </div></div>
         )
     }
 }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { signin, signInWithGoogle } from "../../helpers/auth";
+import { signin} from "../../helpers/auth";
 import Header from "../../components/Header";
 import * as ROUTES from '../../helpers/routes';
 import { auth } from "../../services/firebase";
@@ -16,7 +16,6 @@ export default class Login extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.googleSignIn = this.googleSignIn.bind(this);
   }
 
   handleChange(event) {
@@ -36,14 +35,7 @@ export default class Login extends Component {
     }
   }
 
-  async googleSignIn() {
-    try {
-      await signInWithGoogle();
-    } catch (error) {
-      this.setState({ error: error.message });
-    }
-  }
-
+  
   render() { const {error } = this.state;
     return (
       <div className="container"><Header/><div className="container">
@@ -88,11 +80,7 @@ export default class Login extends Component {
             <p> <Link to={ROUTES.PASSWORD_FORGET}>Forgot password?</Link> </p>
              <button className="btn btn-primary px-5" type="submit">Log in</button>
           </div>
-          <p>You can also log in with google services</p>
-          <button className="btn btn-danger mr-2" type="button" onClick={this.googleSignIn}>
-            Sign in with Google
-          </button>
-          <hr />
+          
           <p>
             Don't have an account? <Link href={ROUTES.SIGN_UP}>Sign up</Link>
           </p>

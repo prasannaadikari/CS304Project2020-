@@ -17,8 +17,8 @@ function Header() {
               <Link className="nav-item nav-link mr-3 text-uppercase" to={ROUTES.HOME}>Home</Link>
               <Link className="nav-item nav-link mr-3 text-uppercase" to={ROUTES.CREATE_APPOINTMENT}>CreateAppointments</Link>
               <Link className="nav-item nav-link mr-3 text-uppercase" to={ROUTES.APPOINTMENT}>Appointments</Link>
-              <Link className="nav-item nav-link mr-3 text-uppercase" to={ROUTES.VEHICLE_DETAILS}>My vehicles</Link>
               <Link className="nav-item nav-link mr-3 text-uppercase" to={ROUTES.SEARCH_VEHICLE}>Search</Link>
+              <Link className="nav-item nav-link mr-3 text-uppercase" to={ROUTES.PROFILE}>Profile</Link>
               <Link className="nav-item nav-link mr-3 text-uppercase" onClick={() => auth().signOut()} to={ROUTES.HOME}>Log out</Link>
             </div>
           : <div className="navbar-nav">

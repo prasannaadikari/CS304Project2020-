@@ -15,7 +15,7 @@ export default class SignUp extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.googleSignIn = this.googleSignIn.bind(this);
+    
   }
 
   handleChange(event) {
@@ -29,19 +29,13 @@ export default class SignUp extends Component {
     this.setState({ error: '' });
     try {
       await signup(this.state.email, this.state.password);
-      this.props.history.push(ROUTES.HOME);
+      this.props.history.push(ROUTES.PROFILE);
     } catch (error) {
       this.setState({ error: error.message });
     }
   }
 
-  async googleSignIn() {
-    try {
-      await signInWithGoogle();
-    } catch (error) {
-      this.setState({ error: error.message });
-    }
-  }
+  
 
   render() {
     return (
@@ -62,10 +56,7 @@ export default class SignUp extends Component {
             {this.state.error ? <p className="text-danger">{this.state.error}</p> : null}
             <button className="btn btn-primary px-5" type="submit">Sign up</button>
           </div>
-          <p>You can also sign up with google services</p>
-          <button className="btn btn-danger mr-2" type="button" onClick={this.googleSignIn}>
-            Sign up with Google
-          </button>
+          
           <hr></hr>
           <p>Already have an account? <Link to={ROUTES.LOG_IN}>Log in</Link></p>
         </form>

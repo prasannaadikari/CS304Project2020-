@@ -7,9 +7,8 @@ import Signup from '../Signup/Signup';
 import CreateAppointment from '../CreateAppointment/CreateAppointment';
 import Appointments from '../Appointments/Appointments';
 import SearchVehicle from '../SearchVehicle/SearchVehicle'
-import VehicleDetails from '../VehicleDetails/VehicleDetails'
 import PasswordForget from '../ForgetPassword/ForgetPassword'
-
+import Profile from '../Profile/Profile'
 import * as ROUTES from '../../helpers/routes';
 import { auth } from "../../services/firebase";
 
@@ -47,6 +46,10 @@ class App extends Component {
                       authenticated={this.state.authenticated}
                           component={HomeView}/>
                       
+                      <Route exact path={ROUTES.PROFILE}
+                      authenticated={this.state.authenticated}
+                          component={Profile}/>
+
                       <Route exact path={ROUTES.LOG_IN}
                       authenticated={this.state.authenticated}
                           component={Login}/>
@@ -71,9 +74,7 @@ class App extends Component {
                       authenticated={this.state.authenticated}
                           component={SearchVehicle}/>
                      
-                      <Route exact path={ROUTES.VEHICLE_DETAILS}
-                      authenticated={this.state.authenticated}
-                          component={VehicleDetails}/>
+                      
                    
                   </Switch>
               </Router >

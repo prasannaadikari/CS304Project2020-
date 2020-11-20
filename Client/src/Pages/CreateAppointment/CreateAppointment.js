@@ -17,6 +17,7 @@ export class CreateAppointment extends Component {
           Adate: null,
           VNo: null,
           status: "Waiting",
+          description:'',
           user: auth().currentUser,
           error:null,
           msg:null
@@ -36,18 +37,24 @@ export class CreateAppointment extends Component {
       saveAppointment() {
         if (this.state.user === null) {
           this.setState({ error: 'please log in to your account' });
+          this.setState({ msg: null });
         }else if (this.state.Adate == null || this.state.VNo == null) {
           this.setState({ error: 'Fill all fields' });
+          this.setState({ msg: null });
         }else{ 
         let data = {
           Adate: this.state.Adate,
           VNo: this.state.VNo,
           status: this.state.status,
+          description:'',
           timestamp: Date.now(),
           uid: this.state.user.uid,
         };
         this.setState({ msg: 'Created new appointment successfully!' });
-        Db.create(data)}
+        this.setState({ error: null });
+        Db.createAppointment(data)}
+        this.setState({ Adate: null, });
+        this.setState({ VNo: null });
   }
       
   render() {  const {error,msg } = this.state;
@@ -77,9 +84,7 @@ export class CreateAppointment extends Component {
                                   {error ? <FormGroup className="mt-2 text-center text-danger">{error}</FormGroup> : null}
                                   {msg ? <FormGroup className="mt-2 text-center text-success">{msg}</FormGroup> : null}
                             <FormGroup>
-                            {auth().currentUser
-                                ? <Button onClick={this.saveAppointment} className="btn-block" color="primary">Make an appointment</Button>
-                                : <Button onClick={this.saveAppointment} className="btn-block" color="primary">Make an appointment</Button>}
+                              <Button onClick={this.saveAppointment} className="btn-block" color="primary">Make an appointment</Button>
                             </FormGroup>
                         </Col>
                     </Form>

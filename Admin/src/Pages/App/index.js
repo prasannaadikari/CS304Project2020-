@@ -4,9 +4,6 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import HomeView from '../Home/Home'
 import Appointments from '../Appointments/Appointments';
 import Search from '../Search/Search'
-import VehicleDetails from '../VehicleDetails/VehicleDetails'
-import Profile from '../Profiles/Profile'
-//import login from "../""
 
 import * as ROUTES from '../../helpers/routes';
 //import { auth } from "../../services/firebase";
@@ -24,9 +21,7 @@ class App extends Component {
                       <Route exact path={ROUTES.HOME}>
                           <HomeView />
                       </Route>
-                      <Route exact path={ROUTES.PROFILE}>
-                          <Profile />
-                      </Route>
+                      
           
                       
                       <Route exact path={ROUTES.APPOINTMENT}>
@@ -36,9 +31,7 @@ class App extends Component {
                       <Route exact path={ROUTES.SEARCH}>
                           <Search />
                       </Route>
-                      <Route exact path={ROUTES.VEHICLE_DETAILS}>
-                          <VehicleDetails />
-                      </Route>
+                      
                       
                   </Switch>
               </Router >

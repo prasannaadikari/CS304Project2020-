@@ -1,146 +1,116 @@
-import React, { Component } from 'react'
-import _ from 'lodash';
-import {Card, CardTitle, CardBody, Row, Col,Button, Input,Form, FormGroup} from 'reactstrap';
+import React, { Component } from "react";
+import Db from "../../helpers/Db";
+import {Card, CardTitle, Form,Input,Container, FormGroup, CardBody, Button, Row, Col} from 'reactstrap';
 
+import Appointment from "./Appointment.component";
+import * as ROUTES from '../../helpers/routes';
 import Header from "../../components/Header";
-export class Appointment extends Component {
 
-    Appointments = [
-        {   
-            name: 'cus name',
-            vehicleNo:'cp MM-XXXX',
-        }
-        ]
+export default class AppointmentsList extends Component {
+  constructor(props) {
+    super(props);
+    this.refreshList = this.refreshList.bind(this);
+    this.setActiveAppointment = this.setActiveAppointment.bind(this);
+    this.onDataChange = this.onDataChange.bind(this);
 
-    Dones = [
-        {   
-            name: 'cus name',
-            vehicleNo:'cp MM-XXXX',
-        }
-        ]
-    Processings = [
-        {   
-            name: 'cus name',
-            vehicleNo:'cp MM-XXXX',
-        }
-        ]        
-    
-   renderAppointments = () => {
-        return (
-            _.map(this.Appointments, (Appointment) => {
-                return (
-                    <Col md="12" className="py-3">
-                        <Card className="h-100 shadow" style={{ 'background': '#FFF', 'color': '#000' }}>
-                            <CardBody>
-                                <Row>
-                                    <Col xs="6">
-                                        <CardTitle ><b>{Appointment.name}</b></CardTitle>
-                                        <CardTitle >{Appointment.vehicleNo}</CardTitle>
-                                    </Col>
-                                    <Col xs="">
-                                    </Col>
-                                    <Col xs="auto">
-                                        <Button className="btn-block" color="success">Process</Button>
-                                    </Col>    
-                                </Row>
-                            </CardBody>
-                        </Card>
-                    </Col>
-                )
-            })
-        )
-    }
+    this.state = {
+      appointments: [],
+      currentAppointment: null,
+      currentIndex: -1,
+    };
+  }
 
-    renderProcessings = () => {
-        return (
-            _.map(this.Processings, (Processing) => {
-                return (
-                    <Col md="12" className="py-3">
-                        <Card className="h-100 shadow" style={{ 'background': '#FFF', 'color': '#000' }}>
-                            <CardBody>
-                                <Row>
-                                    <Col xs="6">
-                                        <CardTitle ><b>{Processing.name}</b></CardTitle>
-                                        <CardTitle >{Processing.vehicleNo}</CardTitle>
-                                    </Col>
-                                    <Col xs="">
-                                    </Col>
-                                    <Col xs="auto">
-                                        <Form>
-                                            <FormGroup>
-                                        <Input type="file" name="file" id="File"/>
-                                        </FormGroup>
-                                            <FormGroup>
-                                        <Button color="primary">Done</Button>
-                                        </FormGroup>
-                                        </Form>
-                                    </Col>
-                                </Row>
-                            </CardBody>
-                        </Card>
-                    </Col>
-                )
-            })
-        )
-    }
+  componentDidMount() {
+    Db.getAllAppointments().on("value", this.onDataChange);
+  }
 
-    renderDones = () => {
-        return (
-            _.map(this.Dones, (Done) => {
-                return (
-                    <Col md="12" className="py-3">
-                        <Card className="h-100 shadow" style={{ 'background': '#FFF', 'color': '#000' }}>
-                            <CardBody>
-                                <Row>
-                                    <Col xs="6">
-                                        <CardTitle ><b>{Done.name}</b></CardTitle>
-                                        <CardTitle >{Done.vehicleNo}</CardTitle>
-                                    </Col>
-                                   
-                                </Row>
-                            </CardBody>
-                        </Card>
-                    </Col>
-                )
-            })
-        )
-    }
+  componentWillUnmount() {
+    Db.getAllAppointments().off("value", this.onDataChange);
+  }
 
-    render() {
-        return (
-            <div className="container py-5"><Header/><div className="container py-5">
-                <Row>
+  onDataChange(items) {
+    let appointments = [];
+
+    items.forEach((item) => {
+      let key = item.key;
+      let data = item.val();
+      appointments.push({
+        key: key,
+        VNo: data.VNo,
+        Adate: data.Adate,
+        status: data.status,
+        description: data.description
+      });
+    });
+
+    this.setState({
+      appointments: appointments,
+    });
+  }
+
+  refreshList() {
+    this.setState({
+      currentAppointment: null,
+      currentIndex: -1,
+    });
+  }
+
+  setActiveAppointment(appointment, index) {
+    this.setState({
+      currentAppointment: appointment,
+      currentIndex: index,
+    });
+  }
+
+ 
+
+  render() {
+    const { appointments, currentAppointment, currentIndex } = this.state;
+
+    return (
+      <div className="p-5"> <Header/><div className="p-5">
+      <Container>
+        <div className=" justify-content-between mb-5">
+          <h4>Todays Appointments</h4>
+          <hr md="12" className="py-3"/>
+              <ul className="list-group">
+                {appointments && appointments.map((appointment, index) => (
+                <li className={ "list-group-item " + (index === currentIndex ? "active" : "") }
+                  onClick={() => this.setActiveAppointment(appointment, index)}
+                  key={index}>
+                    <Row>
                     <Col xs="9">
-                        <h3>Appointments</h3>
-                    </Col>
-                    <Col xs="auto" >
-                        
-                    </Col>
-                </Row>
-                <hr md="12" className="py-3" style={{height:5}}/>
-                <div className="py-4">
-                    <Row>
-                        {this.renderAppointments()}
-                    </Row>
+                  <b>{appointment.VNo}</b>
+                  </Col>
+                  <Col>
+                  {appointment.status==="Waiting"?<div className="ml-3 text-left text-uppercase text-warning" >{appointment.status}</div>:null}
+                  {appointment.status==="Processing"?<div className="ml-3 text-left text-uppercase text-primary" >{appointment.status}</div>:null}
+                  {appointment.status==="Done"?<div className="ml-3 text-left text-uppercase text-success" >{appointment.status}</div>:null}
+                  </Col>
+                     </Row>
+                </li>
+                ))}
+                
+                
+                          
+                      
+              </ul>
+        </div>
+            <div>
+              {currentAppointment ? (
+                <Appointment
+                  appointment={currentAppointment}
+                  refreshList={this.refreshList}
+                />
+              ) : (
+              <div>
+                <br />
+                  <p>Please click on a Appointment...</p>
                 </div>
-                <h3>Processing</h3>
-                <hr md="12"/>
-                <div className="py-4">
-                    <Row>
-                        {this.renderProcessings()}
-                    </Row>
-                </div>
-                <h3>Done</h3>
-                <hr md="12"/>
-                <div className="py-4">
-                    <Row>
-                        {this.renderDones()}
-                    </Row>
-                </div>
+              )}
+            </div>
+            </Container>
             </div></div>
-        )
-    }
-}  
-
-
-export default Appointment
+    );
+  }
+}

@@ -1,23 +1,27 @@
 import firebase from "../services/firebase";
 
-const DB = firebase.ref("/appointments");
+const DBA = firebase.ref("/appointments");
+const DBP = firebase.ref("/profiles");
 
 class Db {
-  getAll() {
-    return DB;
+  getAllAppointments() {
+    return DBA;
   }
 
+  getAllProfiles() {
+    return DBP;
+  }
 
   update(key, value) {
-    return DB.child(key).update(value);
+    return DBA.child(key).update(value);
   }
 
   delete(key) {
-    return DB.child(key).remove();
+    return DBA.child(key).remove();
   }
 
   deleteAll() {
-    return DB.remove();
+    return DBA.remove();
   }
 }
 

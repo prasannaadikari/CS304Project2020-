@@ -20,7 +20,6 @@ export class Profile extends Component {
         this.saveProfile = this.saveProfile.bind(this);
     
         this.state = {
-          profiles:[],
           username: null,
           title: null,
           initials: null,
@@ -34,39 +33,7 @@ export class Profile extends Component {
         };
       }
 
-      componentDidMount() {
-        Db.getAllProfiles().on("value", this.onDataChange);
-      }
-    
-      componentWillUnmount() {
-        Db.getAllProfiles().off("value", this.onDataChange);
-      }
-
-      onDataChange(items) {
-        let profiles = [];
-    
-        items.forEach((item) => {
-          let key = item.key;
-          let data = item.val();
-          if (data.uid===null) {
-            
-          } 
-          else{
-          profiles.push({
-            username: data.username,
-            title: data.title,
-            initials: data.initials,
-            lastname: data.lastname,
-            email: data.email,
-            address: data.address,
-            phone: data.phone,
-          });}
-        });
-    
-        this.setState({
-          profiles: profiles,
-        });
-      }
+      
 
 
       onChangeUsername(e) {
@@ -129,20 +96,21 @@ export class Profile extends Component {
     }
   }
 
-
-    render() {  const {error,msg,data } = this.state;
+    render() {  const {error,msg } = this.state;
         
-        return (
+        return ( 
             <div className="container col-lg-5 my-3 min-vh-100 d-flex flex-column justify-content-center">
+              
                 <Form className="p-5" >
                     <h3 className="text-center">Account Settings</h3>
+                    <h6 className="lead text-primary" >Fill in the form below to create your profile.</h6>
                     <hr className="mb-5" />
 
                     <Row>
                         <Col md="6">
                             <FormGroup>
                                 <Label for="initials">User name</Label>
-        <Input type="text" name="username" id="username"  placeholder={data.username ?<div>{data.username}</div>:"enter your user name"} value={this.state.username} onChange={this.onChangeUsername}  />
+                                <Input type="text" name="username" id="username"  placeholder="Enter your username" value={this.state.username} onChange={this.onChangeUsername}/>
                             </FormGroup>
                         </Col>
                         <Col md="6">
@@ -194,6 +162,8 @@ export class Profile extends Component {
                         <Button onClick={this.saveProfile}  className="btn-block" color="primary">Submit</Button>
                     </FormGroup>
                 </Form>
+
+                
             </div>
         )
     }

@@ -1,55 +1,52 @@
-import React, { Component } from 'react'
-import {Card, CardTitle, Form,Input, FormGroup, CardBody, Button, Row, Col} from 'reactstrap';
-import Header from "../../components/Header";
+import React, { Component } from "react";
 import Db from "../../helpers/Db";
-import { auth } from "../../services/firebase";
+import {Card, CardTitle, Form,Input,Container, FormGroup, CardBody, Button, Row, Col} from 'reactstrap';
+import moment from 'moment'
+import { auth } from '../../services/firebase';
+import Appointment from "./Appointment.component";
 import * as ROUTES from '../../helpers/routes';
-import _ from 'lodash';
+import Header from "../../components/Header";
 
-export class Appointment extends Component {
+export default class AppointmentsList extends Component {
   constructor(props) {
     super(props);
+    this.refreshList = this.refreshList.bind(this);
+    this.setActiveAppointment = this.setActiveAppointment.bind(this);
     this.onDataChange = this.onDataChange.bind(this);
-    this.onChangekey = this.onChangekey.bind(this);
 
     this.state = {
       appointments: [],
       user: auth().currentUser,
-      error: null,
-      key: null ,
+      currentAppointment: null,
+      currentIndex: -1,
     };
   }
 
-  onChangekey(e) {
-        this.setState({
-          VNo: e.target.value,
-        });
-      }
-
   componentDidMount() {
-    Db.getAll().on("value", this.onDataChange);
+    Db.getAllAppointments().on("value", this.onDataChange);
   }
 
   componentWillUnmount() {
-    Db.getAll().off("value", this.onDataChange);
+    Db.getAllAppointments().off("value", this.onDataChange);
   }
+
   onDataChange(items) {
     let appointments = [];
-    
+
     items.forEach((item) => {
       let key = item.key;
       let data = item.val();
-
-      if (data === null) {
-        this.setState({ error: 'You do not have any appointments yet' });
-      }else if (data.uid === this.state.user.uid) {
+       
+      if((data.uid===this.state.user.uid) && ((data.Adate === moment().add(-1,'days').format("dddd Do MMMM YYYY") || data.Adate === moment().format("dddd Do MMMM YYYY") || 
+      data.Adate === moment().add(1,'days').format("dddd Do MMMM YYYY") || data.Adate === moment().add(2,'days').format("dddd Do MMMM YYYY") ||
+      data.Adate === moment().add(3,'days').format("dddd Do MMMM YYYY") || data.Adate === moment().add(4,'days').format("dddd Do MMMM YYYY")))) {
       appointments.push({
-        key:key,
-        date: data.Adate,
-        vNo: data.VNo,
-        Status: data.status,
-      });appointments.sort(function (a, b) { return a.timestamp - b.timestamp })
-    }
+        key: key,
+        VNo: data.VNo,
+        Adate: data.Adate,
+        status: data.status,
+        description: data.description
+      });}
     });
 
     this.setState({
@@ -57,71 +54,66 @@ export class Appointment extends Component {
     });
   }
 
-    DeleteAppointment() {
-      if (this.state.key !== null) {
+  refreshList() {
+    this.setState({
+      currentAppointment: null,
+      currentIndex: -1,
+    });
+  }
 
-        Db.delete(this.state.key)
-      } 
-   }
+  setActiveAppointment(appointment, index) {
+    this.setState({
+      currentAppointment: appointment,
+      currentIndex: index,
+    });
+  }
 
-renderVehicles = () => { const { tutorials, currentTutorial, currentIndex } = this.state;
-        return (
-            _.map(this.state.appointments, (appointment, index) => {
-                return (
-                    <Col md="12" className="py-3">
-                        <Card  className="h-100 shadow" style={{ 'background': '#FFF', 'color': '#000' }}>
-                            <CardBody>
-                                <Row>
-                                    <Col xs="6">
-                                        <CardTitle ><b>{appointment.vNo}</b></CardTitle>
-                                        <CardTitle >{appointment.date}</CardTitle>
-                                        <CardTitle >KEY {appointment.key}</CardTitle>
-                                    </Col>
-                                    <Col xs="">
-                                    </Col>
-                                    <Col xs="auto">
-                                        <CardTitle className="ml-3 text-left text-uppercase" ><b>{appointment.Status}</b></CardTitle>            
-                                    </Col>    
-                                </Row>
-                            </CardBody>
-                        </Card>
-                    </Col>
-                )
-            })
-        )
-    }
+ render() {
+    const { appointments, currentAppointment, currentIndex } = this.state;
 
-render() {  const {error } = this.state;
-        return (
-            <div className="container py-5"><Header/><div className="container py-5">
-                <Row>
-                    <Col xs="9">
-                        <h3>Appointments</h3>
-                    </Col>
-                    <Col xs="">
-                    </Col>
-                    <Col xs="auto">
-                      <Form>
-                        <FormGroup>
-                          <Input type="text" name="key" id="key" placeholder="Enter KEY" value={this.state.key} onChange={this.onChangekey} />
-                        </FormGroup> 
-                        <FormGroup>
-                          <Button onClick={this.DeleteAppointment()} className="btn-block" color="primary">Delete appointment</Button>
-                        </FormGroup>  
-                        </Form>
-                      </Col>    
-                </Row>
-                <hr md="12" className="py-3"/>
-                <div className="py-4">
-                    <Row>
-                    <Form>{error ? <FormGroup className="mt-2 text-center text-danger">{error}</FormGroup> : null}</Form>
-                    {this.renderVehicles()}
-                    </Row>
+    return (
+      <div className="p-5"> <Header/><div className="p-5">
+      <Container>
+        <div className=" justify-content-between mb-5">
+          <h4>Appointments</h4>
+          {currentAppointment ? (
+                <Appointment
+                  appointment={currentAppointment}
+                  refreshList={this.refreshList}
+                />
+              ) : (
+              <div>
+                <br />
+                  <p className="text-info">Please click on a Appointment to remove...</p>
                 </div>
+              )}
+          <hr md="12" className="py-3"/>
+              <ul className="list-group">
+                {appointments && appointments.map((appointment, index) => (
+                <li className={ "list-group-item " + (index === currentIndex ? "active" : "") }
+                  onClick={() => this.setActiveAppointment(appointment, index)}
+                  key={index}>
+                    <Row>
+                    <Col sx="6" sm="4">
+                  <b>{appointment.VNo}</b>
+                  </Col>
+                  <Col sx="6" sm="4">
+                  <b>{appointment.Adate}</b>
+                  </Col>
+                  <Col sm="4">
+                  {appointment.status==="Waiting"?<div className="ml-3 text-left text-uppercase text-warning" >{appointment.status}</div>:null}
+                  {appointment.status==="Processing"?<div className="ml-3 text-left text-uppercase text-primary" >{appointment.status}</div>:null}
+                  {appointment.status==="Done"?<div className="ml-3 text-left text-uppercase text-success" >{appointment.status}</div>:null}
+                  </Col>
+                     </Row>
+                </li>
+                ))}
+              </ul>
+        </div>
+            <div>
             </div>
-          </div>
-        )
-    }
-}  
-export default Appointment
-
+            </Container>
+            </div></div>
+    );
+  }
+}

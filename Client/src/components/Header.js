@@ -7,7 +7,7 @@ function Header() {
   return (
     <header>
       <nav className="navbar navbar-expand-sm fixed-top navbar-light bg-light">
-        <Link className="navbar-brand" to={ROUTES.HOME}>AutoVehicles</Link>
+        <Link className="navbar-brand" to={ROUTES.HOME}>AutoVehicles HOME</Link>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -18,7 +18,7 @@ function Header() {
               <Link className="nav-item nav-link mr-3 text-uppercase" to={ROUTES.CREATE_APPOINTMENT}>CreateAppointments</Link>
               <Link className="nav-item nav-link mr-3 text-uppercase" to={ROUTES.APPOINTMENT}>Appointments</Link>
               <Link className="nav-item nav-link mr-3 text-uppercase" to={ROUTES.SEARCH_VEHICLE}>Search</Link>
-              <Link className="nav-item nav-link mr-3 text-uppercase" to={ROUTES.PROFILE}>Profile</Link>
+              <Link className="nav-item nav-link mr-3 text-uppercase" to={ROUTES.CURRENT_PROFILE}>pROFILE</Link>
               <Link className="nav-item nav-link mr-3 text-uppercase" onClick={() => auth().signOut()} to={ROUTES.HOME}>Log out</Link>
             </div>
           : <div className="navbar-nav">

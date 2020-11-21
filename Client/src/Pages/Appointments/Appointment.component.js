@@ -79,7 +79,6 @@ export default class Appointment extends Component {
                   <Row>
                       <Col sx="6" sm="4">
                           <CardTitle ><h3><b>{currentAppointment.VNo}</b></h3></CardTitle>
-                      
                           <CardTitle >{currentAppointment.Adate}</CardTitle>
                       </Col>
                       <Col sx="6" sm="4">
@@ -87,7 +86,7 @@ export default class Appointment extends Component {
                           {currentAppointment.status==="Processing"  ?<CardTitle className="ml-3 text-left text-uppercase text-primary" ><b>{currentAppointment.status}</b></CardTitle> :null}
                           {currentAppointment.status==="Done"  ?<CardTitle className="ml-3 text-left text-uppercase text-success" ><b>{currentAppointment.status}</b></CardTitle> :null}  
                           </Col>
-                      <Col sm="4">
+                      <Col xs="auto">
                           <Button onClick={this.deleteAppointment} className="btn-block" color="danger">Delete</Button>          
                       </Col>    
                   </Row>

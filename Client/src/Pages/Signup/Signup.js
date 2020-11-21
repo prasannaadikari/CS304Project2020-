@@ -29,7 +29,7 @@ export default class SignUp extends Component {
     this.setState({ error: '' });
     try {
       await signup(this.state.email, this.state.password);
-      this.props.history.push(ROUTES.PROFILE);
+      this.props.history.push(ROUTES.CREATE_PROFILE);
     } catch (error) {
       this.setState({ error: error.message });
     }

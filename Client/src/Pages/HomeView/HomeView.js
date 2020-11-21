@@ -101,12 +101,21 @@ export class HomeView extends Component {
                                 <div class="col-xs-6 ml-3 mb-3">
                                 <Link className="btn btn-outline-primary" to={ROUTES.CREATE_APPOINTMENT}>MAKE AN APPOINTMENT</Link>
                                 </div>
+<Row><Col>
                                 <div class="col-xs-6 ml-3 mb-3">
                                 <Link className="btn btn-outline-primary" to={ROUTES.APPOINTMENT}>APPOINTMENTS</Link>
+                                </div></Col><Col>
+                                <div class="col-xs-6 ml-3 mb-3">
+                                <Link className="btn btn-outline-primary" to={ROUTES.SEARCH_VEHICLE}>SEARCH</Link>
                                 </div>
+</Col></Row> <Row><Col xs="auto">
+                                <div class="col-xs-6 ml-3 mb-3">
+                                <Link className="btn btn-outline-primary" to={ROUTES.CURRENT_PROFILE}>PROFILE</Link>
+                                </div></Col><Col>
                                 <div class="col-xs-6 ml-3 mb-3">
                                 <Link className="btn btn-outline-primary" onClick={() => auth().signOut()}>LOG OUT</Link>
                                 </div>
+                                </Col></Row>
                             </div>
                             :<div>
                                 <div class="col-xs-6 ml-3 mb-3">
@@ -128,7 +137,7 @@ export class HomeView extends Component {
 
     render() {
         return (
-            <div><Header></Header><div>
+            <div><Header/><div>
                 <div>
                     <AutoplaySlider buttons={false} bullets={false} /*play={true}*/ cancelOnInteraction={false} interval={5000}>
                         {this.renderSlider()}

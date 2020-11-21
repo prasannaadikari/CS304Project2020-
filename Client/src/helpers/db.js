@@ -19,7 +19,7 @@ class Db {
   }
 
   update(key, value) {
-    return DBA.child(key).update(value);
+    return DBP.child(key).update(value);
   }
 
   delete(key) {

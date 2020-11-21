@@ -4,11 +4,17 @@ import { Container, Row, Col, Card, CardTitle, Input,Form,FormGroup,Button,CardB
 import _ from 'lodash';
 import Db from "../../helpers/Db";
 
+function searchingFor(search){
+    return function(x){
+        return x.VNo.toLowerCase().includes(search.toLowerCase()) || !search;
+    }
+}
+
 export class SearchVehicle extends Component {
     constructor(props){
         super(props);
-        this.onChangesearch = this.onChangesearch.bind(this);
         this.onDataChange = this.onDataChange.bind(this);
+        this.searchHandler = this.searchHandler.bind(this);
 
         this.state={
             search:"",
@@ -16,17 +22,16 @@ export class SearchVehicle extends Component {
             error:null
         }
     }
-    onChangesearch(e) {
-        this.setState({
-          search: e.target.value,
-        });
-      }
+    searchHandler(event){
+        this.setState({ search:event.target.value})
+    }
+    
     componentDidMount() {
-        Db.getAll().on("value", this.onDataChange);
+        Db.getAllAppointments().on("value", this.onDataChange);
       }
     
       componentWillUnmount() {
-        Db.getAll().off("value", this.onDataChange);
+        Db.getAllAppointments().off("value", this.onDataChange);
       }
     
     onDataChange(items) {
@@ -35,15 +40,14 @@ export class SearchVehicle extends Component {
         items.forEach((item) => {
           let key = item.key;
           let data = item.val();
-           
-          if(data.VNo === this.state.search) {
+          
           appointments.push({
             key: key,
             VNo: data.VNo,
             Adate: data.Adate,
             status: data.status,
             description: data.description
-          });}
+          });
         });
     
         this.setState({
@@ -51,16 +55,26 @@ export class SearchVehicle extends Component {
         });
       }
 
-    renderVehicles = () => {
+    renderVehicles = () => {    const { appointments, search } = this.state;
         return (
-            _.map(this.state.appointments, (appointment) => {
+            _.map(appointments.filter(searchingFor(search)), (appointment) => {
                 return (
                     <Col md="4" className="p-2">
                         <Card className="h-100 shadow p-2" style={{ 'background': '#FFF', 'color': '#000' }}>
                             <CardBody>
-                                <CardTitle >{appointment.VNo}</CardTitle>
-                                <CardText >{appointment.Adate}</CardText>
-                                <CardText >{appointment.description}</CardText>
+                                <CardTitle ><h5>{appointment.VNo}</h5></CardTitle>
+                                <Row>
+                                <CardText >Serviced on:</CardText>
+                                </Row>
+                                <Row>
+                                <CardText  className="text-primary">{appointment.Adate}</CardText>
+                                </Row>
+                                <Row>
+                                <CardText >Status:</CardText>
+                                </Row>
+                                <Row>
+                                <CardText  className="text-primary">{appointment.description}</CardText>
+                                </Row>
                             </CardBody>
                         </Card>
                     </Col>
@@ -71,27 +85,26 @@ export class SearchVehicle extends Component {
 
 
 
-    render() {
+    render() {  const {error,search } = this.state;
         return (
             <div className="container py-5"><Header /><div className="container py-5">
-                <h3>Search Vehicle</h3>
                 <Row>
                     <Form inline className="py-3">
+                    <h3>Search Vehicle</h3>
                         <Col xs="auto">
                             <FormGroup inline>
-                                <Input type="text" name="search" id="search" placeholder="Enter Vehicle No" vvalue={this.state.search} onChange={this.onChangesearch}/>
+                                <Input type="text" name="search" id="search" placeholder="Enter Vehicle No" value={search} onChange={this.searchHandler}/>
                             </FormGroup>
                         </Col>
-                        <Col xs="auto">
-                            <FormGroup>
-                                <Button className="btn-block" color="primary">Search</Button>
-                            </FormGroup>
-                        </Col>
+                        
                     </Form>
                 </Row>
                 <hr md="12" className="py-3"/>
                 <Row>
-                    {this.renderVehicles()}
+                    
+
+                {this.renderVehicles()}
+                <Form>{error ? <FormGroup className="mt-2 text-center text-danger">{error}</FormGroup> : null}</Form>
                 </Row>
             </div></div>
         )

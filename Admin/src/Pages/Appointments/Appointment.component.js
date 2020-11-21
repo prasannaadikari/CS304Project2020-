@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Db from "../../helpers/Db";
 import {Card, CardTitle, Form,Input,Container, FormGroup, Label, CardBody, Button, Row, Col} from 'reactstrap';
+
+
 export default class Appointment extends Component {
   constructor(props) {
     super(props);
@@ -8,12 +10,13 @@ export default class Appointment extends Component {
     this.onChangedescription = this.onChangedescription.bind(this);
     this.updateAppointment = this.updateAppointment.bind(this);
     this.deleteAppointment = this.deleteAppointment.bind(this);
-
+    
     this.state = {
       currentAppointment: {
         key: null,
         VNo: "",
         description: "",
+        uid:"",
         status: false,
       },
       message: "",
@@ -89,15 +92,17 @@ export default class Appointment extends Component {
       });
   }
 
+
   render() {
-    const { currentAppointment } = this.state;
+    const { currentAppointment} = this.state;
 
     return (
       <div className="p-5">
-      <Container>
+  
         <h4>Appointment</h4>
         {currentAppointment
          ? (
+          <Container>
           <div className="py-3">
             <Card  className="h-100 shadow" style={{ 'background': '#FFF', 'color': '#000' }}>
               <CardBody>
@@ -112,9 +117,6 @@ export default class Appointment extends Component {
                       {currentAppointment.status==="Done"  ?<CardTitle className="ml-3 text-left text-uppercase text-success" ><b>{currentAppointment.status}</b></CardTitle> :null}            
                     </Col>    
                   </Row>
-
-
-                  
                   <Form >
                     <Row>
                       <Col xs="auto">
@@ -148,13 +150,16 @@ export default class Appointment extends Component {
                   </Form>
                 </CardBody>
             </Card>
-          </div>) 
+            </div>
+            
+
+          </Container>) 
           : (
           <div>
             <br />
             <p>Please click on a Appointment...</p>
           </div>)}
-      </Container>
+      
     </div>
     );
   }

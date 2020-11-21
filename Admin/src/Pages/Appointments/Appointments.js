@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Db from "../../helpers/Db";
 import {Card, CardTitle, Form,Input,Container, FormGroup, CardBody, Button, Row, Col} from 'reactstrap';
-
+import moment from 'moment'
 import Appointment from "./Appointment.component";
 import * as ROUTES from '../../helpers/routes';
 import Header from "../../components/Header";
@@ -34,13 +34,16 @@ export default class AppointmentsList extends Component {
     items.forEach((item) => {
       let key = item.key;
       let data = item.val();
+
+      if(data.Adate===moment().format("dddd Do MMMM YYYY")){
       appointments.push({
         key: key,
         VNo: data.VNo,
         Adate: data.Adate,
         status: data.status,
-        description: data.description
-      });
+        description: data.description,
+        uid: data.uid
+      });}
     });
 
     this.setState({

@@ -1,41 +1,70 @@
 import React, { Component } from 'react'
-import { Col, Row, FormGroup, Input, Form, Button, Card, CardTitle, CardBody} from 'reactstrap';
-import _ from 'lodash';
-
-import * as ROUTES from '../../helpers/routes';
-import { Link } from 'react-router-dom';
 import Header from "../../components/Header";
-export class SearchVehicle extends Component {
+import { Container, Row, Col, Card, CardTitle, Input,Form,FormGroup,Button,CardBody, CardText} from 'reactstrap';
+import _ from 'lodash';
+import Db from "../../helpers/Db";
 
-    Profiles = [
-        {  
-            name:'cus name',
-            email:'cus email',
-            tp:'cus tp',
-            address:'cus address',
+function searchingFor(search){
+    return function(x){
+        return x.VNo.toLowerCase().includes(search.toLowerCase()) || !search;
+    }
+}
+
+export class Search extends Component {
+    constructor(props){
+        super(props);
+        this.onDataChange = this.onDataChange.bind(this);
+        this.searchHandler = this.searchHandler.bind(this);
+
+        this.state={
+            search:"",
+            appointments: [],
+            error:null
         }
-    ]
+    }
+    searchHandler(event){
+        this.setState({ search:event.target.value})
+    }
+    
+    componentDidMount() {
+        Db.getAllAppointments().on("value", this.onDataChange);
+      }
+    
+      componentWillUnmount() {
+        Db.getAllAppointments().off("value", this.onDataChange);
+      }
+    
+    onDataChange(items) {
+        let appointments = [];
+    
+        items.forEach((item) => {
+          let key = item.key;
+          let data = item.val();
+          
+          appointments.push({
+            key: key,
+            VNo: data.VNo,
+            Adate: data.Adate,
+            status: data.status,
+            description: data.description
+          });
+        });
+    
+        this.setState({
+          appointments: appointments,
+        });
+      }
 
-    renderProfiles = () => {
+    renderVehicles = () => {    const { appointments, search } = this.state;
         return (
-            _.map(this.Profiles, (Profile) => {
+            _.map(appointments.filter(searchingFor(search)), (appointment) => {
                 return (
-                    <Col md="12" className="py-3">
-                        <Card className="h-100 shadow" style={{ 'background': '#FFF', 'color': '#000' }}>
+                    <Col md="4" className="p-2">
+                        <Card className="h-100 shadow p-2" style={{ 'background': '#FFF', 'color': '#000' }}>
                             <CardBody>
-                                <Row>
-                                    <Col xs="12">
-                                <CardTitle ><b>{Profile.name}</b></CardTitle>
-                                <CardTitle >{Profile.email}</CardTitle>
-                                <CardTitle >{Profile.tp}</CardTitle>
-                                <CardTitle >{Profile.address}</CardTitle>
-                                </Col>
-                                
-                                <Col xs="3">
-                                <Button className="btn-block" color="primary" href={ROUTES.PROFILE}>Edit</Button> 
-                                <Button className="btn-block" color="primary">Delete</Button>             
-                                </Col>
-                                </Row>
+                                <CardTitle ><h5>{appointment.VNo}</h5></CardTitle>
+                                <CardText >Serviced on{appointment.Adate}</CardText>
+                                <CardText >{appointment.description}</CardText>
                             </CardBody>
                         </Card>
                     </Col>
@@ -43,34 +72,33 @@ export class SearchVehicle extends Component {
             })
         )
     }
-    
-    render() {
+
+
+
+    render() {  const {error,search } = this.state;
         return (
-            <div className="container py-5"><Header/><div className="container py-5">
-                <h3>Search Customer</h3>
+            <div className="container py-5"><Header /><div className="container py-5">
                 <Row>
                     <Form inline className="py-3">
-                        <Col xs="auto">   
-                            <FormGroup>
-                                <Input type="text" name="VehicleNo" id="VehicleNo" placeholder="Enter" />
-                            </FormGroup>
-                        </Col>
+                    <h3>Search Vehicle</h3>
                         <Col xs="auto">
-                            <FormGroup>
-                                <Button className="btn-block" color="primary">Search</Button>
+                            <FormGroup inline>
+                                <Input type="text" name="search" id="search" placeholder="Enter Vehicle No" value={search} onChange={this.searchHandler}/>
                             </FormGroup>
                         </Col>
+                        
                     </Form>
                 </Row>
                 <hr md="12" className="py-3"/>
-                <div className="py-4">
-                    <Row>
-                        {this.renderProfiles()}
-                    </Row>
-                </div>
+                <Row>
+                    
+
+                {this.renderVehicles()}
+                <Form>{error ? <FormGroup className="mt-2 text-center text-danger">{error}</FormGroup> : null}</Form>
+                </Row>
             </div></div>
         )
     }
 }
 
-export default SearchVehicle
+export default Search

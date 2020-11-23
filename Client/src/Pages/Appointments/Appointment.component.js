@@ -98,7 +98,7 @@ export default class Appointment extends Component {
         ) : (
           <div>
             <br />
-            <p className="text-info">Please click on a Appointment to remove...</p>
+            <p className="text-info">Please click on an appointment to remove...</p>
           </div>
         )}
       </Container>

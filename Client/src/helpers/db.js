@@ -1,7 +1,7 @@
 import firebase from "../services/firebase";
 
 const DBA = firebase.ref("/appointments");
-const DBP = firebase.ref("/profile");
+const DBP = firebase.ref("/profiles");
 
 class Db {
   getAllAppointments() {

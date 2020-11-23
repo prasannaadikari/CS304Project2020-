@@ -15,7 +15,8 @@ export default class UpdateProfile extends Component {
     this.onDataChange = this.onDataChange.bind(this);
 
     this.state = {
-      profile: [],
+      profiles: [],
+      n:null,
       user: auth().currentUser,
       currentProfile: null,
       currentIndex: -1,
@@ -38,6 +39,7 @@ export default class UpdateProfile extends Component {
       let data = item.val();
 
       if(data.uid===this.state.user.uid){
+        this.setState({n:1});
         profiles.push({
             key:key,
             username: data.username,
@@ -49,6 +51,9 @@ export default class UpdateProfile extends Component {
             phone: data.phone,
       });}
     });
+    if (this.state.n===null) {
+      this.props.history.push(ROUTES.CREATE_PROFILE);
+    }
 
     this.setState({
       profiles: profiles,
@@ -72,15 +77,15 @@ export default class UpdateProfile extends Component {
  
 
   render() {
-    const { profiles, currentProfile, currentIndex } = this.state;
+    const { profiles, currentProfile, currentIndex,n } = this.state;
 
     return (
-      <div className="p-5"> <Header/><div className="p-5">
+      <div> <Header/><div className="p-5">
       <Container>
         <div className=" justify-content-between mb-5">
           <h3>Your profile</h3>
           <hr md="12" className="py-3"/>
-              <ul className="list-group col-lg-9">
+          <ul className="list-group col-lg-9">
                 {profiles && profiles.map((profile, index) => (
                 <li className={ "list-group-item " + (index === currentIndex ? "active" : "") }
                   onClick={() => this.setActiveProfile(profile, index)}
@@ -88,37 +93,37 @@ export default class UpdateProfile extends Component {
                   <Row><Col>
                     <Row>
                       <Col xs="auto">
-                        <h6>User name:</h6>
+                        <h6><b>User name:</b></h6>
                       </Col><Col>
                         <h6>{profile.username}</h6>
                       </Col>
                     </Row>
                     <Row><Col xs="auto">
-                        <h6>Name:</h6>
+                        <h6><b>Name:</b></h6>
                         </Col><Col>
-                        <h6>{profile.title}.{profile.initials}.{profile.lastname}</h6>
+                        {profile.initials ? <h6>{profile.title} {profile.initials}.{profile.lastname}</h6> : null}
                         </Col>
                     </Row>
                     <Row><Col xs="auto">
-                        <h6>Contact email:</h6>
+                        <h6><b>Contact email:</b></h6>
                         </Col><Col>
                         <h6>{profile.email}</h6>
                         </Col>
                     </Row>
                     <Row><Col xs="auto">
-                        <h6 >Address:</h6>
+                        <h6 ><b>Address:</b></h6>
                         </Col><Col>
                         <h6>{profile.address}</h6>
                         </Col>
                     </Row>
                     <Row><Col xs="auto">
-                        <h6>Telephone:</h6>
+                        <h6><b>Telephone:</b></h6>
                         </Col><Col>
                         <h6>{profile.phone}</h6>
                         </Col>
                     </Row>
                     </Col>
-                    <Col><h5 className="text-primary">Click here to update your profile</h5></Col>
+                    <Col><h5 className="text-primary">Click here to edit your profile</h5></Col>
                     </Row>
                 </li>
                 ))}

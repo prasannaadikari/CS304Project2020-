@@ -87,13 +87,13 @@ export class SearchVehicle extends Component {
 
     render() {  const {error,search } = this.state;
         return (
-            <div className="container py-5"><Header /><div className="container py-5">
+            <div><Header /><div className="container py-5">
                 <Row>
-                    <Form inline className="py-3">
-                    <h3>Search Vehicle</h3>
+                <Form inline className="py-3">
+                    <h3>Search vehicle</h3>
                         <Col xs="auto">
                             <FormGroup inline>
-                                <Input type="text" name="search" id="search" placeholder="Enter Vehicle No" value={search} onChange={this.searchHandler}/>
+                                <Input type="text" name="search" id="search" placeholder="Enter vehicle No" value={search} onChange={this.searchHandler}/>
                             </FormGroup>
                         </Col>
                         

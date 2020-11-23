@@ -38,7 +38,7 @@ export default class Login extends Component {
   
   render() { const {error } = this.state;
     return (
-      <div className="container"><Header/><div className="container">
+      <div><Header/><div className="container">
         <form
           className="mt-5 py-5 px-5"
           autoComplete="off"

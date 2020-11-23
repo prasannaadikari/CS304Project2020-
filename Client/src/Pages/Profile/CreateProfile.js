@@ -73,12 +73,6 @@ export class Profile extends Component {
       }
 
       saveProfile() {
-        if(this.state.username == null || this.state.title == null ||
-            this.state.initials == null || this.state.lastname == null ||
-            this.state.email == null || this.state.address == null || this.state.phone == null) {
-            this.setState({ error: 'Fill all fields' });
-            this.setState({ msg:null });
-        }else{ 
         let data = {
             username:this.state.username,
             title:this.state.title,
@@ -93,7 +87,6 @@ export class Profile extends Component {
         this.setState({ error:null });
         Db.createProfile(data)
         this.props.history.push(ROUTES.HOME);
-    }
   }
 
     render() {  const {error,msg } = this.state;
@@ -104,6 +97,7 @@ export class Profile extends Component {
                 <Form className="p-5" >
                     <h3 className="text-center">Account Settings</h3>
                     <h6 className="lead text-primary" >Fill in the form below to create your profile.</h6>
+                    <Button onClick={this.saveProfile} className="btn btn-outline-primary" to={ROUTES.HOME}>SKIP</Button>
                     <hr className="mb-5" />
 
                     <Row>

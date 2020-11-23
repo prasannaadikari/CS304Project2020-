@@ -52,20 +52,21 @@ export class CreateAppointment extends Component {
         };
         this.setState({ msg: 'Created new appointment successfully!' });
         this.setState({ error: null });
-        Db.createAppointment(data)}
-        this.setState({ Adate: null, });
-        this.setState({ VNo: null });
+        Db.createAppointment(data)
+        this.props.history.push(ROUTES.APPOINTMENT);
+      }
+        
   }
       
   render() {  const {error,msg } = this.state;
       return ( 
-            <div className="container py-5"><Header/><div className="container py-5">
-                <h3>Create appointment</h3>
+            <div><Header/><div className="container py-5">
+                <h3>Create an appointment</h3>
                 <Row>
                     <Form className="py-3">
                         <Col xs="auto">
                             <FormGroup inline>
-                                <Input type="text" name="VNo" id="VNo" placeholder="Enter Vehicle No" value={this.state.VNo} onChange={this.onChangeVehicleNo} />
+                                <Input type="text" name="VNo" id="VNo" placeholder="Enter vehicle No" value={this.state.VNo} onChange={this.onChangeVehicleNo} />
                             </FormGroup>
                         </Col>
                         <Col xs="auto">

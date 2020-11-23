@@ -32,15 +32,15 @@ export class HomeView extends Component {
     services = [
         {
             title: 'Our Services',
-            description: 'description'
+            description: 'Customers are enjoy access to the collective expertise of technical professionals across our wide range of vehicle services.'
         },
         {
             title: 'Vision',
-            description: 'description'
+            description: 'We should be concerned to provide good service for your vehicles'
         },
         {
             title: 'Latest Technologies',
-            description: 'description'
+            description: 'We have all the modern services and equipment necessary to provide all machaniclal and electrical services for your vehicles.'
         }
     ]
 
@@ -93,7 +93,7 @@ export class HomeView extends Component {
                 return (
                     <div style={item.styles} className="p-3">
                         <div class="row">
-                            <div style={{ 'font-size': '4vw' }} className="col-md-8 text-white mb-3">Welcome to AUTO Vehicle Setvice Center</div>
+                            <div style={{ 'font-size': '4vw' }} className="col-md-8 text-white mb-3">Welcome to AUTO Vehicle Service Center</div>
                         </div>
                         <div class="row">
                         {auth().currentUser
@@ -101,14 +101,14 @@ export class HomeView extends Component {
                                 <div class="col-xs-6 ml-3 mb-3">
                                 <Link className="btn btn-outline-primary" to={ROUTES.CREATE_APPOINTMENT}>MAKE AN APPOINTMENT</Link>
                                 </div>
-<Row><Col>
+                                <Row><Col>
                                 <div class="col-xs-6 ml-3 mb-3">
                                 <Link className="btn btn-outline-primary" to={ROUTES.APPOINTMENT}>APPOINTMENTS</Link>
                                 </div></Col><Col>
                                 <div class="col-xs-6 ml-3 mb-3">
                                 <Link className="btn btn-outline-primary" to={ROUTES.SEARCH_VEHICLE}>SEARCH</Link>
                                 </div>
-</Col></Row> <Row><Col xs="auto">
+                                </Col></Row> <Row><Col xs="auto">
                                 <div class="col-xs-6 ml-3 mb-3">
                                 <Link className="btn btn-outline-primary" to={ROUTES.CURRENT_PROFILE}>PROFILE</Link>
                                 </div></Col><Col>

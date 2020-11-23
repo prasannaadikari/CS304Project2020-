@@ -11,6 +11,9 @@ class Db {
   getAllProfiles() {
     return DBP;
   }
+  createAppointment(appointment) {
+    return DBA.push(appointment);
+  }
 
   update(key, value) {
     return DBA.child(key).update(value);

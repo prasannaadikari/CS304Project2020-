@@ -1,0 +1,112 @@
+import React, { Component } from 'react';
+import { Col, Row, FormGroup, Input, Form,Alert, Button} from 'reactstrap';
+import moment from 'moment'
+import Header from "../../components/Header";
+import * as ROUTES from '../../helpers/routes';
+import Db from "../../helpers/Db";
+
+export class CreateAppointment extends Component {
+    constructor(props) {
+        super(props);
+        this.onChangeAppointmentDate = this.onChangeAppointmentDate.bind(this);
+        this.onChangeVehicleNo = this.onChangeVehicleNo.bind(this);
+        this.onChangeUser = this.onChangeUser.bind(this);
+        this.saveAppointment = this.saveAppointment.bind(this);
+    
+        this.state = {
+          Adate: null,
+          VNo: null,
+          status: "Waiting",
+          description:'',
+          error:null,
+          user:'',
+          msg:null
+        };
+      }
+      onChangeAppointmentDate(e) {
+        this.setState({
+          Adate: e.target.value,
+        });
+      }
+
+      onChangeUser(e) {
+        this.setState({
+          user: e.target.value,
+        });
+      }
+    
+      onChangeVehicleNo(e) {
+        this.setState({
+          VNo: e.target.value,
+        });
+      }
+      saveAppointment() {
+        if (this.state.user === null) {
+          this.setState({ error: 'please log in to your account' });
+          this.setState({ msg: null });
+        }else if (this.state.Adate == null || this.state.VNo == null) {
+          this.setState({ error: 'Date and vehicle number can not be empty' });
+          this.setState({ msg: null });
+        }else{ 
+        let data = {
+          Adate: this.state.Adate,
+          VNo: this.state.VNo,
+          status: this.state.status,
+          description:'',
+          timestamp: Date.now(),
+          uid: this.state.user,
+        };
+        this.setState({ msg: 'Created new appointment successfully!' });
+        this.setState({ error: null });
+        Db.createAppointment(data)
+      }
+        
+  }
+      
+  render() {  const {error,msg } = this.state;
+      return ( 
+            <div className="container py-5"><Header/><div className="container py-5">
+                <h3>Create appointment</h3>
+                <Row>
+                    <Form className="py-3">
+                        <Col xs="auto">
+                            <FormGroup inline>
+                                <Input type="text" name="VNo" id="VNo" placeholder="Enter Vehicle No" value={this.state.VNo} onChange={this.onChangeVehicleNo} />
+                            </FormGroup>
+                        </Col>
+                        <Col xs="auto">
+                        <FormGroup>
+                                <Input className="mr-3" type="select" name="Adate" id="Adate" value={this.state.Adate} onChange={this.onChangeAppointmentDate} >
+                                    <option className="d-none">Appointment date</option>
+                                    <option>{moment().format("dddd Do MMMM YYYY")}</option>
+                                    <option>{moment().add(1,'days').format("dddd Do MMMM YYYY")}</option>
+                                    <option>{moment().add(2,'days').format("dddd Do MMMM YYYY")}</option>
+                                    <option>{moment().add(3,'days').format("dddd Do MMMM YYYY")}</option>
+                                    <option>{moment().add(4,'days').format("dddd Do MMMM YYYY")}</option>
+                                    <option>{moment().add(5,'days').format("dddd Do MMMM YYYY")}</option>
+                                    <option>{moment().add(6,'days').format("dddd Do MMMM YYYY")}</option>
+                                    <option>{moment().add(7,'days').format("dddd Do MMMM YYYY")}</option>
+                                </Input>
+                            </FormGroup>
+                        </Col>
+                        <Col xs="auto">
+                            <FormGroup inline>
+                                <Input type="text" name="uid" id="uid" placeholder="Enter vehicle owner's uid" value={this.state.user} onChange={this.onChangeUser} />
+                            </FormGroup>
+                        </Col>
+                        <Col xs="auto">
+                                  {error ? <FormGroup className="mt-2 text-center text-danger">{error}</FormGroup> : null}
+                                  {msg ? <FormGroup className="mt-2 text-center text-success">{msg}</FormGroup> : null}
+                            <FormGroup>
+                              <Button onClick={this.saveAppointment} className="btn-block" color="primary">Make an appointment</Button>
+                            </FormGroup>
+                        </Col>
+                    </Form>
+                </Row>
+                <hr md="12" className="py-3"/>
+            </div></div>
+        )
+    }
+}
+
+export default CreateAppointment

@@ -111,10 +111,13 @@ export default class Appointment extends Component {
                       <CardTitle ><h3><b>{currentAppointment.VNo}</b></h3></CardTitle>
                       <CardTitle >{currentAppointment.Adate}</CardTitle>
                     </Col>
-                    <Col xs="auto">
+                    <Col xs="auto"><Row>
                       {currentAppointment.status==="Waiting"  ?<CardTitle className="ml-3 text-left text-uppercase text-warning" ><b>{currentAppointment.status}</b></CardTitle> :null}
                       {currentAppointment.status==="Processing"  ?<CardTitle className="ml-3 text-left text-uppercase text-primary" ><b>{currentAppointment.status}</b></CardTitle> :null}
                       {currentAppointment.status==="Done"  ?<CardTitle className="ml-3 text-left text-uppercase text-success" ><b>{currentAppointment.status}</b></CardTitle> :null}            
+                    </Row><Row>
+                      <CardTitle >Uid<b>  [</b>{currentAppointment.uid}<b>]</b></CardTitle>
+                    </Row>
                     </Col>    
                   </Row>
                   <Form >

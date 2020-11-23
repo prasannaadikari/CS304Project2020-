@@ -4,6 +4,7 @@ import {Card, CardTitle, Form,Input,Container, FormGroup, CardBody, Button, Row,
 import moment from 'moment'
 import Appointment from "./Appointment.component";
 import * as ROUTES from '../../helpers/routes';
+import {Checkmark} from "react-checkmark";
 import Header from "../../components/Header";
 
 export default class AppointmentsList extends Component {
@@ -15,6 +16,7 @@ export default class AppointmentsList extends Component {
 
     this.state = {
       appointments: [],
+      n:null,
       currentAppointment: null,
       currentIndex: -1,
     };
@@ -36,6 +38,7 @@ export default class AppointmentsList extends Component {
       let data = item.val();
 
       if(data.Adate===moment().format("dddd Do MMMM YYYY")){
+        this.setState({n:1});
       appointments.push({
         key: key,
         VNo: data.VNo,
@@ -68,36 +71,43 @@ export default class AppointmentsList extends Component {
  
 
   render() {
-    const { appointments, currentAppointment, currentIndex } = this.state;
+    const { appointments, currentAppointment, currentIndex ,n} = this.state;
 
     return (
       <div className="p-5"> <Header/><div className="p-5">
       <Container>
         <div className=" justify-content-between mb-5">
+<Row><Col>
           <h4>Todays Appointments</h4>
+</Col><Col>
+          <Button href={ROUTES.SEARCH_APPOINTMENTS}>Search appointment</Button>
+</Col><Col>
+          <Button href={ROUTES.CREATE_APPOINTMENT}>Create appointment</Button>
+</Col></Row>
           <hr md="12" className="py-3"/>
+
               <ul className="list-group">
                 {appointments && appointments.map((appointment, index) => (
-                <li className={ "list-group-item " + (index === currentIndex ? "active" : "") }
+                <li className={ "list-group-item " + (index === currentIndex ? "active" : "") } 
                   onClick={() => this.setActiveAppointment(appointment, index)}
                   key={index}>
                     <Row>
                     <Col xs="9">
                   <b>{appointment.VNo}</b>
                   </Col>
+                      <Col> 
+                        {appointment.description ? <Checkmark size='medium'/>:null} 
+                      </Col>
                   <Col>
-                  {appointment.status==="Waiting"?<div className="ml-3 text-left text-uppercase text-warning" >{appointment.status}</div>:null}
-                  {appointment.status==="Processing"?<div className="ml-3 text-left text-uppercase text-primary" >{appointment.status}</div>:null}
-                  {appointment.status==="Done"?<div className="ml-3 text-left text-uppercase text-success" >{appointment.status}</div>:null}
+                  {appointment.status==="Waiting"?<div className="ml-3 text-left text-uppercase text-warning" ><b>{appointment.status}</b></div>:null}
+                  {appointment.status==="Processing"?<div className="ml-3 text-left text-uppercase text-primary" ><b>{appointment.status}</b></div>:null}
+                  {appointment.status==="Done"?<div className="ml-3 text-left text-uppercase text-success" ><b>{appointment.status}</b></div>:null}
                   </Col>
                      </Row>
                 </li>
                 ))}
-                
-                
-                          
-                      
               </ul>
+              {n ? null : <h6 className="text-danger">Today you do not have any appointments</h6>}
         </div>
             <div>
               {currentAppointment ? (

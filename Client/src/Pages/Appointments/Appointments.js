@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {Checkmark} from "react-checkmark";
 import Db from "../../helpers/Db";
 import {Card, CardTitle, Form,Input,Container, FormGroup, CardBody, Button, Row, Col} from 'reactstrap';
 import moment from 'moment'
@@ -37,7 +38,7 @@ export default class AppointmentsList extends Component {
       let key = item.key;
       let data = item.val();
        
-      if((data.uid===this.state.user.uid) && (data.Adate === moment().add(-1,'days').format("dddd Do MMMM YYYY") || data.Adate === moment().format("dddd Do MMMM YYYY") || 
+      if((data.uid===this.state.user.uid) && (data.Adate === moment().add(-2,'days').format("dddd Do MMMM YYYY") || data.Adate === moment().add(-1,'days').format("dddd Do MMMM YYYY") || data.Adate === moment().format("dddd Do MMMM YYYY") || 
       data.Adate === moment().add(1,'days').format("dddd Do MMMM YYYY") || data.Adate === moment().add(2,'days').format("dddd Do MMMM YYYY") ||
       data.Adate === moment().add(3,'days').format("dddd Do MMMM YYYY") || data.Adate === moment().add(4,'days').format("dddd Do MMMM YYYY"))) {
       appointments.push({
@@ -72,7 +73,7 @@ export default class AppointmentsList extends Component {
     const { appointments, currentAppointment, currentIndex } = this.state;
 
     return (
-      <div className="p-5"> <Header/><div className="p-5">
+      <div> <Header/><div className="p-5">
       <Container>
         <div className=" justify-content-between mb-5">
           <h4>Appointments</h4>
@@ -84,7 +85,7 @@ export default class AppointmentsList extends Component {
               ) : (
               <div>
                 <br />
-                  <p className="text-info">Please click on a Appointment to remove...</p>
+                  <p className="text-info">Please click on an appointment to remove...</p>
                 </div>
               )}
           <hr md="12" className="py-3"/>
@@ -94,16 +95,19 @@ export default class AppointmentsList extends Component {
                   onClick={() => this.setActiveAppointment(appointment, index)}
                   key={index}>
                     <Row>
-                    <Col sx="6" sm="4">
+                    <Col>
                   <b>{appointment.VNo}</b>
                   </Col>
-                  <Col sx="6" sm="4">
+                  <Col>
                   <b>{appointment.Adate}</b>
                   </Col>
-                  <Col sm="4">
+                  <Col>
                   {appointment.status==="Waiting"?<div className="ml-3 text-left text-uppercase text-warning" >{appointment.status}</div>:null}
                   {appointment.status==="Processing"?<div className="ml-3 text-left text-uppercase text-primary" >{appointment.status}</div>:null}
                   {appointment.status==="Done"?<div className="ml-3 text-left text-uppercase text-success" >{appointment.status}</div>:null}
+                  </Col>
+                  <Col>
+                    {appointment.description ? <Checkmark size='medium'/> : null}
                   </Col>
                      </Row>
                 </li>

@@ -6,7 +6,7 @@ import * as ROUTES from '../helpers/routes';
 function Header() {
   return (
     <header>
-      <nav className="navbar navbar-expand-sm fixed-top navbar-light bg-light">
+      <nav className="navbar navbar-expand-sm navbar-light bg-light">
         <Link className="navbar-brand" to={ROUTES.HOME}>AutoVehicles HOME</Link>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>

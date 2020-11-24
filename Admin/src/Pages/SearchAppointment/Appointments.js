@@ -90,7 +90,7 @@ export default class AppointmentsList extends Component {
           <h4>Appointments</h4>
           <Form><FormGroup><Input type="text" name="search" id="search" placeholder="Enter appointment date" value={search} onChange={this.searchHandler}/></FormGroup></Form>
     
-          <ul style={{ 'overflow-y': 'scroll', 'overflow-x': 'hidden' }}>
+          <ul>
                  {appointments.filter(searchingFor(search)).map((appointment, index) => (
                   <li className="list-group" tag="a" href="#" action className={ "list-group-item " + (index === currentIndex ? "active" : "") } 
                   onClick={() => this.setActiveAppointment(appointment, index)}

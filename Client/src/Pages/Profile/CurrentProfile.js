@@ -38,7 +38,9 @@ export default class UpdateProfile extends Component {
       let key = item.key;
       let data = item.val();
 
-      if(data.uid===this.state.user.uid){
+      if (this.state.user===null) {
+        this.props.history.push(ROUTES.HOME);
+      }else if(data.uid===this.state.user.uid){
         this.setState({n:1});
         profiles.push({
             key:key,

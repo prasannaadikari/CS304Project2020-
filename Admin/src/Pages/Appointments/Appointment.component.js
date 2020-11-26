@@ -127,7 +127,7 @@ export default class Appointment extends Component {
                           <Label for="address">Update status</Label>
                           <Input type="select" name="St" id="St" value={currentAppointment.status} onChange={this.onChangestatus}>
                           <option className="d-none">{currentAppointment.status}</option>
-                                    <option>"Waiting"</option>
+                                    <option>Waiting</option>
                                     <option>Processing</option>
                                     <option>Done</option>
                           </Input>

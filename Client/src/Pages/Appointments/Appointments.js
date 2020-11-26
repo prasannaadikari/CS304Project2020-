@@ -38,9 +38,12 @@ export default class AppointmentsList extends Component {
       let key = item.key;
       let data = item.val();
        
-      if((data.uid===this.state.user.uid) && (data.Adate === moment().add(-2,'days').format("dddd Do MMMM YYYY") || data.Adate === moment().add(-1,'days').format("dddd Do MMMM YYYY") || data.Adate === moment().format("dddd Do MMMM YYYY") || 
+      if (this.state.user===null) {
+        this.props.history.push(ROUTES.HOME);
+      }else if((data.uid===this.state.user.uid) && (data.Adate === moment().add(-2,'days').format("dddd Do MMMM YYYY") || data.Adate === moment().add(-1,'days').format("dddd Do MMMM YYYY") || data.Adate === moment().format("dddd Do MMMM YYYY") || 
       data.Adate === moment().add(1,'days').format("dddd Do MMMM YYYY") || data.Adate === moment().add(2,'days').format("dddd Do MMMM YYYY") ||
-      data.Adate === moment().add(3,'days').format("dddd Do MMMM YYYY") || data.Adate === moment().add(4,'days').format("dddd Do MMMM YYYY"))) {
+      data.Adate === moment().add(3,'days').format("dddd Do MMMM YYYY") || data.Adate === moment().add(4,'days').format("dddd Do MMMM YYYY") ||
+      data.Adate === moment().add(5,'days').format("dddd Do MMMM YYYY") || data.Adate === moment().add(6,'days').format("dddd Do MMMM YYYY"))) {
       appointments.push({
         key: key,
         VNo: data.VNo,

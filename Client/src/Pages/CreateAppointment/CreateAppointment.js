@@ -25,6 +25,8 @@ export class CreateAppointment extends Component {
           d3: 0,
           d4: 0,
           d5: 0,
+          d6: 0,
+          d7: 0,
           Warning:null,
           error:null,
           msg:null,
@@ -55,7 +57,9 @@ export class CreateAppointment extends Component {
         items.forEach((item) => {
           let data = item.val();
     
-            if (data.Adate === moment().format("dddd Do MMMM YYYY")) {
+            if (this.state.user === null) {
+              this.props.history.push(ROUTES.HOME);
+            }else if (data.Adate === moment().format("dddd Do MMMM YYYY")) {
               this.setState({ d1:this.state.d1+1 });
             }
             else if (data.Adate === moment().add(1,'days').format("dddd Do MMMM YYYY")) {
@@ -70,18 +74,20 @@ export class CreateAppointment extends Component {
             else if (data.Adate === moment().add(4,'days').format("dddd Do MMMM YYYY")) {
               this.setState({ d5:this.state.d5+1 });
             }
+            else if (data.Adate === moment().add(5,'days').format("dddd Do MMMM YYYY")) {
+              this.setState({ d6:this.state.d6+1 });
+            }
+            else if (data.Adate === moment().add(6,'days').format("dddd Do MMMM YYYY")) {
+              this.setState({ d7:this.state.d7+1 });
+            }
       });
     }
     
 
 
 
-      saveAppointment() { const {d1,d2,d3,d4,d5,max,user,Adate,VNo,status } = this.state;
-        if (user === null) {
-          this.setState({ error: 'please log in to your account' });
-          this.setState({ msg: null });
-          this.setState({ Warning: null });
-        }else if (Adate === null || VNo === null) {
+      saveAppointment() { const {d1,d2,d3,d4,d5,d6,d7,max,user,Adate,VNo,status } = this.state;
+        if (Adate === null || VNo === null) {
           this.setState({ Warning: null });
           this.setState({ error: 'Fieds can not be empty' });
           this.setState({ msg: null });
@@ -101,7 +107,15 @@ export class CreateAppointment extends Component {
           this.setState({ Warning: 'Resivations are over. please book another day.' });
           this.setState({ error: 'According to following resevation informations.' });
           this.setState({ msg: null });
-        } else if (Adate === moment().add(4,'days').format("dddd Do MMMM YYYY") && d5 === max) {
+        }else if (Adate === moment().add(4,'days').format("dddd Do MMMM YYYY") && d5 === max) {
+          this.setState({ Warning: 'Resivations are over. please book another day.'  });
+          this.setState({ error: 'According to following resevation informations.' });
+          this.setState({ msg: null });
+        }else if (Adate === moment().add(5,'days').format("dddd Do MMMM YYYY") && d6 === max) {
+          this.setState({ Warning: 'Resivations are over. please book another day.'  });
+          this.setState({ error: 'According to following resevation informations.' });
+          this.setState({ msg: null });
+        }else if (Adate === moment().add(6,'days').format("dddd Do MMMM YYYY") && d7 === max) {
           this.setState({ Warning: 'Resivations are over. please book another day.'  });
           this.setState({ error: 'According to following resevation informations.' });
           this.setState({ msg: null });
@@ -123,7 +137,7 @@ export class CreateAppointment extends Component {
         
   }
       
-  render() {  const {error,msg,Warning,d1,d2,d3,d4,d5,max } = this.state;
+  render() {  const {error,msg,Warning,d1,d2,d3,d4,d5,d6,d7,max } = this.state;
       return ( 
             <div><Header/><div className="container py-5">
                 <h3>Create an appointment</h3>
@@ -144,6 +158,8 @@ export class CreateAppointment extends Component {
                                     <option>{moment().add(2,'days').format("dddd Do MMMM YYYY")}</option>
                                     <option>{moment().add(3,'days').format("dddd Do MMMM YYYY")}</option>
                                     <option>{moment().add(4,'days').format("dddd Do MMMM YYYY")}</option>
+                                    <option>{moment().add(5,'days').format("dddd Do MMMM YYYY")}</option>
+                                    <option>{moment().add(6,'days').format("dddd Do MMMM YYYY")}</option>
                                 </Input>
                             </FormGroup>
                         </Col>
@@ -170,6 +186,10 @@ export class CreateAppointment extends Component {
                     <Progress animated color="info" value={d4*10}>{d4}/{max}</Progress>
                   <h6>{moment().add(4,'days').format("dddd Do MMMM YYYY")}</h6>
                     <Progress animated color="info" value={d5*10}>{d5}/{max}</Progress>
+                  <h6>{moment().add(5,'days').format("dddd Do MMMM YYYY")}</h6>
+                    <Progress animated color="info" value={d6*10}>{d6}/{max}</Progress>
+                  <h6>{moment().add(6,'days').format("dddd Do MMMM YYYY")}</h6>
+                    <Progress animated color="info" value={d7*10}>{d7}/{max}</Progress>
                 </div>
             </div>
           </div>

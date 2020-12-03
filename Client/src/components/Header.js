@@ -1,35 +1,58 @@
-import React from 'react';
+import React ,{ Component } from 'react';
 import { Link } from 'react-router-dom';
 import { auth } from '../services/firebase';
 import * as ROUTES from '../helpers/routes';
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink
+} from 'reactstrap';
 
-function Header() {
+export default class Header extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        user: auth().currentUser,
+        isOpen: false
+    };
+}
+
+toggle = () => {
+    this.setState({
+        isOpen: !this.state.isOpen
+    });
+}
+
+  render() {
   return (
-    <header>
-      <nav className="navbar navbar-expand-sm navbar-light bg-light">
-        <Link className="navbar-brand" to={ROUTES.HOME}>AutoVehicles HOME</Link>
-        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+    <div>
+      <Navbar className="p-3" color="dark" dark expand="md">
+                    <NavbarBrand  className="ml-3" href={ROUTES.HOME}>AutoVehicles</NavbarBrand>  
+                    <NavbarToggler onClick={() => this.toggle()} />
+                    <Collapse isOpen={this.state.isOpen} navbar>
           {auth().currentUser
-          ? <div className="navbar-nav">
-              <Link className="nav-item nav-link mr-3 text-uppercase" to={ROUTES.HOME}>Home</Link>
-              <Link className="nav-item nav-link mr-3 text-uppercase" to={ROUTES.CREATE_APPOINTMENT}>CreateAppointments</Link>
-              <Link className="nav-item nav-link mr-3 text-uppercase" to={ROUTES.APPOINTMENT}>Appointments</Link>
-              <Link className="nav-item nav-link mr-3 text-uppercase" to={ROUTES.SEARCH_VEHICLE}>Search</Link>
-              <Link className="nav-item nav-link mr-3 text-uppercase" to={ROUTES.CURRENT_PROFILE}>pROFILE</Link>
-              <Link className="nav-item nav-link mr-3 text-uppercase" onClick={() => auth().signOut()} to={ROUTES.HOME}>Log out</Link>
+          ? <div className="navbar-nav ml-auto">
+              <Link className="nav-item nav-link ml-3 text-uppercase" to={ROUTES.HOME}>Home</Link>
+              <Link className="nav-item nav-link ml-3 text-uppercase" to={ROUTES.CREATE_APPOINTMENT}>Create Appointments</Link>
+              <Link className="nav-item nav-link ml-3 text-uppercase" to={ROUTES.APPOINTMENT}>Appointments</Link>
+              <Link className="nav-item nav-link ml-3 text-uppercase" to={ROUTES.SEARCH_VEHICLE}>Search</Link>
+              <Link className="nav-item nav-link ml-3 text-uppercase" to={ROUTES.CURRENT_PROFILE}>pROFILE</Link>
+              <Link className="nav-item nav-link ml-3 text-uppercase" onClick={() => auth().signOut()} to={ROUTES.HOME}>Log out</Link>
             </div>
-          : <div className="navbar-nav">
-              <Link className="nav-item nav-link mr-3 text-uppercase" to={ROUTES.LOG_IN}>Log in</Link>
-              <Link className="nav-item nav-link mr-3 text-uppercase" to={ROUTES.SIGN_UP}>Sign Up</Link>
+          : <div className="navbar-nav ml-auto">
+              <Link className="nav-item nav-link ml-3 text-uppercase" to={ROUTES.LOG_IN}>Log in</Link>
+              <Link className="nav-item nav-link ml-3 text-uppercase" to={ROUTES.SIGN_UP}>Sign Up</Link>
             </div>}
-        </div>
-      </nav>
-    </header>
+       
+        </Collapse>
+                </Navbar>
+    </div>
   );
+}
 }
 
 
-export default Header;

@@ -16,7 +16,6 @@ export default class UpdateProfile extends Component {
 
     this.state = {
       profiles: [],
-      n:null,
       user: auth().currentUser,
       currentProfile: null,
       currentIndex: -1,
@@ -41,7 +40,6 @@ export default class UpdateProfile extends Component {
       if (this.state.user===null) {
         this.props.history.push(ROUTES.HOME);
       }else if(data.uid===this.state.user.uid){
-        this.setState({n:1});
         profiles.push({
             key:key,
             username: data.username,
@@ -53,9 +51,7 @@ export default class UpdateProfile extends Component {
             phone: data.phone,
       });}
     });
-    if (this.state.n===null) {
-      this.props.history.push(ROUTES.CREATE_PROFILE);
-    }
+    
 
     this.setState({
       profiles: profiles,
@@ -125,7 +121,7 @@ export default class UpdateProfile extends Component {
                         </Col>
                     </Row>
                     </Col>
-                    <Col><h5 className="text-primary">Click here to edit your profile</h5></Col>
+                    <Col><h5 className="text-primary">Edit</h5></Col>
                     </Row>
                 </li>
                 ))}

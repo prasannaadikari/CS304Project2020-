@@ -103,16 +103,6 @@ export class HomeView extends Component {
                                 </div>
                                 <Row><Col>
                                 <div class="col-xs-6 ml-3 mb-3">
-                                <Link className="btn btn-outline-primary" to={ROUTES.APPOINTMENT}>APPOINTMENTS</Link>
-                                </div></Col><Col>
-                                <div class="col-xs-6 ml-3 mb-3">
-                                <Link className="btn btn-outline-primary" to={ROUTES.SEARCH_VEHICLE}>SEARCH</Link>
-                                </div>
-                                </Col></Row> <Row><Col xs="auto">
-                                <div class="col-xs-6 ml-3 mb-3">
-                                <Link className="btn btn-outline-primary" to={ROUTES.CURRENT_PROFILE}>PROFILE</Link>
-                                </div></Col><Col>
-                                <div class="col-xs-6 ml-3 mb-3">
                                 <Link className="btn btn-outline-primary" onClick={() => auth().signOut()}>LOG OUT</Link>
                                 </div>
                                 </Col></Row>

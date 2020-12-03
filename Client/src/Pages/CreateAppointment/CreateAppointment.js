@@ -93,31 +93,31 @@ export class CreateAppointment extends Component {
           this.setState({ msg: null });
         }else if (Adate === moment().format("dddd Do MMMM YYYY") && d1 === max) {
           this.setState({ Warning: 'Resivations due to today are over. please book another day.' });
-          this.setState({ error: 'According to following resevation informations.' });
+          this.setState({ error: null });
           this.setState({ msg: null });
         }else if (Adate === moment().add(1,'days').format("dddd Do MMMM YYYY") && d2 === max) {
           this.setState({ Warning: 'Resivations are over. please book another day.' });
-          this.setState({ error: 'According to following resevation informations.' });
+          this.setState({ error: null });
           this.setState({ msg: null });
         }else if (Adate === moment().add(2,'days').format("dddd Do MMMM YYYY") && d3 === max) {
           this.setState({ Warning: 'Resivations are over. please book another day.' });
-          this.setState({ error:'According to following resevation informations.'});
+          this.setState({ error: null });
           this.setState({ msg: null });
         }else if (Adate === moment().add(3,'days').format("dddd Do MMMM YYYY") && d4 === max) {
           this.setState({ Warning: 'Resivations are over. please book another day.' });
-          this.setState({ error: 'According to following resevation informations.' });
+          this.setState({ error: null });
           this.setState({ msg: null });
         }else if (Adate === moment().add(4,'days').format("dddd Do MMMM YYYY") && d5 === max) {
           this.setState({ Warning: 'Resivations are over. please book another day.'  });
-          this.setState({ error: 'According to following resevation informations.' });
+          this.setState({ error: null });
           this.setState({ msg: null });
         }else if (Adate === moment().add(5,'days').format("dddd Do MMMM YYYY") && d6 === max) {
           this.setState({ Warning: 'Resivations are over. please book another day.'  });
-          this.setState({ error: 'According to following resevation informations.' });
+          this.setState({ error: null });
           this.setState({ msg: null });
         }else if (Adate === moment().add(6,'days').format("dddd Do MMMM YYYY") && d7 === max) {
           this.setState({ Warning: 'Resivations are over. please book another day.'  });
-          this.setState({ error: 'According to following resevation informations.' });
+          this.setState({ error: null });
           this.setState({ msg: null });
         }else{ 
         let data = {

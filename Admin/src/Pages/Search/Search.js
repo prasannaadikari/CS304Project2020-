@@ -158,7 +158,7 @@ export class Search extends Component {
 
     render() {  const {error,search } = this.state;
         return (
-            <div className="container py-5"><Header /><div className="container py-5">
+            <div><Header /><div className="container py-5">
                 <Row>
                     <Form inline className="py-3">
                     <h3>Search</h3>

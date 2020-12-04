@@ -146,16 +146,22 @@ export class CreateAppointment extends Component {
     Db.createAppointment(data)
   }}
       
-  render() {  const {error,holiday,msg,d1,d2,d3,d4,d5,d6,d7,max } = this.state;
+  render() {  const {loading,holiday,error,msg,Warning,d1,d2,d3,d4,d5,d6,d7,max } = this.state;
       return ( 
-            <div className="container py-5"><Header/><div className="container py-5">
-                <h3>Create appointment</h3>
+            <div><Header/><div className="container py-5">
+                <h3>Create an appointment</h3>
+
+                
+          {loading ? <div className="spinner-border text-success" role="status">
+            <span className="sr-only">Loading...</span>
+          </div> : null}
+
                 <p className="text-info">Make an appointment according to following resevation informations.</p>
                 <Row>
                     <Form className="py-3">
                         <Col xs="auto">
                             <FormGroup inline>
-                                <Input type="text" name="VNo" id="VNo" placeholder="Enter Vehicle No" value={this.state.VNo} onChange={this.onChangeVehicleNo} />
+                                <Input type="text" name="VNo" id="VNo" placeholder="Enter vehicle No" value={this.state.VNo} onChange={this.onChangeVehicleNo} />
                             </FormGroup>
                         </Col>
                         <Col xs="auto">
@@ -163,17 +169,17 @@ export class CreateAppointment extends Component {
                                 <Input className="mr-3" type="select" name="Adate" id="Adate" value={this.state.Adate} onChange={this.onChangeAppointmentDate} >
                                     <option className="d-none">Select appointment date</option>
                                     {holiday==moment().format("dddd Do MMMM YYYY") ? null :<option>{moment().format("dddd Do MMMM YYYY")}</option>}
-                                    {holiday==moment().add(1,'days').format("dddd Do MMMM YYYY") ? null :<option>{moment().add(1,'days').format("dddd Do MMMM YYYY")}</option>}
-                                    {holiday==moment().add(2,'days').format("dddd Do MMMM YYYY") ? null :<option>{moment().add(2,'days').format("dddd Do MMMM YYYY")}</option>}
-                                    {holiday==moment().add(3,'days').format("dddd Do MMMM YYYY") ? null :<option>{moment().add(3,'days').format("dddd Do MMMM YYYY")}</option>}
-                                    {holiday==moment().add(4,'days').format("dddd Do MMMM YYYY") ? null :<option>{moment().add(4,'days').format("dddd Do MMMM YYYY")}</option>}
-                                    {holiday==moment().add(5,'days').format("dddd Do MMMM YYYY") ? null :<option>{moment().add(5,'days').format("dddd Do MMMM YYYY")}</option>}
-                                    {holiday==moment().add(6,'days').format("dddd Do MMMM YYYY") ? null :<option>{moment().add(6,'days').format("dddd Do MMMM YYYY")}</option>}
+                                    {holiday==moment().add(1,'days').format("dddd Do MMMM YYYY")  ? null :<option>{moment().add(1,'days').format("dddd Do MMMM YYYY")}</option>}
+                                    {holiday==moment().add(2,'days').format("dddd Do MMMM YYYY")  ? null :<option>{moment().add(2,'days').format("dddd Do MMMM YYYY")}</option>}
+                                    {holiday==moment().add(3,'days').format("dddd Do MMMM YYYY")  ? null :<option>{moment().add(3,'days').format("dddd Do MMMM YYYY")}</option>}
+                                    {holiday==moment().add(4,'days').format("dddd Do MMMM YYYY")  ? null :<option>{moment().add(4,'days').format("dddd Do MMMM YYYY")}</option>}
+                                    {holiday==moment().add(5,'days').format("dddd Do MMMM YYYY")  ? null :<option>{moment().add(5,'days').format("dddd Do MMMM YYYY")}</option>}
+                                    {holiday==moment().add(6,'days').format("dddd Do MMMM YYYY")  ? null :<option>{moment().add(6,'days').format("dddd Do MMMM YYYY")}</option>}
                                 </Input>
                             </FormGroup>
                         </Col>
-                  
                         <Col xs="auto">
+                                  {Warning ? <FormGroup className="mt-2 text-center text-warning">{Warning}</FormGroup> : null}
                                   {error ? <FormGroup className="mt-2 text-center text-danger">{error}</FormGroup> : null}
                                   {msg ? <FormGroup className="mt-2 text-center text-success">{msg}</FormGroup> : null}
                             <FormGroup>
@@ -182,11 +188,11 @@ export class CreateAppointment extends Component {
                         </Col>
                     </Form>
                 </Row>
-                <hr md="12" />
-            </div>
-            <div>
+                <hr md="12"/>
+                
+                <div>
                   <h6>{moment().format("dddd Do MMMM YYYY")}</h6>
-                    {holiday==moment().format("dddd Do MMMM YYYY")?<Progress animated color="info" value={10*10}>Holiday</Progress> :<Progress animated color="info" value={d1*(100/max)}>{d1}/{max}</Progress>}
+                    {holiday==moment().format("dddd Do MMMM YYYY")?<Progress animated color="warning" value={10*10}>Holiday</Progress> :<Progress animated color="info" value={d1*(100/max)}>{d1}/{max}</Progress>}
                   <h6>{moment().add(1,'days').format("dddd Do MMMM YYYY")}</h6>
                     {holiday==moment().add(1,'days').format("dddd Do MMMM YYYY")?<Progress animated color="info" value={10*10}>Holiday</Progress> :<Progress animated color="info" value={d2*(100/max)}>{d2}/{max}</Progress>}
                   <h6>{moment().add(2,'days').format("dddd Do MMMM YYYY")}</h6>
@@ -200,6 +206,7 @@ export class CreateAppointment extends Component {
                   <h6>{moment().add(6,'days').format("dddd Do MMMM YYYY")}</h6>
                     {holiday==moment().add(6,'days').format("dddd Do MMMM YYYY")?<Progress animated color="info" value={10*10}>Holiday</Progress> :<Progress animated color="info" value={d7*(100/max)}>{d7}/{max}</Progress>}
                 </div>
+            </div>
           </div>
         )
     }

@@ -83,7 +83,7 @@ export default class AppointmentsList extends Component {
     const { appointments,search, currentAppointment, currentIndex } = this.state;
 
     return (
-      <div className="p-5"> <Header/><div className="p-5">
+      <div> <Header/><div className="p-5">
       
         <div>
       <Row><Col md="4">

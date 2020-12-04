@@ -74,7 +74,7 @@ export default class AppointmentsList extends Component {
     const { appointments, currentAppointment, currentIndex ,n} = this.state;
 
     return (
-      <div className="p-5"> <Header/><div className="p-5">
+      <div> <Header/><div className="p-5">
       <Container>
         <div className=" justify-content-between mb-5">
 <Row><Col>

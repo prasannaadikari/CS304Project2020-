@@ -16,6 +16,7 @@ export default class UpdateProfile extends Component {
 
     this.state = {
       profiles: [],
+      n:null,
       user: auth().currentUser,
       currentProfile: null,
       currentIndex: -1,
@@ -38,20 +39,22 @@ export default class UpdateProfile extends Component {
       let data = item.val();
 
       if (this.state.user===null) {
+        this.setState({n:1});
         this.props.history.push(ROUTES.HOME);
       }else if(data.uid===this.state.user.uid){
+        this.setState({n:1});
         profiles.push({
             key:key,
-            username: data.username,
             title: data.title,
-            initials: data.initials,
             lastname: data.lastname,
             email: data.email,
             address: data.address,
             phone: data.phone,
       });}
     });
-    
+    if (this.state.n===null) {
+      this.props.history.push(ROUTES.CREATE_PROFILE);
+    }
 
     this.setState({
       profiles: profiles,
@@ -89,17 +92,10 @@ export default class UpdateProfile extends Component {
                   onClick={() => this.setActiveProfile(profile, index)}
                   key={index}>
                   <Row><Col>
-                    <Row>
-                      <Col xs="auto">
-                        <h6><b>User name:</b></h6>
-                      </Col><Col>
-                        <h6>{profile.username}</h6>
-                      </Col>
-                    </Row>
                     <Row><Col xs="auto">
                         <h6><b>Name:</b></h6>
                         </Col><Col>
-                        {profile.initials ? <h6>{profile.title} {profile.initials}.{profile.lastname}</h6> : null}
+                        {profile.lastname ? <h6>{profile.title}. {profile.lastname}</h6> : null}
                         </Col>
                     </Row>
                     <Row><Col xs="auto">

@@ -6,9 +6,7 @@ import {Card, CardTitle, Form,Input,Container, FormGroup, Label, CardBody, Butto
 export default class Profile extends Component {
   constructor(props) {
     super(props);
-    this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onChangeTitle = this.onChangeTitle.bind(this);
-    this.onChangeInitials = this.onChangeInitials.bind(this);
     this.onChangeLastname = this.onChangeLastname.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangeAddress = this.onChangeAddress.bind(this);
@@ -19,9 +17,7 @@ export default class Profile extends Component {
     this.state = {
       currentProfile: {
         key: null,
-        username: '',
         title: '',
-        initials: '',
         lastname: '',
         email: '',
         address: '',
@@ -49,18 +45,6 @@ export default class Profile extends Component {
     });
   }
 
-  onChangeUsername(e) {
-    const username = e.target.value;
-
-    this.setState(function (prevState) {
-      return {
-        currentProfile: {
-          ...prevState.currentProfile,
-          username: username,
-        },
-      };
-    });
-  }
 
   onChangeTitle(e) {
     const title = e.target.value;
@@ -70,18 +54,6 @@ export default class Profile extends Component {
         currentProfile: {
           ...prevState.currentProfile,
           title: title,
-        },
-      };
-    });
-  }
-  onChangeInitials(e) {
-    const initials = e.target.value;
-
-    this.setState(function (prevState) {
-      return {
-        currentProfile: {
-          ...prevState.currentProfile,
-          initials: initials,
         },
       };
     });
@@ -138,9 +110,7 @@ export default class Profile extends Component {
 
   updateProfile() {
     const data = {
-      username: this.state.currentProfile.username,
       title: this.state.currentProfile.title,
-      initials: this.state.currentProfile.initials,
       lastname: this.state.currentProfile.lastname,
       email: this.state.currentProfile.email,
       address: this.state.currentProfile.address,
@@ -175,50 +145,36 @@ export default class Profile extends Component {
                     <Row>
                         <Col md="6">
                             <FormGroup>
-                                <Label for="initials">User name</Label>
-                                <Input type="text" name="username" id="username"  value={currentProfile.username} onChange={this.onChangeUsername}/>
-                            </FormGroup>
-                        </Col>
-                        <Col md="6">
-                            <FormGroup>
-                                <Label for="title">Your title</Label>
-                                <Input type="select" name="title" id="title"  value={currentProfile.title} onChange={this.onChangeTitle} >
+                                <Label for="title">Title</Label>
+                                <Input type="select" name="title" id="title"  value={this.state.title} onChange={this.onChangeTitle} >
+                                    <option className="d-none">Select your title</option>
                                     <option>Mr</option>
                                     <option>Ms</option>
                                     <option>Mrs</option>
                                 </Input>
                             </FormGroup>
                         </Col>
-                    </Row>
-
-                    <Row>
-                        <Col md="6">
-                            <FormGroup>
-                                <Label for="initials">Initials</Label>
-                                <Input type="text" name="initials" id="initials"  value={currentProfile.initials} onChange={this.onChangeInitials} />
-                            </FormGroup>
-                        </Col>
                         <Col md="6">
                             <FormGroup>
                                 <Label for="lastname">Last Name</Label>
-                                <Input type="text" name="lastname" id="lastname"   value={currentProfile.lastname} onChange={this.onChangeLastname} />
+                                <Input type="text" name="lastname" id="lastname"  placeholder="Entered your last name"  value={this.state.lastname} onChange={this.onChangeLastname} />
                             </FormGroup>
                         </Col>
                     </Row>
 
                     <FormGroup>
-                        <Label for="address">Contact email</Label>
-                        <Input type="text" name="email" id="email"    value={currentProfile.email} onChange={this.onChangeEmail} />
+                        <Label for="email">Contact email</Label>
+                        <Input type="text" name="email" id="email"  placeholder="Entered your email"   value={this.state.email} onChange={this.onChangeEmail} />
                     </FormGroup>
             
                     <FormGroup>
                         <Label for="address">Address</Label>
-                        <Input type="text" name="address" id="address"    value={currentProfile.address} onChange={this.onChangeAddress} />
+                        <Input type="text" name="address" id="address"  placeholder="Entered your address"   value={this.state.address} onChange={this.onChangeAddress} />
                     </FormGroup>
 
                     <FormGroup>
                         <Label for="phone">Phone Number</Label>
-                        <Input type="tel" name="phone" id="phone"    value={currentProfile.phone} onChange={this.onChangePhone} />
+                        <Input type="tel" name="phone" id="phone"  placeholder="Entered your phone number"  value={this.state.phone} onChange={this.onChangePhone} />
                     </FormGroup>
 
                     {msg ? <FormGroup className="mt-2 text-center text-success">{msg}</FormGroup> : null}

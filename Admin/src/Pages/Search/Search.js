@@ -71,9 +71,7 @@ export class Search extends Component {
           
           profiles.push({
             key: key,
-            username: data.username,
             title: data.title,
-            initials: data.initials,
             lastname: data.lastname,
             email: data.email,
             address: data.address,
@@ -121,17 +119,11 @@ export class Search extends Component {
                     <Card className="h-100 shadow p-2" style={{ 'background': '#FFF', 'color': '#000' }}>
                             <CardBody>
                             <Row><Col>
-                    <Row>
-                      <Col xs="auto">
-                        <h6><b>User name:</b></h6>
-                      </Col><Col>
-                        <h6 >{profile.username}</h6>
-                      </Col>
-                    </Row>
+                    
                     <Row><Col xs="auto">
                         <h6><b>Name:</b></h6>
                         </Col><Col>
-                        {profile.initials ? <h6>{profile.title} {profile.initials}.{profile.lastname}</h6> : null}
+                        {profile.lastname ? <h6>{profile.title}.{profile.lastname}</h6> : null}
                         </Col>
                     </Row>
                     <Row><Col xs="auto">

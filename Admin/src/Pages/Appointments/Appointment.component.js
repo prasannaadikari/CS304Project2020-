@@ -71,7 +71,7 @@ export default class Appointment extends Component {
       description: this.state.currentAppointment.description,
     };
 
-    Db.update(this.state.currentAppointment.key, data)
+    Db.updateAppointment(this.state.currentAppointment.key, data)
       .then(() => {
         this.setState({
           message: "The Appointment was updated successfully!",

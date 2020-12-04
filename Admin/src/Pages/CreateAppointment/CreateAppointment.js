@@ -13,6 +13,7 @@ export class CreateAppointment extends Component {
         this.onChangeUser = this.onChangeUser.bind(this);
         this.saveAppointment = this.saveAppointment.bind(this);
         this.onDataChange = this.onDataChange.bind(this);
+        this.onDataChangeS = this.onDataChangeS.bind(this);
     
         this.state = {
           Adate: null,
@@ -27,8 +28,9 @@ export class CreateAppointment extends Component {
           d5: 0,
           d6: 0,
           d7: 0,
-          max:10,
-          user:'',
+          user:null,
+          max:20,
+          holiday:null,
           msg:null
         };
       }
@@ -52,10 +54,21 @@ export class CreateAppointment extends Component {
 
       componentDidMount() {
         Db.getAllAppointments().on("value", this.onDataChange);
+        Db.getAllSettings().on("value", this.onDataChangeS);
       }
     
       componentWillUnmount() {
         Db.getAllAppointments().off("value", this.onDataChange);
+        Db.getAllSettings().off("value", this.onDataChangeS);
+      }
+
+      onDataChangeS(items) {
+    
+        items.forEach((item) => {
+          let data = item.val();
+          this.setState({ holiday:data.holiday}); 
+          //this.setState({ max:data.max}); 
+        });
       }
 
       onDataChange(items) {
@@ -85,56 +98,55 @@ export class CreateAppointment extends Component {
             }
       });
     }
-      saveAppointment() { const {d1,d2,d3,d4,d5,d6,d7,max,user,Adate,VNo,status } = this.state;
-        if (Adate === null || VNo === null) {
-          this.setState({ Warning: null });
-          this.setState({ error: 'Fieds can not be empty' });
-          this.setState({ msg: null });
-        }else if (Adate === moment().format("dddd Do MMMM YYYY") && d1 === max) {
-          this.setState({ Warning: 'Resivations due to today are over. please book another day.' });
-          this.setState({ error: 'According to following resevation informations.' });
-          this.setState({ msg: null });
-        }else if (Adate === moment().add(1,'days').format("dddd Do MMMM YYYY") && d2 === max) {
-          this.setState({ Warning: 'Resivations are over. please book another day.' });
-          this.setState({ error: 'According to following resevation informations.' });
-          this.setState({ msg: null });
-        }else if (Adate === moment().add(2,'days').format("dddd Do MMMM YYYY") && d3 === max) {
-          this.setState({ Warning: 'Resivations are over. please book another day.' });
-          this.setState({ error:'According to following resevation informations.'});
-          this.setState({ msg: null });
-        }else if (Adate === moment().add(3,'days').format("dddd Do MMMM YYYY") && d4 === max) {
-          this.setState({ Warning: 'Resivations are over. please book another day.' });
-          this.setState({ error: 'According to following resevation informations.' });
-          this.setState({ msg: null });
-        } else if (Adate === moment().add(4,'days').format("dddd Do MMMM YYYY") && d5 === max) {
-          this.setState({ Warning: 'Resivations are over. please book another day.'  });
-          this.setState({ error: 'According to following resevation informations.' });
-          this.setState({ msg: null });
-        }else if (Adate === moment().add(5,'days').format("dddd Do MMMM YYYY") && d6 === max) {
-          this.setState({ Warning: 'Resivations are over. please book another day.'  });
-          this.setState({ error: 'According to following resevation informations.' });
-          this.setState({ msg: null });
-        }else if (Adate === moment().add(6,'days').format("dddd Do MMMM YYYY") && d7 === max) {
-          this.setState({ Warning: 'Resivations are over. please book another day.'  });
-          this.setState({ error: 'According to following resevation informations.' });
-          this.setState({ msg: null });
-        }else{ 
-        let data = {
-          Adate: Adate,
-          VNo: VNo,
-          status: status,
-          description:'',
-          timestamp: Date.now(),
-          uid: '',
-        };
-        this.setState({ msg: 'Created new appointment successfully!' });
-        this.setState({ error: null });
-        Db.createAppointment(data)
-      }
-        
-  }
+    saveAppointment() { const {d1,d2,d3,d4,d5,d6,d7,max,Adate,VNo,status } = this.state;
+    if (Adate === null || VNo === null) {
+      this.setState({ Warning: null });
+      this.setState({ error: 'Fieds can not be empty' });
+      this.setState({ msg: null });
+    }else if (Adate === moment().format("dddd Do MMMM YYYY") && d1 === max) {
+      this.setState({ Warning: 'Resivations due to today are over. please book another day.' });
+      this.setState({ error: null });
+      this.setState({ msg: null });
+    }else if (Adate === moment().add(1,'days').format("dddd Do MMMM YYYY") && d2 === max) {
+      this.setState({ Warning: 'Resivations are over. please book another day.' });
+      this.setState({ error: null });
+      this.setState({ msg: null });
+    }else if (Adate === moment().add(2,'days').format("dddd Do MMMM YYYY") && d3 === max) {
+      this.setState({ Warning: 'Resivations are over. please book another day.' });
+      this.setState({ error: null });
+      this.setState({ msg: null });
+    }else if (Adate === moment().add(3,'days').format("dddd Do MMMM YYYY") && d4 === max) {
+      this.setState({ Warning: 'Resivations are over. please book another day.' });
+      this.setState({ error: null });
+      this.setState({ msg: null });
+    }else if (Adate === moment().add(4,'days').format("dddd Do MMMM YYYY") && d5 === max) {
+      this.setState({ Warning: 'Resivations are over. please book another day.'  });
+      this.setState({ error: null });
+      this.setState({ msg: null });
+    }else if (Adate === moment().add(5,'days').format("dddd Do MMMM YYYY") && d6 === max) {
+      this.setState({ Warning: 'Resivations are over. please book another day.'  });
+      this.setState({ error: null });
+      this.setState({ msg: null });
+    }else if (Adate === moment().add(6,'days').format("dddd Do MMMM YYYY") && d7 === max) {
+      this.setState({ Warning: 'Resivations are over. please book another day.'  });
+      this.setState({ error: null });
+      this.setState({ msg: null });
+    }else{ 
+    let data = {
+      Adate: Adate,
+      VNo: VNo,
+      status: status,
+      description:'',
+      timestamp: Date.now(),
+      uid:'',
+    };
+    this.setState({ msg: 'Created new appointment successfully!' });
+    this.setState({ error: null });
+    this.setState({ Warning: null });
+    Db.createAppointment(data)
+  }}
       
-  render() {  const {error,msg,d1,d2,d3,d4,d5,d6,d7,max } = this.state;
+  render() {  const {error,holiday,msg,d1,d2,d3,d4,d5,d6,d7,max } = this.state;
       return ( 
             <div className="container py-5"><Header/><div className="container py-5">
                 <h3>Create appointment</h3>
@@ -149,22 +161,18 @@ export class CreateAppointment extends Component {
                         <Col xs="auto">
                         <FormGroup>
                                 <Input className="mr-3" type="select" name="Adate" id="Adate" value={this.state.Adate} onChange={this.onChangeAppointmentDate} >
-                                    <option className="d-none">Appointment date</option>
-                                    <option>{moment().format("dddd Do MMMM YYYY")}</option>
-                                    <option>{moment().add(1,'days').format("dddd Do MMMM YYYY")}</option>
-                                    <option>{moment().add(2,'days').format("dddd Do MMMM YYYY")}</option>
-                                    <option>{moment().add(3,'days').format("dddd Do MMMM YYYY")}</option>
-                                    <option>{moment().add(4,'days').format("dddd Do MMMM YYYY")}</option>
-                                    <option>{moment().add(5,'days').format("dddd Do MMMM YYYY")}</option>
-                                    <option>{moment().add(6,'days').format("dddd Do MMMM YYYY")}</option>
+                                    <option className="d-none">Select appointment date</option>
+                                    {holiday==moment().format("dddd Do MMMM YYYY") ? null :<option>{moment().format("dddd Do MMMM YYYY")}</option>}
+                                    {holiday==moment().add(1,'days').format("dddd Do MMMM YYYY") ? null :<option>{moment().add(1,'days').format("dddd Do MMMM YYYY")}</option>}
+                                    {holiday==moment().add(2,'days').format("dddd Do MMMM YYYY") ? null :<option>{moment().add(2,'days').format("dddd Do MMMM YYYY")}</option>}
+                                    {holiday==moment().add(3,'days').format("dddd Do MMMM YYYY") ? null :<option>{moment().add(3,'days').format("dddd Do MMMM YYYY")}</option>}
+                                    {holiday==moment().add(4,'days').format("dddd Do MMMM YYYY") ? null :<option>{moment().add(4,'days').format("dddd Do MMMM YYYY")}</option>}
+                                    {holiday==moment().add(5,'days').format("dddd Do MMMM YYYY") ? null :<option>{moment().add(5,'days').format("dddd Do MMMM YYYY")}</option>}
+                                    {holiday==moment().add(6,'days').format("dddd Do MMMM YYYY") ? null :<option>{moment().add(6,'days').format("dddd Do MMMM YYYY")}</option>}
                                 </Input>
                             </FormGroup>
                         </Col>
-                        <Col xs="auto">
-                            <FormGroup inline>
-                                <Input type="text" name="uid" id="uid" placeholder="Enter vehicle owner's uid" value={this.state.user} onChange={this.onChangeUser} />
-                            </FormGroup>
-                        </Col>
+                  
                         <Col xs="auto">
                                   {error ? <FormGroup className="mt-2 text-center text-danger">{error}</FormGroup> : null}
                                   {msg ? <FormGroup className="mt-2 text-center text-success">{msg}</FormGroup> : null}
@@ -178,19 +186,19 @@ export class CreateAppointment extends Component {
             </div>
             <div>
                   <h6>{moment().format("dddd Do MMMM YYYY")}</h6>
-                    <Progress animated color="info" value={d1*10}>{d1}/{max}</Progress>
+                    {holiday==moment().format("dddd Do MMMM YYYY")?<Progress animated color="info" value={10*10}>Holiday</Progress> :<Progress animated color="info" value={d1*(100/max)}>{d1}/{max}</Progress>}
                   <h6>{moment().add(1,'days').format("dddd Do MMMM YYYY")}</h6>
-                    <Progress animated color="info" value={d2*10}>{d2}/{max}</Progress>
+                    {holiday==moment().add(1,'days').format("dddd Do MMMM YYYY")?<Progress animated color="info" value={10*10}>Holiday</Progress> :<Progress animated color="info" value={d2*(100/max)}>{d2}/{max}</Progress>}
                   <h6>{moment().add(2,'days').format("dddd Do MMMM YYYY")}</h6>
-                    <Progress animated color="info" value={d3*10}>{d3}/{max}</Progress>
+                    {holiday==moment().add(2,'days').format("dddd Do MMMM YYYY")?<Progress animated color="info" value={10*10}>Holiday</Progress> :<Progress animated color="info" value={d3*(100/max)}>{d3}/{max}</Progress>}
                   <h6>{moment().add(3,'days').format("dddd Do MMMM YYYY")}</h6>
-                    <Progress animated color="info" value={d4*10}>{d4}/{max}</Progress>
+                    {holiday==moment().add(3,'days').format("dddd Do MMMM YYYY")?<Progress animated color="info" value={10*10}>Holiday</Progress> :<Progress animated color="info" value={d4*(100/max)}>{d4}/{max}</Progress>}
                   <h6>{moment().add(4,'days').format("dddd Do MMMM YYYY")}</h6>
-                    <Progress animated color="info" value={d5*10}>{d5}/{max}</Progress>
+                    {holiday==moment().add(4,'days').format("dddd Do MMMM YYYY")?<Progress animated color="info" value={10*10}>Holiday</Progress> :<Progress animated color="info" value={d5*(100/max)}>{d5}/{max}</Progress>}
                   <h6>{moment().add(5,'days').format("dddd Do MMMM YYYY")}</h6>
-                    <Progress animated color="info" value={d6*10}>{d6}/{max}</Progress>
+                    {holiday==moment().add(5,'days').format("dddd Do MMMM YYYY")?<Progress animated color="info" value={10*10}>Holiday</Progress> :<Progress animated color="info" value={d6*(100/max)}>{d6}/{max}</Progress>}
                   <h6>{moment().add(6,'days').format("dddd Do MMMM YYYY")}</h6>
-                    <Progress animated color="info" value={d7*10}>{d7}/{max}</Progress>
+                    {holiday==moment().add(6,'days').format("dddd Do MMMM YYYY")?<Progress animated color="info" value={10*10}>Holiday</Progress> :<Progress animated color="info" value={d7*(100/max)}>{d7}/{max}</Progress>}
                 </div>
           </div>
         )

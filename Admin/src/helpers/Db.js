@@ -2,6 +2,7 @@ import firebase from "../services/firebase";
 
 const DBA = firebase.ref("/appointments");
 const DBP = firebase.ref("/profiles");
+const DBS = firebase.ref("/settings");
 
 class Db {
   getAllAppointments() {
@@ -14,9 +15,15 @@ class Db {
   createAppointment(appointment) {
     return DBA.push(appointment);
   }
+  getAllSettings() {
+    return DBS;
+  }
 
-  update(key, value) {
+  updateAppointment(key, value) {
     return DBA.child(key).update(value);
+  }
+  updateSettings(key, value) {
+    return DBS.child(key).update(value);
   }
 
   delete(key) {

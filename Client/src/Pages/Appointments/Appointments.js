@@ -20,6 +20,7 @@ export default class AppointmentsList extends Component {
       user: auth().currentUser,
       currentAppointment: null,
       currentIndex: -1,
+      loading: false
     };
   }
 
@@ -32,6 +33,7 @@ export default class AppointmentsList extends Component {
   }
 
   onDataChange(items) {
+    this.setState({ loading: true });
     let appointments = [];
 
     items.forEach((item) => {
@@ -50,12 +52,11 @@ export default class AppointmentsList extends Component {
         Adate: data.Adate,
         status: data.status,
         description: data.description
-      });}
+      });
+      }
     });
-
-    this.setState({
-      appointments: appointments,
-    });
+    appointments.sort(function (b,a) { return b.timestamp - a.timestamp })
+    this.setState({ appointments: appointments, loading: false });
   }
 
   refreshList() {
@@ -73,13 +74,18 @@ export default class AppointmentsList extends Component {
   }
 
  render() {
-    const { appointments, currentAppointment, currentIndex } = this.state;
+    const { loading,appointments, currentAppointment, currentIndex } = this.state;
 
     return (
       <div> <Header/><div className="p-5">
       <Container>
         <div className=" justify-content-between mb-5">
           <h4>Appointments</h4>
+
+          {loading ? <div className="spinner-border text-success" role="status">
+            <span className="sr-only">Loading...</span>
+          </div> : null}
+
           {currentAppointment ? (
                 <Appointment
                   appointment={currentAppointment}

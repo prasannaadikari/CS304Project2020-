@@ -2,6 +2,7 @@ import firebase from "../services/firebase";
 
 const DBA = firebase.ref("/appointments");
 const DBP = firebase.ref("/profiles");
+const DBS = firebase.ref("/settings");
 
 class Db {
   getAllAppointments() {
@@ -10,10 +11,17 @@ class Db {
   getAllProfiles() {
     return DBP;
   }
-
+  getAllSettings() {
+    return DBS;
+  }
+  
   createAppointment(appointment) {
     return DBA.push(appointment);
   }
+  createSettings(Settings) {
+    return DBS.push(Settings);
+  }
+
   createProfile(profile) {
     return DBP.push(profile);
   }

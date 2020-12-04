@@ -16,6 +16,7 @@ function Header() {
               <div className="navbar-nav">
               <Link className="nav-item nav-link mr-3" to={ROUTES.APPOINTMENT}>Appointments</Link>
               <Link className="nav-item nav-link mr-3" to={ROUTES.SEARCH}>Search</Link>
+              <Link className="nav-item nav-link mr-3" to={ROUTES.SETTINGS}>Settings</Link>
             </div>
              <div className="navbar-nav">
             </div>

@@ -6,6 +6,7 @@ import Appointments from '../Appointments/Appointments';
 import Search from '../Search/Search'
 import SearchAppointments from '../SearchAppointment/Appointments'
 import CreateAppointment from '../CreateAppointment/CreateAppointment'
+import Settings from '../Settings/CurrentSetting'
 
 import * as ROUTES from '../../helpers/routes';
 //import { auth } from "../../services/firebase";
@@ -29,7 +30,9 @@ class App extends Component {
                       <Route exact path={ROUTES.CREATE_APPOINTMENT}>
                           <CreateAppointment />
                       </Route>
-                      
+                      <Route exact path={ROUTES.SETTINGS}>
+                          <Settings />
+                      </Route>
           
                       
                       <Route exact path={ROUTES.APPOINTMENT}>

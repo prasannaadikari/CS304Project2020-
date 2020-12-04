@@ -21,7 +21,8 @@ export class Search extends Component {
             search:"",
             appointments: [],
             profiles:[],
-            error:null
+            error:null,
+            loading: false
         }
     }
     searchHandler(event){
@@ -41,6 +42,7 @@ export class Search extends Component {
       }
     
     onDataChange(items) {
+        this.setState({ loading: true });
         let appointments = [];
     
         items.forEach((item) => {
@@ -60,9 +62,11 @@ export class Search extends Component {
         this.setState({
           appointments: appointments,
         });
+        this.setState({ loading: false });
       }
 
       onDataChangeP(items) {
+        this.setState({ loading: true });
         let profiles = [];
     
         items.forEach((item) => {
@@ -83,6 +87,7 @@ export class Search extends Component {
         this.setState({
             profiles: profiles,
         });
+        this.setState({ loading: false });
       }
     renderVehicles = () => {    const { appointments, search } = this.state;
         return (
@@ -156,12 +161,17 @@ export class Search extends Component {
 
 
 
-    render() {  const {error,search } = this.state;
+    render() {  const {error,search,loading } = this.state;
         return (
             <div><Header /><div className="container py-5">
                 <Row>
                     <Form inline className="py-3">
                     <h3>Search</h3>
+
+                    {loading ? <div className="spinner-border text-success" role="status">
+            <span className="sr-only">Loading...</span>
+          </div> : null}
+
                         <Col xs="auto">
                             <FormGroup inline>
                                 <Input type="text" name="search" id="search" placeholder="Enter Uid" value={search} onChange={this.searchHandler}/>

@@ -26,6 +26,7 @@ export default class AppointmentsList extends Component {
       search:"",
       currentAppointment: null,
       currentIndex: -1,
+      loading: false
     };
   }
   searchHandler(event){
@@ -41,6 +42,7 @@ export default class AppointmentsList extends Component {
   }
 
   onDataChange(items) {
+    this.setState({ loading: true });
     let appointments = [];
 
     items.forEach((item) => {
@@ -61,6 +63,7 @@ export default class AppointmentsList extends Component {
     this.setState({
       appointments: appointments,
     });
+    this.setState({ loading: false });
   }
 
   refreshList() {
@@ -80,7 +83,7 @@ export default class AppointmentsList extends Component {
  
 
   render() {
-    const { appointments,search, currentAppointment, currentIndex } = this.state;
+    const { appointments,search, currentAppointment, currentIndex, loading } = this.state;
 
     return (
       <div> <Header/><div className="p-5">
@@ -88,6 +91,11 @@ export default class AppointmentsList extends Component {
         <div>
       <Row><Col md="4">
           <h4>Appointments</h4>
+
+          {loading ? <div className="spinner-border text-success" role="status">
+            <span className="sr-only">Loading...</span>
+          </div> : null}
+
           <Form><FormGroup><Input type="text" name="search" id="search" placeholder="Enter appointment date" value={search} onChange={this.searchHandler}/></FormGroup></Form>
     
           <ul>

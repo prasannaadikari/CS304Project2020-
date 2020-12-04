@@ -19,6 +19,7 @@ export default class AppointmentsList extends Component {
       n:null,
       currentAppointment: null,
       currentIndex: -1,
+      loading: false
     };
   }
 
@@ -31,6 +32,7 @@ export default class AppointmentsList extends Component {
   }
 
   onDataChange(items) {
+    this.setState({ loading: true });
     let appointments = [];
 
     items.forEach((item) => {
@@ -52,6 +54,7 @@ export default class AppointmentsList extends Component {
     this.setState({
       appointments: appointments,
     });
+    this.setState({ loading: false });
   }
 
   refreshList() {
@@ -71,7 +74,7 @@ export default class AppointmentsList extends Component {
  
 
   render() {
-    const { appointments, currentAppointment, currentIndex ,n} = this.state;
+    const { appointments, currentAppointment, currentIndex ,n,loading} = this.state;
 
     return (
       <div> <Header/><div className="p-5">
@@ -79,6 +82,11 @@ export default class AppointmentsList extends Component {
         <div className=" justify-content-between mb-5">
 <Row><Col>
           <h4>Todays Appointments</h4>
+
+          {loading ? <div className="spinner-border text-success" role="status">
+            <span className="sr-only">Loading...</span>
+          </div> : null}
+
 </Col><Col>
           <Button href={ROUTES.SEARCH_APPOINTMENTS}>Search appointment</Button>
 </Col><Col>

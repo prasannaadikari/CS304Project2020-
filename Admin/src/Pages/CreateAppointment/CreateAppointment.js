@@ -31,7 +31,8 @@ export class CreateAppointment extends Component {
           user:null,
           max:20,
           holiday:null,
-          msg:null
+          msg:null,
+          loading: false
         };
       }
       onChangeAppointmentDate(e) {
@@ -72,8 +73,9 @@ export class CreateAppointment extends Component {
       }
 
       onDataChange(items) {
-        
+        this.setState({ loading: true });
         items.forEach((item) => {
+
           let data = item.val();
     
             if (data.Adate === moment().format("dddd Do MMMM YYYY")) {
@@ -97,6 +99,7 @@ export class CreateAppointment extends Component {
               this.setState({ d7:this.state.d7+1 });
             }
       });
+      this.setState({ loading: false });
     }
     saveAppointment() { const {d1,d2,d3,d4,d5,d6,d7,max,Adate,VNo,status } = this.state;
     if (Adate === null || VNo === null) {
@@ -144,7 +147,9 @@ export class CreateAppointment extends Component {
     this.setState({ error: null });
     this.setState({ Warning: null });
     Db.createAppointment(data)
-  }}
+    
+  }
+}
       
   render() {  const {loading,holiday,error,msg,Warning,d1,d2,d3,d4,d5,d6,d7,max } = this.state;
       return ( 

@@ -37,6 +37,7 @@ render() {
           
               <div className="navbar-nav ml-auto">
               <Link className="nav-item nav-link ml-3 text-uppercase" to={ROUTES.APPOINTMENT}>Appointments</Link>
+              <Link className="nav-item nav-link ml-3 text-uppercase" to={ROUTES.CREATE_APPOINTMENT}>Create Appointments</Link>
               <Link className="nav-item nav-link ml-3 text-uppercase" to={ROUTES.SEARCH}>Search</Link>
               <Link className="nav-item nav-link ml-3 text-uppercase" to={ROUTES.SETTINGS}>Settings</Link>
             </div>

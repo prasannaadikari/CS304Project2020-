@@ -78,6 +78,7 @@ export default class AppointmentsList extends Component {
       currentAppointment: appointment,
       currentIndex: index,
     });
+    this.myRef.scrollIntoView()
   }
 
  
@@ -121,7 +122,7 @@ export default class AppointmentsList extends Component {
           </ul>
       
         </Col><Col md="8">
-            <div>
+            <div ref={(ref)=>this.myRef=ref}>
               {currentAppointment ? (
                 <Appointment
                   appointment={currentAppointment}

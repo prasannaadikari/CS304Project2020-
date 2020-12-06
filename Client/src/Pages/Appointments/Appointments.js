@@ -71,13 +71,16 @@ export default class AppointmentsList extends Component {
       currentAppointment: appointment,
       currentIndex: index,
     });
+    this.myRef.scrollIntoView()
   }
+  
 
  render() {
     const { loading,appointments, currentAppointment, currentIndex } = this.state;
+   
 
     return (
-      <div> <Header/><div className="p-5">
+      <div ref={(ref)=>this.myRef=ref}> <Header/><div className="p-5">
       <Container>
         <div className=" justify-content-between mb-5">
           <h4>Appointments</h4>
@@ -87,10 +90,10 @@ export default class AppointmentsList extends Component {
           </div> : null}
 
           {currentAppointment ? (
-                <Appointment
+                <div><Appointment
                   appointment={currentAppointment}
                   refreshList={this.refreshList}
-                />
+                /></div>
               ) : (
               <div>
                 <br />

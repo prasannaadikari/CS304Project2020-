@@ -47,10 +47,11 @@ export default class AppointmentsList extends Component {
         Adate: data.Adate,
         status: data.status,
         description: data.description,
-        uid: data.uid
+        uid: data.uid,
+        timestamp:data.timestamp
       });}
     });
-
+    appointments.sort(function (a,b) { return b.timestamp - a.timestamp })
     this.setState({
       appointments: appointments,
     });

@@ -42,7 +42,7 @@ export default class AppointmentsList extends Component {
        
       if (this.state.user===null) {
         this.props.history.push(ROUTES.HOME);
-      }else if((data.uid===this.state.user.uid) && (data.Adate === moment().add(-2,'days').format("dddd Do MMMM YYYY") || data.Adate === moment().add(-1,'days').format("dddd Do MMMM YYYY") || data.Adate === moment().format("dddd Do MMMM YYYY") || 
+      }else if((data.uid===this.state.user.uid) && (data.Adate === moment().add(-3,'days').format("dddd Do MMMM YYYY") ||data.Adate === moment().add(-2,'days').format("dddd Do MMMM YYYY") || data.Adate === moment().add(-1,'days').format("dddd Do MMMM YYYY") || data.Adate === moment().format("dddd Do MMMM YYYY") || 
       data.Adate === moment().add(1,'days').format("dddd Do MMMM YYYY") || data.Adate === moment().add(2,'days').format("dddd Do MMMM YYYY") ||
       data.Adate === moment().add(3,'days').format("dddd Do MMMM YYYY") || data.Adate === moment().add(4,'days').format("dddd Do MMMM YYYY") ||
       data.Adate === moment().add(5,'days').format("dddd Do MMMM YYYY") || data.Adate === moment().add(6,'days').format("dddd Do MMMM YYYY"))) {
@@ -51,11 +51,11 @@ export default class AppointmentsList extends Component {
         VNo: data.VNo,
         Adate: data.Adate,
         status: data.status,
-        description: data.description
+        description: data.description,
       });
       }
     });
-    appointments.sort(function (b,a) { return b.timestamp - a.timestamp })
+    appointments.sort(function (a,b) { return a.Adate - b.Adate })
     this.setState({ appointments: appointments, loading: false });
   }
 

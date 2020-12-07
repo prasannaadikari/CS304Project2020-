@@ -76,8 +76,8 @@ export class Profile extends Component {
       
       if(phone === null){
         this.setState({error:null});
-      }else if(!phone.match(/^[0-9]+$/)) {
-          this.setState({error:'Invalid phone number'}); 
+      }else if(!phone.match(/\d{10}/)) {
+          this.setState({error:'Phone number cannot contain letters or space'}); 
           return;
       }
 

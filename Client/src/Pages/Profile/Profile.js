@@ -111,26 +111,26 @@ export default class Profile extends Component {
 
   updateProfile() { const {title,lastname,email,phone} = this.state;
   if(!lastname.match(/^[a-zA-Z]+$/)) {
-    this.setState({error:'Last name can only contain letters'}); 
+    this.setState({error:'Last name can only contain letters',msg:null});
     return;
   }else if((lastname === null && title === null) || (lastname !== null && title !== null)) {
-    this.setState({error:null});
+    this.setState({error:null,msg:null});
   }else if(lastname !== null && title === null){
-    this.setState({error:'Title cannot be empty'});
+    this.setState({error:'Title cannot be empty',msg:null});
     return;
   }
 
   if(email === null){
     this.setState({error:null});
   }else if(!email.match(/\S+@\S+/)) { 
-      this.setState({error:'Invalid email'});
+      this.setState({error:'Invalid email',msg:null});
       return;
   }
   
   if(phone === null){
     this.setState({error:null});
-  }else if(!phone.match(/^[0-9]+$/)) {
-      this.setState({error:'Invalid phone number'}); 
+  }else if(!phone.match(/\d{10}/)) {
+      this.setState({error:'Phone number cannot contain letters or space',msg:null}); 
       return;
   }
     
@@ -144,9 +144,7 @@ export default class Profile extends Component {
 
     Db.update(this.state.currentProfile.key, data)
       .then(() => {
-        this.setState({
-          msg: "The profile was updated successfully!",
-        });
+        this.setState({ msg: "The profile was updated successfully!",error:null });
       })
       .catch((e) => {
         console.log(e);

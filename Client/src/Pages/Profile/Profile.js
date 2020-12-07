@@ -23,7 +23,8 @@ export default class Profile extends Component {
         address: '',
         phone: '',
       },
-      msg: ""
+      msg: "",
+      error:''
     };
   }
 
@@ -108,7 +109,31 @@ export default class Profile extends Component {
   }
 
 
-  updateProfile() {
+  updateProfile() { const {title,lastname,email,phone} = this.state;
+  if(!lastname.match(/^[a-zA-Z]+$/)) {
+    this.setState({error:'Last name can only contain letters'}); 
+    return;
+  }else if((lastname === null && title === null) || (lastname !== null && title !== null)) {
+    this.setState({error:null});
+  }else if(lastname !== null && title === null){
+    this.setState({error:'Title cannot be empty'});
+    return;
+  }
+
+  if(email === null){
+    this.setState({error:null});
+  }else if(!email.match(/\S+@\S+/)) { 
+      this.setState({error:'Invalid email'});
+      return;
+  }
+  
+  if(phone === null){
+    this.setState({error:null});
+  }else if(!phone.match(/^[0-9]+$/)) {
+      this.setState({error:'Invalid phone number'}); 
+      return;
+  }
+    
     const data = {
       title: this.state.currentProfile.title,
       lastname: this.state.currentProfile.lastname,
@@ -129,8 +154,9 @@ export default class Profile extends Component {
   }
 
 
+
   render() {
-    const { currentProfile,msg } = this.state;
+    const { currentProfile,msg,error } = this.state;
 
     return (
       <div>
@@ -178,6 +204,7 @@ export default class Profile extends Component {
                     </FormGroup>
 
                     {msg ? <FormGroup className="mt-2 text-center text-success">{msg}</FormGroup> : null}
+                    {error ? <FormGroup className="mt-2 text-center text-danger">{error}</FormGroup> : null}
                     <FormGroup className="mt-5">
                         <Button onClick={this.updateProfile}  className="btn-block" color="primary">Submit</Button>
                     </FormGroup>

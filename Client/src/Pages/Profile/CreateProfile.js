@@ -24,15 +24,11 @@ export class Profile extends Component {
           address: null,
           phone: null,
           user: auth().currentUser,
-          error: null,
-          msg: null
+          error:null,
+          msg: null,
         };
       }
 
-      
-
-
-      
       onChangeTitle(e) {
         this.setState({
           title: e.target.value,
@@ -59,19 +55,57 @@ export class Profile extends Component {
         });
       }
 
-      saveProfile() {
-        let data = {
-            title:this.state.title,
-            lastname:this.state.lastname,
-            email:this.state.email,
-            address:this.state.address,
-            phone:this.state.phone,
-            uid: this.state.user.uid,
+      saveProfile() { const {title,lastname,email,address,phone,user} = this.state;
+      
+      if(!lastname.match(/^[a-zA-Z]+$/)) {
+          this.setState({error:'Last name can only contain letters'}); 
+          return;
+      }else if((lastname === null && title === null) || (lastname !== null && title !== null)) {
+        this.setState({error:null});
+      }else if(lastname !== null && title === null){
+          this.setState({error:'Title cannot be empty'});
+          return;
+      }
+
+      if(email === null){
+        this.setState({error:null});
+      }else if(!email.match(/\S+@\S+/)) { //  /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\W[\w-]{0.66})\.([a-z]{2.6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2\.}))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
+          this.setState({error:'Invalid email'});
+          return;
+      }
+      
+      if(phone === null){
+        this.setState({error:null});
+      }else if(!phone.match(/^[0-9]+$/)) {
+          this.setState({error:'Invalid phone number'}); 
+          return;
+      }
+
+       let data = {
+            title:title,
+            lastname:lastname,
+            email:email,
+            address:address,
+            phone:phone,
+            uid:user.uid,
         };
-        this.setState({ msg: 'Created new appointment successfully!' });
-        this.setState({ error:null });
         Db.createProfile(data)
+        this.setState({msg: 'Created new appointment successfully!' });
         this.props.history.push(ROUTES.HOME);
+      
+  }
+  skipProfile(){ 
+    let data = {
+      title:'',
+      lastname:'',
+      email:'',
+      address:'',
+      phone:'',
+      uid:this.state.user.uid,
+  };
+  Db.createProfile(data)
+  this.setState({msg: 'Created new appointment successfully!' });
+  this.props.history.push(ROUTES.HOME);
   }
 
     render() {  const {error,msg } = this.state;
@@ -82,7 +116,7 @@ export class Profile extends Component {
                 <Form className="p-5" >
                     <h3 className="text-center">Account Settings</h3>
                     <h6 className="lead text-primary" >Fill in the form below to create your profile.</h6>
-                    <Button onClick={this.saveProfile} className="btn" color="info" to={ROUTES.HOME}>SKIP</Button>
+                    <Button onClick={this.skipProfile} className="btn" color="info">SKIP</Button>
                     <hr className="mb-5" />
 
                     <Row>

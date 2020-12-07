@@ -18,6 +18,7 @@ export default class UpdateSetting extends Component {
       settings: [],
       currentSetting: null,
       currentIndex: -1,
+      loading:true
     };
   }
 
@@ -44,9 +45,7 @@ export default class UpdateSetting extends Component {
       });
     });
 
-    this.setState({
-      settings: settings,
-    });
+    this.setState({ settings: settings, loading:false});
   }
 
   refreshList() {
@@ -66,13 +65,16 @@ export default class UpdateSetting extends Component {
  
 
   render() {
-    const { settings, currentSetting, currentIndex} = this.state;
+    const { settings, currentSetting, currentIndex,loading} = this.state;
 
     return (
       <div> <Header/><div className="p-5">
       <Container>
         <div className=" justify-content-between mb-5">
           <h3>Settings</h3>
+          {loading ? <div className="spinner-border text-success" role="status">
+            <span className="sr-only">Loading...</span>
+          </div> : null}
           <hr md="12" className="py-3"/>
           <ul className="list-group col-lg-9">
                 {settings && settings.map((setting, index) => (

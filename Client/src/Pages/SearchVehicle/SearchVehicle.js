@@ -19,7 +19,7 @@ export class SearchVehicle extends Component {
         this.state={
             search:"",
             appointments: [],
-            loading: false,
+            loading:true,
             error:null
         }
     }
@@ -36,7 +36,6 @@ export class SearchVehicle extends Component {
       }
     
     onDataChange(items) {
-        this.setState({ loading: true });
         let appointments = [];
     
         items.forEach((item) => {
@@ -92,10 +91,6 @@ export class SearchVehicle extends Component {
                 <Form inline className="py-3">
                     <h3>Search vehicle</h3>
 
-                    {loading ? <div className="spinner-border text-success" role="status">
-            <span className="sr-only">Loading...</span>
-          </div> : null}
-
                         <Col xs="auto">
                             <FormGroup inline>
                                 <Input type="text" name="search" id="search" placeholder="Enter vehicle No" value={search} onChange={this.searchHandler}/>
@@ -104,6 +99,11 @@ export class SearchVehicle extends Component {
                         
                     </Form>
                 </Row>
+
+                {loading ? <div className="spinner-border text-success" role="status">
+            <span className="sr-only">Loading...</span>
+          </div> : null}
+
                 <hr md="12" className="py-3"/>
                 <Row>
                     

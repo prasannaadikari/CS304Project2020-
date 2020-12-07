@@ -20,7 +20,7 @@ export default class AppointmentsList extends Component {
       user: auth().currentUser,
       currentAppointment: null,
       currentIndex: -1,
-      loading: false
+      loading: true
     };
   }
 
@@ -33,7 +33,6 @@ export default class AppointmentsList extends Component {
   }
 
   onDataChange(items) {
-    this.setState({ loading: true });
     let appointments = [];
 
     items.forEach((item) => {

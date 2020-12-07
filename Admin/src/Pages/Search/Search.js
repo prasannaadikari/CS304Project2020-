@@ -22,7 +22,7 @@ export class Search extends Component {
             appointments: [],
             profiles:[],
             error:null,
-            loading: false
+            loading: true
         }
     }
     searchHandler(event){
@@ -42,7 +42,6 @@ export class Search extends Component {
       }
     
     onDataChange(items) {
-        this.setState({ loading: true });
         let appointments = [];
     
         items.forEach((item) => {
@@ -59,10 +58,7 @@ export class Search extends Component {
           });
         });
     
-        this.setState({
-          appointments: appointments,
-        });
-        this.setState({ loading: false });
+        this.setState({ appointments: appointments,loading: false });
       }
 
       onDataChangeP(items) {
@@ -168,10 +164,6 @@ export class Search extends Component {
                     <Form inline className="py-3">
                     <h3>Search</h3>
 
-                    {loading ? <div className="spinner-border text-success" role="status">
-            <span className="sr-only">Loading...</span>
-          </div> : null}
-
                         <Col xs="auto">
                             <FormGroup inline>
                                 <Input type="text" name="search" id="search" placeholder="Enter Uid" value={search} onChange={this.searchHandler}/>
@@ -180,7 +172,9 @@ export class Search extends Component {
                         
                     </Form>
                 </Row>
-                
+                {loading ? <div className="spinner-border text-success" role="status">
+            <span className="sr-only">Loading...</span>
+          </div> : null}
                 <hr md="12" className="py-3"/>
                 <Row>
                     {this.renderProfiles()}

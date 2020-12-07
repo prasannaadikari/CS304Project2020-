@@ -20,6 +20,7 @@ export default class UpdateProfile extends Component {
       user: auth().currentUser,
       currentProfile: null,
       currentIndex: -1,
+      loading: true
     };
   }
 
@@ -59,6 +60,7 @@ export default class UpdateProfile extends Component {
     this.setState({
       profiles: profiles,
     });
+    this.setState({ loading: false });
   }
 
   refreshList() {
@@ -78,13 +80,18 @@ export default class UpdateProfile extends Component {
  
 
   render() {
-    const { profiles, currentProfile, currentIndex,n } = this.state;
+    const { profiles, currentProfile, currentIndex,loading} = this.state;
 
     return (
       <div> <Header/><div className="p-5">
       <Container>
         <div className=" justify-content-between mb-5">
           <h3>Your profile</h3>
+
+          {loading ? <div className="spinner-border text-success" role="status">
+            <span className="sr-only">Loading...</span>
+          </div> : null}
+
           <hr md="12" className="py-3"/>
           <ul className="list-group col-lg-9">
                 {profiles && profiles.map((profile, index) => (

@@ -33,7 +33,7 @@ export class CreateAppointment extends Component {
           msg:null,
           max:20,
           holiday:null,
-          loading: false
+          loading: true
         };
       }
       onChangeAppointmentDate(e) {
@@ -75,25 +75,25 @@ export class CreateAppointment extends Component {
             if (this.state.user === null) {
               this.props.history.push(ROUTES.HOME);
             }else if (data.Adate === moment().format("dddd Do MMMM YYYY")) {
-              this.setState({ d1:this.state.d1+1, loading: true });
+              this.setState({ d1:this.state.d1+1});
             }
             else if (data.Adate === moment().add(1,'days').format("dddd Do MMMM YYYY")) {
-              this.setState({ d2:this.state.d2+1, loading: true });
+              this.setState({ d2:this.state.d2+1 });
             }
             else if (data.Adate === moment().add(2,'days').format("dddd Do MMMM YYYY")) {
-              this.setState({ d3:this.state.d3+1, loading: true });
+              this.setState({ d3:this.state.d3+1});
             }
             else if (data.Adate === moment().add(3,'days').format("dddd Do MMMM YYYY")) {
-              this.setState({ d4:this.state.d4+1, loading: true });
+              this.setState({ d4:this.state.d4+1});
             }
             else if (data.Adate === moment().add(4,'days').format("dddd Do MMMM YYYY")) {
-              this.setState({ d5:this.state.d5+1, loading: true });
+              this.setState({ d5:this.state.d5+1 });
             }
             else if (data.Adate === moment().add(5,'days').format("dddd Do MMMM YYYY")) {
-              this.setState({ d6:this.state.d6+1, loading: true });
+              this.setState({ d6:this.state.d6+1});
             }
             else if (data.Adate === moment().add(6,'days').format("dddd Do MMMM YYYY")) {
-              this.setState({ d7:this.state.d7+1, loading: true });
+              this.setState({ d7:this.state.d7+1 });
             }
       });
       this.setState({ loading: false });
@@ -144,10 +144,10 @@ export class CreateAppointment extends Component {
           timestamp: Date.now(),
           uid: user.uid,
         };
-        this.setState({ msg: 'Created new appointment successfully!' });
         this.setState({ error: null });
         this.setState({ Warning: null });
         Db.createAppointment(data)
+        this.setState({ msg: 'Created new appointment successfully!' });
         this.props.history.push(ROUTES.APPOINTMENT);
       }
         

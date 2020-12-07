@@ -26,7 +26,7 @@ export default class AppointmentsList extends Component {
       search:"",
       currentAppointment: null,
       currentIndex: -1,
-      loading: false
+      loading: true
     };
   }
   searchHandler(event){
@@ -42,7 +42,6 @@ export default class AppointmentsList extends Component {
   }
 
   onDataChange(items) {
-    this.setState({ loading: true });
     let appointments = [];
 
     items.forEach((item) => {
@@ -60,10 +59,7 @@ export default class AppointmentsList extends Component {
       });
     });
 
-    this.setState({
-      appointments: appointments,
-    });
-    this.setState({ loading: false });
+    this.setState({ appointments: appointments,loading: false });
   }
 
   refreshList() {

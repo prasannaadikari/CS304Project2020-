@@ -16,10 +16,9 @@ export default class AppointmentsList extends Component {
 
     this.state = {
       appointments: [],
-      n:null,
       currentAppointment: null,
       currentIndex: -1,
-      loading: false
+      loading: true
     };
   }
 
@@ -32,7 +31,6 @@ export default class AppointmentsList extends Component {
   }
 
   onDataChange(items) {
-    this.setState({ loading: true });
     let appointments = [];
 
     items.forEach((item) => {
@@ -40,7 +38,6 @@ export default class AppointmentsList extends Component {
       let data = item.val();
 
       if(data.Adate===moment().format("dddd Do MMMM YYYY")){
-        this.setState({n:1});
       appointments.push({
         key: key,
         VNo: data.VNo,
@@ -51,11 +48,8 @@ export default class AppointmentsList extends Component {
         timestamp:data.timestamp
       });}
     });
-    appointments.sort(function (a,b) { return b.timestamp - a.timestamp })
-    this.setState({
-      appointments: appointments,
-    });
-    this.setState({ loading: false });
+    appointments.sort(function (a,b) { return a.timestamp - b.timestamp })
+    this.setState({appointments: appointments, loading: false });
   }
 
   refreshList() {
@@ -76,7 +70,7 @@ export default class AppointmentsList extends Component {
  
 
   render() {
-    const { appointments, currentAppointment, currentIndex ,n,loading} = this.state;
+    const { appointments, currentAppointment, currentIndex ,loading} = this.state;
 
     return (
       <div> <Header/><div className="p-5">
@@ -117,7 +111,7 @@ export default class AppointmentsList extends Component {
                 </li>
                 ))}
               </ul>
-              {n ? null : <h6 className="text-danger">Today you do not have any appointments</h6>}
+              {appointments ? null : <h6 className="text-danger">Today you do not have any appointments</h6>}
         </div>
             <div ref={(ref)=>this.myRef=ref}>
               {currentAppointment ? (

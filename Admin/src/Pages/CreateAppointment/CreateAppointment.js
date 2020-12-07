@@ -32,7 +32,7 @@ export class CreateAppointment extends Component {
           max:20,
           holiday:null,
           msg:null,
-          loading: false
+          loading: true
         };
       }
       onChangeAppointmentDate(e) {
@@ -73,7 +73,6 @@ export class CreateAppointment extends Component {
       }
 
       onDataChange(items) {
-        this.setState({ loading: true });
         items.forEach((item) => {
 
           let data = item.val();

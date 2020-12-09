@@ -7,6 +7,6 @@ export const SEARCH = '/search/vehicle';
 export const VEHICLE_DETAILS = '/vehicle/details';
 export const SEARCH_APPOINTMENTS = '/appointment/search';
 export const CREATE_APPOINTMENT = '/appointment/create';
-
+export const PASSWORD_FORGET = '/forget/password';
 
     

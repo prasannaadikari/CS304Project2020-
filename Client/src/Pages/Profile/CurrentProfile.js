@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Db from "../../helpers/Db";
-import {Card, CardTitle, Form,Input,Container, FormGroup, CardBody, Button, Row, Col} from 'reactstrap';
+import {Container,Row, Col} from 'reactstrap';
 import moment from 'moment'
 import Profile from "./Profile";
 import * as ROUTES from '../../helpers/routes';
@@ -75,6 +75,7 @@ export default class UpdateProfile extends Component {
       currentProfile: profile,
       currentIndex: index,
     });
+    this.myRef.scrollIntoView({behavior:'smooth'})
   }
 
  
@@ -91,6 +92,19 @@ export default class UpdateProfile extends Component {
           {loading ? <div className="spinner-border text-success" role="status">
             <span className="sr-only">Loading...</span>
           </div> : null}
+          <hr md="12" className="py-3"/>
+          <Row>
+        <Col sm="12" md={{ size: 6, offset: 3 }}>
+          <div ref={(ref)=>this.myRef=ref}>
+              {currentProfile ? (
+                <Profile
+                  profile={currentProfile}
+                  refreshList={this.refreshList}
+                />
+              ) : (
+              null
+              )}
+            </div></Col></Row>
 
           <hr md="12" className="py-3"/>
           <ul className="list-group col-lg-9">
@@ -134,16 +148,7 @@ export default class UpdateProfile extends Component {
                       
               </ul>
         </div>
-            <div>
-              {currentProfile ? (
-                <Profile
-                  profile={currentProfile}
-                  refreshList={this.refreshList}
-                />
-              ) : (
-              null
-              )}
-            </div>
+            
             </Container>
             </div></div>
     );

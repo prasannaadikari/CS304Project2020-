@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Db from "../../helpers/Db";
-import {Card, CardTitle, Form,Input,Container, FormGroup, Label, CardBody, Button, Row, Col} from 'reactstrap';
-
+import {Form,Input,Container, FormGroup, Label,Button, Row, Col} from 'reactstrap';
+import * as ROUTES from '../../helpers/routes';
 
 export default class Profile extends Component {
   constructor(props) {
@@ -110,27 +110,29 @@ export default class Profile extends Component {
 
 
   updateProfile() { const {title,lastname,email,phone} = this.state;
-  if(!lastname.match(/^[a-zA-Z]+$/)) {
-    this.setState({error:'Last name can only contain letters',msg:null});
-    return;
+  if(lastname === null ) {
+    this.setState({error:null});
+  }else if(!lastname.match(/^[a-zA-Z]+$/)) {
+      this.setState({error:'Last name can only contain letters'}); 
+      return;
   }else if((lastname === null && title === null) || (lastname !== null && title !== null)) {
-    this.setState({error:null,msg:null});
+    this.setState({error:null});
   }else if(lastname !== null && title === null){
-    this.setState({error:'Title cannot be empty',msg:null});
-    return;
+      this.setState({error:'Title cannot be empty'});
+      return;
   }
 
   if(email === null){
     this.setState({error:null});
-  }else if(!email.match(/\S+@\S+/)) { 
-      this.setState({error:'Invalid email',msg:null});
+  }else if(!email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)) { 
+      this.setState({error:'Invalid email'});
       return;
   }
   
   if(phone === null){
     this.setState({error:null});
   }else if(!phone.match(/\d{10}/)) {
-      this.setState({error:'Phone number cannot contain letters or space',msg:null}); 
+      this.setState({error:'Phone number cannot contain letters or space and should be ten digits.'}); 
       return;
   }
     
@@ -161,7 +163,7 @@ export default class Profile extends Component {
         {currentProfile
          ? (
           <Container>
-          <div className="container col-lg-10  min-vh-100 d-flex flex-column justify-content-center">
+          <div>
           <Form >
                     <h3 className="text-center">Update your profile</h3>
                     <hr className="mb-5" />

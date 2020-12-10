@@ -48,17 +48,18 @@ export default class AppointmentsList extends Component {
       let key = item.key;
       let data = item.val();
 
-      
-      appointments.push({
+      if (this.state.user===null) {
+        this.props.history.push(ROUTES.HOME);
+      }else{
+        appointments.push({
         key: key,
         VNo: data.VNo,
         Adate: data.Adate,
         status: data.status,
         description: data.description,
         uid: data.uid
-      });
+      });}
     });
-
     this.setState({ appointments: appointments,loading: false });
   }
 
@@ -74,7 +75,7 @@ export default class AppointmentsList extends Component {
       currentAppointment: appointment,
       currentIndex: index,
     });
-    this.myRef.scrollIntoView()
+    this.myRef.scrollIntoView({behavior:'smooth'})
   }
 
  
@@ -87,7 +88,7 @@ export default class AppointmentsList extends Component {
       
         <div>
       <Row><Col md="4">
-          <h4>Appointments</h4>
+          <h4>Previous Appointments</h4>
 
           {loading ? <div className="spinner-border text-success" role="status">
             <span className="sr-only">Loading...</span>
@@ -121,7 +122,7 @@ export default class AppointmentsList extends Component {
             <div ref={(ref)=>this.myRef=ref}>
               {currentAppointment ? (
                 <Appointment
-                  appointment={currentAppointment}
+                appointment={currentAppointment}
                   refreshList={this.refreshList}
                 />
               ) : (

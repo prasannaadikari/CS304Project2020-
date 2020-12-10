@@ -6,7 +6,8 @@ import moment from 'moment'
 export default class Setting extends Component {
   constructor(props) {
     super(props);
-    this.onChangeHoliday = this.onChangeHoliday.bind(this);
+    this.onChangeHoliday1 = this.onChangeHoliday1.bind(this);
+    this.onChangeHoliday2 = this.onChangeHoliday2.bind(this);
     this.onChangeMax = this.onChangeMax.bind(this);
 
     this.updateS = this.updateS.bind(this);
@@ -14,7 +15,8 @@ export default class Setting extends Component {
     this.state = {
       currentSetting: {
         key: null,
-        holiday: '',
+        holiday1: '',
+        holiday2: '',
         max: ''
       },
       msg: ""
@@ -40,14 +42,26 @@ export default class Setting extends Component {
   }
 
 
-  onChangeHoliday(e) {
-    const holiday = e.target.value;
+  onChangeHoliday1(e) {
+    const holiday1 = e.target.value;
 
     this.setState(function (prevState) {
       return {
         currentSetting: {
           ...prevState.currentSetting,
-          holiday: holiday,
+          holiday1: holiday1,
+        },
+      };
+    });
+  }
+  onChangeHoliday2(e) {
+    const holiday2 = e.target.value;
+
+    this.setState(function (prevState) {
+      return {
+        currentSetting: {
+          ...prevState.currentSetting,
+          holiday2: holiday2,
         },
       };
     });
@@ -68,7 +82,8 @@ export default class Setting extends Component {
 
   updateS() {
     const data = {
-      holiday: this.state.currentSetting.holiday,
+      holiday1: this.state.currentSetting.holiday1,
+      holiday2: this.state.currentSetting.holiday2,
       max: this.state.currentSetting.max
     };
 
@@ -92,18 +107,16 @@ export default class Setting extends Component {
         {currentSetting
          ? (
           <Container>
-          <div className=" col-lg-10  min-vh-100 d-flex flex-column justify-content-center">
+          <div >
           <Form >
-                    <h3 className="text-center">Update setting</h3>
+                    <h3 className="text-center">Update settings</h3>
                     <hr className="mb-5" />
 
+                    
                     <Row>
-                        
-                        
-                    </Row>
-                    <Row><Col>
+                      <Col>
                     <FormGroup>
-                                <Input type="select" name="holiday" id="holiday" value={this.state.holiday} onChange={this.onChangeHoliday} >
+                                <Input type="select" name="holiday1" id="holiday1" value={this.state.holiday1} onChange={this.onChangeHoliday1} >
                                     <option>{moment().format("dddd Do MMMM YYYY")}</option>
                                     <option>{moment().add(1,'days').format("dddd Do MMMM YYYY")}</option>
                                     <option>{moment().add(2,'days').format("dddd Do MMMM YYYY")}</option>
@@ -111,15 +124,35 @@ export default class Setting extends Component {
                                     <option>{moment().add(4,'days').format("dddd Do MMMM YYYY")}</option>
                                     <option>{moment().add(5,'days').format("dddd Do MMMM YYYY")}</option>
                                     <option>{moment().add(6,'days').format("dddd Do MMMM YYYY")}</option>
+                                    <option>{moment().add(7,'days').format("dddd Do MMMM YYYY")}</option>
+                                    <option>{moment().add(8,'days').format("dddd Do MMMM YYYY")}</option>
+                                </Input>
+                            </FormGroup>
+                            </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                    <FormGroup>
+                                <Input type="select" name="holiday2" id="holiday2" value={this.state.holiday2} onChange={this.onChangeHoliday2} >
+                                    <option>{moment().format("dddd Do MMMM YYYY")}</option>
+                                    <option>{moment().add(1,'days').format("dddd Do MMMM YYYY")}</option>
+                                    <option>{moment().add(2,'days').format("dddd Do MMMM YYYY")}</option>
+                                    <option>{moment().add(3,'days').format("dddd Do MMMM YYYY")}</option>
+                                    <option>{moment().add(4,'days').format("dddd Do MMMM YYYY")}</option>
+                                    <option>{moment().add(7,'days').format("dddd Do MMMM YYYY")}</option>
+                                    <option>{moment().add(8,'days').format("dddd Do MMMM YYYY")}</option>
                                 </Input>
                             </FormGroup>
                             </Col>
                     </Row>
 
                     {msg ? <FormGroup className="mt-2 text-center text-success">{msg}</FormGroup> : null}
+                    <Row>
+                  <Col sm="12" md={{ size: 6, offset: 3 }}>
                     <FormGroup className="mt-5">
                         <Button onClick={this.updateS}  className="btn-block" color="primary">Submit</Button>
                     </FormGroup>
+                    </Col></Row>
                 </Form>
             </div>
           </Container>) 

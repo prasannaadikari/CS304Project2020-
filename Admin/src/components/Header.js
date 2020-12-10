@@ -6,10 +6,7 @@ import {
   Collapse,
   Navbar,
   NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink
+  NavbarBrand
 } from 'reactstrap';
 
 export default class Header extends Component {
@@ -31,18 +28,21 @@ render() {
     
     <div>
     <Navbar className="p-3" color="dark" dark expand="md">
-                  <NavbarBrand  className="ml-3" href={ROUTES.HOME}>AutoVehicles</NavbarBrand>  
-                  <NavbarToggler onClick={() => this.toggle()} />
-                  <Collapse isOpen={this.state.isOpen} navbar>
+        <NavbarBrand  className="ml-3" href={ROUTES.HOME}>AutoVehicles</NavbarBrand>  
+          <NavbarToggler onClick={() => this.toggle()} />
+             <Collapse isOpen={this.state.isOpen} navbar>
           
-              <div className="navbar-nav ml-auto">
+          {auth().currentUser
+          ? <div className="navbar-nav ml-auto">
+              <Link className="nav-item nav-link ml-3 text-uppercase" to={ROUTES.CREATE_APPOINTMENT}>Create Appointment</Link>
               <Link className="nav-item nav-link ml-3 text-uppercase" to={ROUTES.APPOINTMENT}>Appointments</Link>
-              <Link className="nav-item nav-link ml-3 text-uppercase" to={ROUTES.CREATE_APPOINTMENT}>Create Appointments</Link>
               <Link className="nav-item nav-link ml-3 text-uppercase" to={ROUTES.SEARCH}>Search</Link>
               <Link className="nav-item nav-link ml-3 text-uppercase" to={ROUTES.SETTINGS}>Settings</Link>
+              <Link className="nav-item nav-link ml-3 text-uppercase" onClick={() => auth().signOut()} to={ROUTES.HOME}>Log out</Link>
             </div>
-             <div className="navbar-nav">
-            </div>
+          : <div className="navbar-nav ml-auto">
+              <Link className="nav-item nav-link ml-3 text-uppercase" to={ROUTES.LOG_IN}>Log in</Link>
+            </div>}
             </Collapse>
                 </Navbar>
     </div>

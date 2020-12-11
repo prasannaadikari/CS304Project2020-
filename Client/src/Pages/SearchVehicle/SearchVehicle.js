@@ -1,8 +1,10 @@
-import React, { Component } from 'react'
-import Header from "../../components/Header";
-import { Container, Row, Col, Card, CardTitle, Input,Form,FormGroup,CardBody, CardText} from 'reactstrap';
+import React, { Component } from 'react';
+import { Row, Col, Card, CardTitle, Input,Form,FormGroup,CardBody, CardText} from 'reactstrap';
 import _ from 'lodash';
-import Db from "../../helpers/Db";
+
+import Header from '../../components/Header';
+import Db from '../../helpers/Db';
+import * as ROUTES from '../../helpers/routes';
 
 function searchingFor(search){
     return function(x){
@@ -42,15 +44,17 @@ export class SearchVehicle extends Component {
           let key = item.key;
           let data = item.val();
           
-          appointments.push({
+          if (this.state.user===null) {
+            this.props.history.push(ROUTES.HOME);
+          }else {appointments.push({
             key: key,
             VNo: data.VNo,
             Adate: data.Adate,
             status: data.status,
             description: data.description
-          });
+          });}
         });
-    
+        appointments.sort(function (a,b) { return a.Adate - b.Adate })
         this.setState({ appointments: appointments, loading: false });
       }
 
@@ -75,22 +79,22 @@ export class SearchVehicle extends Component {
                                 <CardText  className="text-primary">{appointment.description}</CardText>
                                 </Row>
                             </CardBody>
-                        </Card>
-                    </Col>
+                        </Card> 
+                        </Col>
                 )
             })
         )
     }
 
-
-
     render() {  const {loading,error,search } = this.state;
         return (
-            <div><Header /><div className="container py-5">
+            <div><Header/><div className="container py-5">
                 <Row>
                 <Form inline className="py-3">
+                    
+                    <Col xs="auto">
                     <h3>Search vehicle</h3>
-
+                        </Col>
                         <Col xs="auto">
                             <FormGroup inline>
                                 <Input type="text" name="search" id="search" placeholder="Enter vehicle No" value={search} onChange={this.searchHandler}/>
@@ -103,15 +107,12 @@ export class SearchVehicle extends Component {
                 {loading ? <div className="spinner-border text-success" role="status">
             <span className="sr-only">Loading...</span>
           </div> : null}
-
-                <hr md="12" className="py-3"/>
+            <hr md="12" className="py-3"/>
                 <Row>
-                    
-
-                {this.renderVehicles()}
-                <Form>{error ? <FormGroup className="mt-2 text-center text-danger">{error}</FormGroup> : null}</Form>
+                    {this.renderVehicles()}
                 </Row>
-            </div></div>
+            </div>
+        </div>
         )
     }
 }

@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import Db from "../../helpers/Db";
 import {Container,Row, Col} from 'reactstrap';
-import moment from 'moment'
-import Profile from "./Profile";
+
+import Db from '../../helpers/Db';
+import Profile from './Profile';
 import * as ROUTES from '../../helpers/routes';
-import Header from "../../components/Header";
+import Header from '../../components/Header';
 import { auth } from '../../services/firebase';
 
 export default class UpdateProfile extends Component {
@@ -106,7 +106,6 @@ export default class UpdateProfile extends Component {
               )}
             </div></Col></Row>
 
-          <hr md="12" className="py-3"/>
           <ul className="list-group col-lg-9">
                 {profiles && profiles.map((profile, index) => (
                 <li className={ "list-group-item " + (index === currentIndex ? "active" : "") }
@@ -140,17 +139,12 @@ export default class UpdateProfile extends Component {
                     </Col>
                     <Col><h5 className="text-primary">Edit</h5></Col>
                     </Row>
-                </li>
-                ))}
-                
-                
-                          
-                      
-              </ul>
+                </li>))}
+          </ul>
         </div>
-            
-            </Container>
-            </div></div>
+          </Container>
+        </div>
+      </div>
     );
   }
 }

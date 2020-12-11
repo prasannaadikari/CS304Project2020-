@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import {Checkmark} from "react-checkmark";
-import Db from "../../helpers/Db";
-import {Card, CardTitle, Form,Input,Container, FormGroup, CardBody, Button, Row, Col} from 'reactstrap';
-import moment from 'moment'
+import {Container,Row, Col} from 'reactstrap';
+import moment from 'moment';
+
+import Db from '../../helpers/Db';
 import { auth } from '../../services/firebase';
-import Appointment from "./Appointment.component";
+import Appointment from './Appointment.component';
 import * as ROUTES from '../../helpers/routes';
-import Header from "../../components/Header";
+import Header from '../../components/Header';
 
 export default class AppointmentsList extends Component {
   constructor(props) {
@@ -54,7 +55,7 @@ export default class AppointmentsList extends Component {
       });
       }
     });
-    appointments.sort(function (a,b) { return a.Adate - b.Adate })
+    appointments.sort(function (a,b) { return a.Adate - b.Adate });
     this.setState({ appointments: appointments, loading: false });
   }
 
@@ -70,7 +71,7 @@ export default class AppointmentsList extends Component {
       currentAppointment: appointment,
       currentIndex: index,
     });
-    this.myRef.scrollIntoView()
+    this.myRef.scrollIntoView({behavior:'smooth'})
   }
   
 
@@ -79,56 +80,55 @@ export default class AppointmentsList extends Component {
    
 
     return (
-      <div ref={(ref)=>this.myRef=ref}> <Header/><div className="p-5">
+      <div> <Header/><div className="p-5">
       <Container>
         <div className=" justify-content-between mb-5">
           <h4>Appointments</h4>
 
-          {loading ? <div className="spinner-border text-success" role="status">
-            <span className="sr-only">Loading...</span>
-          </div> : null}
+          {loading 
+          ? <div className="spinner-border text-success" role="status">
+              <span className="sr-only">Loading...</span>
+            </div> 
+          :null}
 
-          {currentAppointment ? (
-                <div><Appointment
+          <div ref={(ref)=>this.myRef=ref}>{currentAppointment 
+          ? (<div><Appointment
                   appointment={currentAppointment}
                   refreshList={this.refreshList}
-                /></div>
-              ) : (
-              <div>
-                <br />
-                  <p className="text-info">Please click on an appointment to remove...</p>
-                </div>
-              )}
-          <hr md="12" className="py-3"/>
+                />
+              </div>)
+          : (<div>
+                <p className="text-info">Please click on an appointment to remove...</p>
+              </div>)}
+            </div>
+            <hr md="12" className="py-3"/>
               <ul className="list-group">
                 {appointments && appointments.map((appointment, index) => (
                 <li className={ "list-group-item " + (index === currentIndex ? "active" : "") }
                   onClick={() => this.setActiveAppointment(appointment, index)}
                   key={index}>
                     <Row>
-                    <Col>
-                  <b>{appointment.VNo}</b>
-                  </Col>
-                  <Col>
-                  <b>{appointment.Adate}</b>
-                  </Col>
-                  <Col>
-                  {appointment.status==="Waiting"?<div className="ml-3 text-left text-uppercase text-warning" >{appointment.status}</div>:null}
-                  {appointment.status==="Processing"?<div className="ml-3 text-left text-uppercase text-primary" >{appointment.status}</div>:null}
-                  {appointment.status==="Done"?<div className="ml-3 text-left text-uppercase text-success" >{appointment.status}</div>:null}
-                  </Col>
-                  <Col>
-                    {appointment.description ? <Checkmark size='medium'/> : null}
-                  </Col>
-                     </Row>
-                </li>
-                ))}
+                      <Col>
+                        <b>{appointment.VNo}</b>
+                      </Col>
+                      <Col>
+                        <b>{appointment.Adate}</b>
+                      </Col>
+                      <Col>
+                        {appointment.status==="Waiting"?<div className="ml-3 text-left text-uppercase text-warning" >{appointment.status}</div>:null}
+                        {appointment.status==="Processing"?<div className="ml-3 text-left text-uppercase text-primary" >{appointment.status}</div>:null}
+                        {appointment.status==="Done"?<div className="ml-3 text-left text-uppercase text-success" >{appointment.status}</div>:null}
+                      </Col>
+                      <Col>
+                        {appointment.description ? <Checkmark size='medium'/> : null}
+                      </Col>
+                    </Row>
+                </li>))}
               </ul>
         </div>
-            <div>
-            </div>
-            </Container>
-            </div></div>
+      </Container>
+      </div>
+      </div>
     );
   }
 }

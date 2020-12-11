@@ -18,24 +18,17 @@ class Db {
   createAppointment(appointment) {
     return DBA.push(appointment);
   }
-  createSettings(Settings) {
-    return DBS.push(Settings);
-  }
 
   createProfile(profile) {
     return DBP.push(profile);
   }
 
-  update(key, value) {
+  updateProfile(key, value) {
     return DBP.child(key).update(value);
   }
 
   delete(key) {
     return DBA.child(key).remove();
-  }
-
-  deleteAll() {
-    return DBA.remove();
   }
 }
 

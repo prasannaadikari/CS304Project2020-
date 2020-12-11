@@ -7,5 +7,4 @@ export const APPOINTMENT = '/appointment';
 export const CREATE_APPOINTMENT = '/appointment/create';
 export const SEARCH_VEHICLE = '/search/vehicle';
 export const PASSWORD_FORGET = '/forget/password';
-
     

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import Db from "../../helpers/Db";
 import {Form,Input,Container, FormGroup, Label,Button, Row, Col} from 'reactstrap';
-import * as ROUTES from '../../helpers/routes';
+
+import Db from "../../helpers/Db";
 
 export default class Profile extends Component {
   constructor(props) {
@@ -17,11 +17,11 @@ export default class Profile extends Component {
     this.state = {
       currentProfile: {
         key: null,
-        title: '',
-        lastname: '',
-        email: '',
-        address: '',
-        phone: '',
+        title: null,
+        lastname: null,
+        email: null,
+        address: null,
+        phone: null,
       },
       msg: "",
       error:''
@@ -109,30 +109,29 @@ export default class Profile extends Component {
   }
 
 
-  updateProfile() { const {title,lastname,email,phone} = this.state;
-  if(lastname === null ) {
-    this.setState({error:null});
-  }else if(!lastname.match(/^[a-zA-Z]+$/)) {
-      this.setState({error:'Last name can only contain letters'}); 
+  updateProfile() { const {title,lastname,email,phone,address} = this.state;
+  if(!lastname.match(/^[a-zA-Z]+$/)) {
+      this.setState({msg:null,error:'Last name can only contain letters'}); 
       return;
   }else if((lastname === null && title === null) || (lastname !== null && title !== null)) {
-    this.setState({error:null});
+      this.setState({msg:null,error:null});
   }else if(lastname !== null && title === null){
-      this.setState({error:'Title cannot be empty'});
+      this.setState({msg:null,error:'Title cannot be empty'});
       return;
   }
 
-  if(email === null){
-    this.setState({error:null});
-  }else if(!email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)) { 
-      this.setState({error:'Invalid email'});
+  if(!email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)) { 
+      this.setState({msg:null,error:'Invalid email'});
       return;
   }
-  
-  if(phone === null){
-    this.setState({error:null});
-  }else if(!phone.match(/\d{10}/)) {
-      this.setState({error:'Phone number cannot contain letters or space and should be ten digits.'}); 
+
+  if(address === null){
+    this.setState({msg:null,error:'Address cannot be empty'});
+    return;
+  }
+
+  if(!phone.match(/^[0-9]{10}$/)) {
+      this.setState({msg:null,error:'Phone number cannot contain letters or space and should be ten digits.'}); 
       return;
   }
     
@@ -144,7 +143,7 @@ export default class Profile extends Component {
       phone: this.state.currentProfile.phone,
     };
 
-    Db.update(this.state.currentProfile.key, data)
+    Db.updateProfile(this.state.currentProfile.key, data)
       .then(() => {
         this.setState({ msg: "The profile was updated successfully!",error:null });
       })
@@ -152,8 +151,6 @@ export default class Profile extends Component {
         console.log(e);
       });
   }
-
-
 
   render() {
     const { currentProfile,msg,error } = this.state;
@@ -213,7 +210,6 @@ export default class Profile extends Component {
           </Container>) 
           : (
          null)}
-      
     </div>
     );
   }

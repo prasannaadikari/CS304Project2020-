@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import Db from "../../helpers/Db";
-import {Card, CardTitle, Form,Input,Container, FormGroup, Label, CardBody, Button, Row, Col} from 'reactstrap';
+import {Card, CardTitle,Container, CardBody, Button, Row, Col} from 'reactstrap';
+
+import Db from '../../helpers/Db';
+
 export default class Appointment extends Component {
   constructor(props) {
     super(props);
@@ -72,11 +74,10 @@ export default class Appointment extends Component {
     return (
       <div className="p-5">
                 <Container>
-        {currentAppointment ? (
-         
-          <Card  className="h-100 shadow" style={{ 'background': '#FFF', 'color': '#000' }}>
-              <CardBody>
-                  <Row>
+                  {currentAppointment ? (
+                  <Card  className="h-100 shadow" style={{ 'background': '#FFF', 'color': '#000' }}>
+                    <CardBody>
+                      <Row>
                       <Col sx="6" sm="4">
                           <CardTitle ><h3><b>{currentAppointment.VNo}</b></h3></CardTitle>
                           <CardTitle >{currentAppointment.Adate}</CardTitle>
@@ -89,20 +90,13 @@ export default class Appointment extends Component {
                       <Col xs="auto">
                           <Button onClick={this.deleteAppointment} className="btn-block" color="danger">Delete</Button>          
                       </Col>    
-                  </Row>
-                  <Row>
-                   </Row>
-              </CardBody>
-          </Card>
-     
-        ) : (
-          <div>
-            <br />
-            <p className="text-info">Please click on an appointment to remove...</p>
-          </div>
-        )}
-      </Container>
-            </div>
+                      </Row>
+                    <Row></Row>
+                    </CardBody>
+                  </Card>
+                    ) : null}
+                </Container>
+       </div>
     );
   }
 }

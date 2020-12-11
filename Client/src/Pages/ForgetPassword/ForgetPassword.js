@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import {Label, Input, Card, CardTitle, Form, FormGroup, CardBody, Button, Row, Col} from 'reactstrap';
+import React, { Component } from 'react';
+import {Label, Input, Form, FormGroup,Button} from 'reactstrap';
+
 import Header from "../../components/Header";
 import { doPasswordReset } from "../../helpers/auth";
 

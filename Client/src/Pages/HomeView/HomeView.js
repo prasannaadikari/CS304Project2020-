@@ -1,16 +1,17 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import _ from 'lodash';
 import { Container, Row, Col, Card, CardTitle, CardBody, CardText,Collapse} from 'reactstrap';
-import Header from "../../components/Header";
-import Footer from "../../components/Footer";
 import AwesomeSlider from 'react-awesome-slider';
 import withAutoplay from 'react-awesome-slider/dist/autoplay';
 import 'react-awesome-slider/dist/styles.css';
-import Images from "../../assets/images";
+import {Checkmark} from 'react-checkmark';
+
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import Images from '../../assets/images';
 import * as ROUTES from '../../helpers/routes';
 import { Link } from 'react-router-dom';
 import { auth } from '../../services/firebase';
-import {Checkmark} from "react-checkmark";
 
 const AutoplaySlider = withAutoplay(AwesomeSlider);
 
@@ -66,37 +67,31 @@ export class HomeView extends Component {
 
     categoris = [
         {
-            id:1,
             title: 'Vehicle Wash',
             description1: 'Quick Wash - body wash and tyre dressing',
             description2: 'Detailed Wash - Body wash, Carpet wash, Glass cleaning, Tyre dressing & Wax, Interior vacuum(Free)'
         },
         {
-            id:2,
             title: 'Interior and Exterior Detailing',
             description1: 'Interior Detailing - Removing cleaning and drying of seats, Vacuum cleaning, Cleaning of floor boards/ dashboard/ upholstery/ hood, Leather care',
             description2: 'Outer exterior detailing - Body wash, Cut/ polish and wax'
         },
         {
-            id:3,
             title: 'Full Services',
             description1: 'Whicl is also known as aLubrication Service is a 7 steps',
             description2: 'Top up engine oil, transmission fluid, brake fluid, clutch & power steering fluid up to optimal capasity or completely change it using high performance brand lubricants'
         },
         {
-            id:4,
             title: 'Hybrid Services',
             description1: 'Total solutions for your Hybrid or Electrical vehicle by qualified technicians',
             description2: 'Battery service/ repair/ replacement, High voltage system scaning and diagnostic, Service indicating mileage setting, ECVT oil and HMMF change,Wire and cable check, Complete computer diagnostic test, Inverter coolant change and system bleeding'
         },
         {
-            id:5,
             title: 'Wheel Alignment',
             description1: 'Toe allignment',
             description2: 'Caster alignment'
         },
         {
-            id:6,
             title: 'Other Specific Services',
             description1: 'Engine scaning, Fuel system cleaning, ATF change, Manual gear oil change, Brake fluid change, Radiator cooling flush and replacement, Corrosing protection, Engine cleaning'
         }

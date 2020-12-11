@@ -1,6 +1,6 @@
+import React, { Component } from 'react';
+import { Col, Row, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 
-import React, { Component } from 'react'
-import { Col, Row, Form, FormGroup, Label, Input, Button } from 'reactstrap'
 import { auth } from '../../services/firebase';
 import * as ROUTES from '../../helpers/routes';
 import Db from "../../helpers/Db";
@@ -54,34 +54,47 @@ export class Profile extends Component {
         });
       }
 
-    saveProfile() { const {title,lastname,email,address,phone,user} = this.state;
+    saveProfile() { const {title,lastname,email,address,phone} = this.state;
       
       if(lastname === null ) {
-        this.setState({error:null});
+        this.setState({error:'Last name cannot be empty'});
+        return;
       }else if(!lastname.match(/^[a-zA-Z]+$/)) {
           this.setState({error:'Last name can only contain letters'}); 
           return;
       }else if((lastname === null && title === null) || (lastname !== null && title !== null)) {
         this.setState({error:null});
-      }else if(lastname !== null && title === null){
+      }
+      
+      if(title === null){
           this.setState({error:'Title cannot be empty'});
           return;
       }
 
+      if(address === null){
+        this.setState({error:'Address cannot be empty'});
+        return;
+      }
+
       if(email === null){
-        this.setState({error:null});
+        this.setState({error:'email cannot be empty'});
+        return;
       }else if(!email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)) { 
           this.setState({error:'Invalid email'});
           return;
       }
       
       if(phone === null){
-        this.setState({error:null});
-      }else if(!phone.match(/\d{10}/)) {
+        this.setState({error:'Phone No cannot be empty'});
+        return;
+      }else if(!phone.match(/^[0-9]{10}$/)) {
           this.setState({error:'Phone number cannot contain letters or space and should be ten digits.'}); 
           return;
       }
 
+      if (auth().currentUser.uid===null) {
+        this.props.history.push(ROUTES.HOME);
+      }
        let data = {
             title:title,
             lastname:lastname,

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Col, Row, FormGroup, Input, Form,Progress, Button} from 'reactstrap';
-import moment from 'moment'
+import moment from 'moment';
+
 import { auth } from '../../services/firebase';
-import Header from "../../components/Header";
+import Header from '../../components/Header';
 import * as ROUTES from '../../helpers/routes';
-import Db from "../../helpers/Db";
+import Db from '../../helpers/Db';
 
 export class CreateAppointment extends Component {
     constructor(props) {
@@ -37,17 +38,14 @@ export class CreateAppointment extends Component {
           loading: true
         };
       }
+
       onChangeAppointmentDate(e) {
-        this.setState({
-          Adate: e.target.value,
-        });
+        this.setState({Adate: e.target.value});
       }
-    
       onChangeVehicleNo(e) {
-        this.setState({
-          VNo: e.target.value,
-        });
+        this.setState({VNo: e.target.value});
       }
+
       componentDidMount() {
         Db.getAllAppointments().on("value", this.onDataChange);
         Db.getAllSettings().on("value", this.onDataChangeS);
@@ -66,7 +64,6 @@ export class CreateAppointment extends Component {
           //this.setState({ max:this.state.max+data.max}); 
         });
       }
-
 
       onDataChange(items) {
         
@@ -98,28 +95,25 @@ export class CreateAppointment extends Component {
       this.setState({ loading: false });
     }
     
-
-
-
-      saveAppointment() { const {d1,d2,d3,d4,d5,d6,d7,max,user,Adate,VNo,status } = this.state;
+  saveAppointment() { const {d1,d2,d3,d4,d5,d6,d7,max,user,Adate,VNo,status } = this.state;
         if (this.state.user === null) {
-          this.setState({ Warning: null,error: 'Please login to your account',msg: null });
+          this.setState({ Warning: null, msg: null, error: 'Please login to your account'});
         }else if (Adate === null || VNo === null) {
-          this.setState({ Warning: null,error: 'Fieds can not be empty', msg: null });
+          this.setState({ Warning: null, msg: null, error: 'Fieds can not be empty'});
         }else if (Adate === moment().format("dddd Do MMMM YYYY") && d1==max) {
-          this.setState({ Warning: 'Resivations due to today are over. please book another day.', error: null, msg: null });
+          this.setState({error: null, msg: null, Warning: 'Resivations due to today are over. please book another day.'});
         }else if (Adate === moment().add(1,'days').format("dddd Do MMMM YYYY") && d2 === max) {
-          this.setState({ Warning: 'Resivations are over. please book another day.' , error: null , msg: null });
+          this.setState({error: null, msg: null, Warning: 'Resivations are over. please book another day.'});
         }else if (Adate === moment().add(2,'days').format("dddd Do MMMM YYYY") && d3 === max) {
-          this.setState({ Warning: 'Resivations are over. please book another day.',error: null, msg: null });
+          this.setState({error: null, msg: null, Warning: 'Resivations are over. please book another day.'});
         }else if (Adate === moment().add(3,'days').format("dddd Do MMMM YYYY") && d4 === max) {
-          this.setState({ Warning: 'Resivations are over. please book another day.', error: null, msg: null });
+          this.setState({error: null, msg: null, Warning: 'Resivations are over. please book another day.'});
         }else if (Adate === moment().add(4,'days').format("dddd Do MMMM YYYY") && d5 === max) {
-          this.setState({ Warning: 'Resivations are over. please book another day.' ,error: null ,msg: null });
+          this.setState({error: null, msg: null, Warning: 'Resivations are over. please book another day.'});
         }else if (Adate === moment().add(5,'days').format("dddd Do MMMM YYYY") && d6 === max) {
-          this.setState({ Warning: 'Resivations are over. please book another day.', error: null ,msg: null });
+          this.setState({error: null, msg: null, Warning: 'Resivations are over. please book another day.'});
         }else if (Adate === moment().add(6,'days').format("dddd Do MMMM YYYY") && d7 === max) {
-          this.setState({ Warning: 'Resivations are over. please book another day.' , error: null ,msg: null });
+          this.setState({error: null, msg: null, Warning: 'Resivations are over. please book another day.'});
         }
         else{ 
         let data = {
@@ -131,7 +125,7 @@ export class CreateAppointment extends Component {
           uid: user.uid,
         };
         this.setState({ error: null, Warning: null });
-        Db.createAppointment(data)
+        Db.createAppointment(data);
         this.setState({ msg: 'Created new appointment successfully!' });
         this.props.history.push(ROUTES.APPOINTMENT);
         

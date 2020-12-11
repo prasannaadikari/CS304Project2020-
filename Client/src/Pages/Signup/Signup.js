@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { signup, signInWithGoogle} from "../../helpers/auth";
-import Header from "../../components/Header";
+import { Col, Row,FormGroup, Label, Input} from 'reactstrap';
+
+import { signup} from '../../helpers/auth';
+import Header from '../../components/Header';
 import * as ROUTES from '../../helpers/routes';
+import Db from '../../helpers/Db';
+import { auth } from '../../services/firebase';
 
 export default class SignUp extends Component {
 
@@ -12,10 +16,11 @@ export default class SignUp extends Component {
       error: null,
       email: '',
       password: '',
+      title:'',
+      lastname:'',
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    
   }
 
   handleChange(event) {
@@ -24,12 +29,29 @@ export default class SignUp extends Component {
     });
   }
 
-  async handleSubmit(event) {
+  async handleSubmit(event) { const {title,lastname} = this.state;
     event.preventDefault();
     this.setState({ error: '' });
     try {
+      if(!lastname.match(/^[a-zA-Z]+$/)) {
+          this.setState({error:'Last name can only contain letters'}); 
+          return;
+      }
+      else if(!title.match(/^[a-zA-Z]+$/)){
+          this.setState({error:'Title cannot be empty'});
+          return;
+      }
       await signup(this.state.email, this.state.password);
-      this.props.history.push(ROUTES.CREATE_PROFILE);
+      let data = {
+        title:this.state.title,
+        lastname:this.state.lastname,
+        email:this.state.email,
+        address:'address',
+        phone:'phone',
+        uid:auth().currentUser.uid,
+    };
+    Db.createProfile(data)
+    this.props.history.push(ROUTES.HOME);
     } catch (error) {
       this.setState({ error: error.message });
     }
@@ -47,11 +69,32 @@ export default class SignUp extends Component {
           </h1>
           <p className="lead">Fill in the form below to create an account.</p>
           <div className="form-group">
-            <input className="form-control" placeholder="Email" name="email" type="email" onChange={this.handleChange} value={this.state.email}></input>
+          <Label for="title">Email</Label>
+            <input className="form-control" placeholder="Enter your email" name="email" type="email" onChange={this.handleChange} value={this.state.email}></input>
           </div>
           <div className="form-group">
-            <input className="form-control" placeholder="Password" name="password" onChange={this.handleChange} value={this.state.password} type="password"></input>
+          <Label for="title">Password</Label>
+            <input className="form-control" placeholder="Enter your password" name="password" onChange={this.handleChange} value={this.state.password} type="password"></input>
           </div>
+          <Row>
+                        <Col md="6">
+                            <FormGroup>
+                                <Label for="title">Title</Label>
+                                <Input type="select" name="title" id="title" placeholder="Select your title" value={this.state.title} onChange={this.handleChange} >
+                                  <option className="d-none">Select your title</option>
+                                    <option>Mr</option>
+                                    <option>Ms</option>
+                                    <option>Mrs</option>
+                                </Input>
+                            </FormGroup>
+                        </Col>
+                        <Col md="6">
+                            <FormGroup>
+                                <Label for="lastname">Last Name</Label>
+                                <Input type="text" name="lastname" id="lastname"  placeholder="Entered your last name"  value={this.state.lastname} onChange={this.handleChange} />
+                            </FormGroup>
+                        </Col>
+                    </Row>
           <div className="form-group">
             {this.state.error ? <p className="text-danger">{this.state.error}</p> : null}
             <button className="btn btn-primary px-5" type="submit">Sign up</button>

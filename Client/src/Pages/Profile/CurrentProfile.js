@@ -96,8 +96,8 @@ export default class UpdateProfile extends Component {
           <hr md="12" className="py-3"/>
           <Offline>Unable to connect. Please review your network settings...</Offline>
 
-          <Row>
-        <Col sm="12" md={{ size: 6, offset: 3 }}>
+        <Row>
+          <Col sm="12" md={{ size: 6, offset: 3 }}>
           <div ref={(ref)=>this.myRef=ref}>
               {currentProfile ? (
                 <Profile
@@ -107,7 +107,10 @@ export default class UpdateProfile extends Component {
               ) : (
               null
               )}
-            </div></Col></Row>
+            </div>
+            <hr md="12" className="py-3"/>
+            </Col>
+        </Row>
 
           <ul className="list-group col-lg-9">
                 {profiles && profiles.map((profile, index) => (

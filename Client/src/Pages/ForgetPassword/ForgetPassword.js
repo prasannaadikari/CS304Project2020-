@@ -9,6 +9,7 @@ export class ForgetPassword extends Component {
         super();
         this.state = {
           error: null,
+          msg: null,
           email: ""
         };
         this.handleChange = this.handleChange.bind(this);
@@ -25,8 +26,9 @@ export class ForgetPassword extends Component {
     this.setState({ error: "" });
     try {
       await doPasswordReset(this.state.email);
+      this.setState({ error:null,msg: 'Password reset email sent successfully'  });
     } catch (error) {
-      this.setState({ error: error.message });
+      this.setState({msg:null, error: error.message });
     }
   }
     
@@ -41,11 +43,13 @@ render() {  const {error } = this.state;
                         <Label for="email">Email Address</Label>
                         <Input type="email" name="email" id="email" onChange={this.handleChange} value={this.state.email} placeholder="Enter your email address" />
                     </FormGroup>
+                    {msg ? <FormGroup className="mt-2 text-center text-success">{error}</FormGroup> : null}
+                    {error ? <FormGroup className="mt-2 text-center text-danger">{error}</FormGroup> : null}
                     <FormGroup className="mt-5">
                         <Button className="btn-block" color="primary">Submit</Button>
                     </FormGroup>
                     
-                    {error ? <FormGroup className="mt-2 text-center text-danger">{error}</FormGroup> : null}
+                    
                   </Form>
                 </div>
             </div>

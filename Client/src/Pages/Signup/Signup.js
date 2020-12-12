@@ -18,6 +18,7 @@ export default class SignUp extends Component {
       password: '',
       title:'',
       lastname:'',
+      phone:''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,7 +30,7 @@ export default class SignUp extends Component {
     });
   }
 
-  async handleSubmit(event) { const {title,lastname} = this.state;
+  async handleSubmit(event) { const {title,lastname,phone} = this.state;
     event.preventDefault();
     this.setState({ error: '' });
     try {
@@ -41,13 +42,21 @@ export default class SignUp extends Component {
           this.setState({error:'Title cannot be empty'});
           return;
       }
+      if(phone===null){
+        this.setState({error:'Phone Number cannot be empty'});
+        return;
+      }
+      else if(!phone.match(/^[0-9]{10}$/)) {
+        this.setState({msg:null,error:'Phone number cannot contain letters or space and should be ten digits'}); 
+        return;
+      }
       await signup(this.state.email, this.state.password);
       let data = {
         title:this.state.title,
         lastname:this.state.lastname,
         email:this.state.email,
         address:'address',
-        phone:'phone',
+        phone:phone,
         uid:auth().currentUser.uid,
     };
     Db.createProfile(data)
@@ -93,6 +102,10 @@ export default class SignUp extends Component {
                             </FormGroup>
                         </Col>
                     </Row>
+                    <FormGroup>
+                        <Label for="phone">Phone Number</Label>
+                        <Input type="tel" name="phone" id="phone"  placeholder="Entered your phone number"  value={this.state.phone} onChange={this.handleChange} />
+                    </FormGroup>
           <div className="form-group">
             {this.state.error ? <p className="text-danger">{this.state.error}</p> : null}
             <button className="btn btn-primary px-5" type="submit">Sign up</button>

@@ -32,7 +32,7 @@ export class ForgetPassword extends Component {
     }
   }
     
-render() {  const {error } = this.state;
+render() {  const {error,msg } = this.state;
         return (
             <div><Header/>
               <div className="container col-lg-5 my-3 min-vh-100 d-flex flex-column justify-content-center">
@@ -43,7 +43,7 @@ render() {  const {error } = this.state;
                         <Label for="email">Email Address</Label>
                         <Input type="email" name="email" id="email" onChange={this.handleChange} value={this.state.email} placeholder="Enter your email address" />
                     </FormGroup>
-                    {msg ? <FormGroup className="mt-2 text-center text-success">{error}</FormGroup> : null}
+                    {msg ? <FormGroup className="mt-2 text-center text-success">{msg}</FormGroup> : null}
                     {error ? <FormGroup className="mt-2 text-center text-danger">{error}</FormGroup> : null}
                     <FormGroup className="mt-5">
                         <Button className="btn-block" color="primary">Submit</Button>

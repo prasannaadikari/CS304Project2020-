@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Col, Row, FormGroup, Input, Form,Progress, Button} from 'reactstrap';
 import moment from 'moment';
+import {Offline,Online} from "react-detect-offline";
 
 import { auth } from '../../services/firebase';
 import Header from '../../components/Header';
@@ -96,26 +97,29 @@ export class CreateAppointment extends Component {
     }
     
   saveAppointment() { const {d1,d2,d3,d4,d5,d6,d7,max,user,Adate,VNo,status } = this.state;
-        if (this.state.user === null) {
-          this.setState({ Warning: null, msg: null, error: 'Please login to your account'});
-        }else if (Adate === null || VNo === null) {
-          this.setState({ Warning: null, msg: null, error: 'Fieds can not be empty'});
-        }else if (Adate === moment().format("dddd Do MMMM YYYY") && d1==max) {
-          this.setState({error: null, msg: null, Warning: 'Resivations due to today are over. please book another day.'});
-        }else if (Adate === moment().add(1,'days').format("dddd Do MMMM YYYY") && d2 === max) {
-          this.setState({error: null, msg: null, Warning: 'Resivations are over. please book another day.'});
-        }else if (Adate === moment().add(2,'days').format("dddd Do MMMM YYYY") && d3 === max) {
-          this.setState({error: null, msg: null, Warning: 'Resivations are over. please book another day.'});
-        }else if (Adate === moment().add(3,'days').format("dddd Do MMMM YYYY") && d4 === max) {
-          this.setState({error: null, msg: null, Warning: 'Resivations are over. please book another day.'});
-        }else if (Adate === moment().add(4,'days').format("dddd Do MMMM YYYY") && d5 === max) {
-          this.setState({error: null, msg: null, Warning: 'Resivations are over. please book another day.'});
-        }else if (Adate === moment().add(5,'days').format("dddd Do MMMM YYYY") && d6 === max) {
-          this.setState({error: null, msg: null, Warning: 'Resivations are over. please book another day.'});
-        }else if (Adate === moment().add(6,'days').format("dddd Do MMMM YYYY") && d7 === max) {
-          this.setState({error: null, msg: null, Warning: 'Resivations are over. please book another day.'});
-        }
-        else{ 
+  if (Adate === null || VNo === null) {
+    this.setState({ Warning: null,error: 'Fieds can not be empty', msg: null });
+    return;
+  }else if(!VNo.match(/^([0-9]{1,3}|[A-Za-z]{1,3})-([0-9]{4})$/)){ 
+    this.setState({ Warning: null,msg: null, error:'Invalid Vehicle No'});
+    return;
+  }
+  if (Adate === moment().format("dddd Do MMMM YYYY") && d1==max) {
+    this.setState({ Warning: 'Reservations due to today are over. please book another day', error: null, msg: null });
+  }else if (Adate === moment().add(1,'days').format("dddd Do MMMM YYYY") && d2 === max) {
+    this.setState({ Warning: 'Reservations are over. please book another day' , error: null , msg: null });
+  }else if (Adate === moment().add(2,'days').format("dddd Do MMMM YYYY") && d3 === max) {
+    this.setState({ Warning: 'Reservations are over. please book another day',error: null, msg: null });
+  }else if (Adate === moment().add(3,'days').format("dddd Do MMMM YYYY") && d4 === max) {
+    this.setState({ Warning: 'Reservations are over. please book another day', error: null, msg: null });
+  }else if (Adate === moment().add(4,'days').format("dddd Do MMMM YYYY") && d5 === max) {
+    this.setState({ Warning: 'Reservations are over. please book another day' ,error: null ,msg: null });
+  }else if (Adate === moment().add(5,'days').format("dddd Do MMMM YYYY") && d6 === max) {
+    this.setState({ Warning: 'Reservations are over. please book another day', error: null ,msg: null });
+  }else if (Adate === moment().add(6,'days').format("dddd Do MMMM YYYY") && d7 === max) {
+    this.setState({ Warning: 'Reservations are over. please book another day' , error: null ,msg: null });
+  }else{
+        this.setState({ error: null, Warning: null });
         let data = {
           Adate: Adate,
           VNo: VNo,
@@ -126,13 +130,17 @@ export class CreateAppointment extends Component {
         };
         this.setState({ error: null, Warning: null });
         Db.createAppointment(data);
-        this.setState({ msg: 'Created new appointment successfully!' });
+        this.setState({ msg: 'Created a new appointment successfully!' });
         this.props.history.push(ROUTES.APPOINTMENT);
         
       }
         
   }
-      
+  
+  ifOffline= () =>{
+    this.setState({msg:null,warning:null,error:'Unable to connect. Please review your network settings...'});
+  }
+
   render() {  const {loading,holiday1,holiday2,error,msg,Warning,d1,d2,d3,d4,d5,d6,d7,max } = this.state;
       return ( 
             <div><Header/><div className="container py-5">
@@ -149,6 +157,7 @@ export class CreateAppointment extends Component {
                         <Col xs="auto">
                             <FormGroup inline>
                                 <Input type="text" name="VNo" id="VNo" placeholder="Enter vehicle No" value={this.state.VNo} onChange={this.onChangeVehicleNo} />
+                                <p>hint: xxx-0000</p>
                             </FormGroup>
                         </Col>
                         <Col xs="auto">
@@ -170,7 +179,12 @@ export class CreateAppointment extends Component {
                                   {error ? <FormGroup className="mt-2 text-center text-danger">{error}</FormGroup> : null}
                                   {msg ? <FormGroup className="mt-2 text-center text-success">{msg}</FormGroup> : null}
                             <FormGroup>
-                              <Button onClick={this.saveAppointment} className="btn-block" color="primary">Make an appointment</Button>
+                              <Online>
+                                <Button onClick={this.saveAppointment} className="btn-block" color="primary">Make an appointment</Button>
+                              </Online>
+                              <Offline>
+                                <Button onClick={this.ifOffline} className="btn-block" color="primary">Make an appointment</Button>
+                              </Offline>  
                             </FormGroup>
                         </Col>
                     </Form>

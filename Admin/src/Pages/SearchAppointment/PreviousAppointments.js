@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import {Checkmark} from "react-checkmark";
 import Db from "../../helpers/Db";
 import {Card, CardTitle, Form,Input,Container, FormGroup, CardBody, Button, Row, Col} from 'reactstrap';
-import moment from 'moment'
+import moment from 'moment';
+import {Offline,Online} from "react-detect-offline";
+
 import Appointment from "./component";
 import * as ROUTES from '../../helpers/routes';
 import Header from "../../components/Header";
@@ -95,7 +97,9 @@ export default class AppointmentsList extends Component {
           </div> : null}
 
           <Form><FormGroup><Input type="text" name="search" id="search" placeholder="Enter appointment date" value={search} onChange={this.searchHandler}/></FormGroup></Form>
-    
+          <hr md="12" className="py-3"/>
+            <Offline>Unable to connect. Please review your network settings...</Offline>
+
           <ul>
                  {appointments.filter(searchingFor(search)).map((appointment, index) => (
                   <li className="list-group" tag="a" href="#" action className={ "list-group-item " + (index === currentIndex ? "active" : "") } 

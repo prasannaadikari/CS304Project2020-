@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import Db from "../../helpers/Db";
 import {Card, CardTitle, Form,Input,Container, FormGroup, CardBody, Button, Row, Col} from 'reactstrap';
-import moment from 'moment'
+import moment from 'moment';
+import {Offline,Online} from "react-detect-offline";
+
 import Setting from "./Setting";
 import * as ROUTES from '../../helpers/routes';
 import Header from "../../components/Header";
@@ -37,12 +39,15 @@ export default class UpdateSetting extends Component {
       let key = item.key;
       let data = item.val();
 
-        this.setState({n:1});
+      if (this.state.user===null) {
+        this.props.history.push(ROUTES.HOME);
+      }else{
         settings.push({
             key:key,
-            holiday: data.holiday,
+            holiday1: data.holiday1,
+            holiday2: data.holiday2,
             max: data.max
-      });
+      });}
     });
 
     this.setState({ settings: settings, loading:false});
@@ -60,6 +65,7 @@ export default class UpdateSetting extends Component {
       currentSetting: setting,
       currentIndex: index,
     });
+    this.myRef.scrollIntoView({behavior:'smooth'})
   }
 
  
@@ -72,10 +78,27 @@ export default class UpdateSetting extends Component {
       <Container>
         <div className=" justify-content-between mb-5">
           <h3>Settings</h3>
+
+          <hr md="12" className="py-3"/>
+            <Offline>Unable to connect. Please review your network settings...</Offline>
+          
           {loading ? <div className="spinner-border text-success" role="status">
             <span className="sr-only">Loading...</span>
           </div> : null}
           <hr md="12" className="py-3"/>
+          <Row>
+        <Col sm="12" md={{ size: 6, offset: 3 }}>
+          <div ref={(ref)=>this.myRef=ref}>
+              {currentSetting ? (
+                <Setting
+                  setting={currentSetting}
+                  refreshList={this.refreshList}
+                />
+              ) : (
+              null
+              )}
+            </div></Col></Row>
+
           <ul className="list-group col-lg-9">
                 {settings && settings.map((setting, index) => (
                 <li className={ "list-group-item " + (index === currentIndex ? "active" : "") }
@@ -86,7 +109,13 @@ export default class UpdateSetting extends Component {
                     <Row><Col xs="auto">
                         <h6><b>Holiday:</b></h6>
                         </Col><Col>
-                        <h6>{setting.holiday}</h6>
+                        <h6>{setting.holiday1}</h6>
+                        </Col>
+                    </Row>
+                    <Row><Col xs="auto">
+                        <h6><b>Holiday:</b></h6>
+                        </Col><Col>
+                        <h6>{setting.holiday2}</h6>
                         </Col>
                     </Row>
                     
@@ -101,16 +130,6 @@ export default class UpdateSetting extends Component {
                       
               </ul>
         </div>
-            <div>
-              {currentSetting ? (
-                <Setting
-                  setting={currentSetting}
-                  refreshList={this.refreshList}
-                />
-              ) : (
-              null
-              )}
-            </div>
             </Container>
             </div></div>
     );

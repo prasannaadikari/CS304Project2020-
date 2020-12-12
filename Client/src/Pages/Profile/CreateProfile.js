@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Col, Row, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import {Offline,Online} from "react-detect-offline";
 
 import { auth } from '../../services/firebase';
 import * as ROUTES from '../../helpers/routes';
@@ -88,7 +89,7 @@ export class Profile extends Component {
         this.setState({error:'Phone No cannot be empty'});
         return;
       }else if(!phone.match(/^[0-9]{10}$/)) {
-          this.setState({error:'Phone number cannot contain letters or space and should be ten digits.'}); 
+          this.setState({error:'Phone number cannot contain letters or space and should be ten digits'}); 
           return;
       }
 
@@ -104,9 +105,13 @@ export class Profile extends Component {
             uid:auth().currentUser.uid,
         };
         Db.createProfile(data)
-        this.setState({msg: 'Created new profile successfully!' });
+        this.setState({msg: 'Created a new profile successfully!' });
         this.props.history.push(ROUTES.HOME);
       
+  }
+
+  ifOffline= () =>{
+    this.setState({msg:null,warning:null,error:'Unable to connect. Please review your network settings...'});
   }
 
     render() {  const {error,msg } = this.state;
@@ -159,7 +164,12 @@ export class Profile extends Component {
                     {msg ? <FormGroup className="mt-2 text-center text-success">{msg}</FormGroup> : null}
                     {error ? <FormGroup className="mt-2 text-center text-danger">{error}</FormGroup> : null}
                     <FormGroup className="mt-5">
-                        <Button onClick={this.saveProfile}  className="btn-block" color="primary">Submit</Button>
+                    <Online>
+                                <Button onClick={this.saveAppointment} className="btn-block" color="primary">Submit</Button>
+                              </Online>
+                              <Offline>
+                                <Button onClick={this.ifOffline} className="btn-block" color="primary">Submit</Button>
+                              </Offline> 
                     </FormGroup>
                 </Form>
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Card, CardTitle, Input,Form,FormGroup,CardBody, CardText} from 'reactstrap';
 import _ from 'lodash';
+import {Offline} from "react-detect-offline";
 
 import Header from '../../components/Header';
 import Db from '../../helpers/Db';
@@ -108,6 +109,7 @@ export class SearchVehicle extends Component {
             <span className="sr-only">Loading...</span>
           </div> : null}
             <hr md="12" className="py-3"/>
+            <Offline>Unable to connect. Please review your network settings...</Offline>
                 <Row>
                     {this.renderVehicles()}
                 </Row>

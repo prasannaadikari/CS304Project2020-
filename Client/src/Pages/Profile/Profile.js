@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {Form,Input,Container, FormGroup, Label,Button, Row, Col} from 'reactstrap';
+import {Offline,Online} from "react-detect-offline";
 
 import Db from "../../helpers/Db";
 
@@ -131,7 +132,7 @@ export default class Profile extends Component {
   }
 
   if(!phone.match(/^[0-9]{10}$/)) {
-      this.setState({msg:null,error:'Phone number cannot contain letters or space and should be ten digits.'}); 
+      this.setState({msg:null,error:'Phone number cannot contain letters or space and should be ten digits'}); 
       return;
   }
     
@@ -150,6 +151,10 @@ export default class Profile extends Component {
       .catch((e) => {
         console.log(e);
       });
+  }
+
+  ifOffline= () =>{
+    this.setState({msg:null,error:'Unable to connect. Please review your network settings...'});
   }
 
   render() {
@@ -172,7 +177,7 @@ export default class Profile extends Component {
                                 <Input type="select" name="title" id="title"  value={this.state.title} onChange={this.onChangeTitle} >
                                     <option className="d-none">Select your title</option>
                                     <option>Mr</option>
-                                    <option>Ms</option>
+                                    <option>Miss</option>
                                     <option>Mrs</option>
                                 </Input>
                             </FormGroup>
@@ -202,9 +207,12 @@ export default class Profile extends Component {
 
                     {msg ? <FormGroup className="mt-2 text-center text-success">{msg}</FormGroup> : null}
                     {error ? <FormGroup className="mt-2 text-center text-danger">{error}</FormGroup> : null}
-                    <FormGroup className="mt-5">
-                        <Button onClick={this.updateProfile}  className="btn-block" color="primary">Submit</Button>
-                    </FormGroup>
+                    <Online>
+                      <Button onClick={this.updateProfile} className="btn-block" color="primary">Submit</Button>
+                    </Online>
+                    <Offline>
+                      <Button onClick={this.ifOffline} className="btn-block" color="primary">Submit</Button>
+                    </Offline>
                 </Form>
             </div>
           </Container>) 

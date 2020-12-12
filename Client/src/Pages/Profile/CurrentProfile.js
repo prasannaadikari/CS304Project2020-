@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {Container,Row, Col} from 'reactstrap';
+import {Offline} from "react-detect-offline";
 
 import Db from '../../helpers/Db';
 import Profile from './Profile';
@@ -93,6 +94,8 @@ export default class UpdateProfile extends Component {
             <span className="sr-only">Loading...</span>
           </div> : null}
           <hr md="12" className="py-3"/>
+          <Offline>Unable to connect. Please review your network settings...</Offline>
+
           <Row>
         <Col sm="12" md={{ size: 6, offset: 3 }}>
           <div ref={(ref)=>this.myRef=ref}>

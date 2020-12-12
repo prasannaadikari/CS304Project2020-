@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {Checkmark} from "react-checkmark";
 import {Container,Row, Col} from 'reactstrap';
 import moment from 'moment';
+import {Offline,Online} from "react-detect-offline";
 
 import Db from '../../helpers/Db';
 import { auth } from '../../services/firebase';
@@ -98,10 +99,12 @@ export default class AppointmentsList extends Component {
                 />
               </div>)
           : (<div>
-                <p className="text-info">Please click on an appointment to remove...</p>
+                <Online><p className="text-info">Please click on an appointment to remove...</p></Online>
               </div>)}
             </div>
             <hr md="12" className="py-3"/>
+            <Offline>Unable to connect. Please review your network settings...</Offline>
+
               <ul className="list-group">
                 {appointments && appointments.map((appointment, index) => (
                 <li className={ "list-group-item " + (index === currentIndex ? "active" : "") }

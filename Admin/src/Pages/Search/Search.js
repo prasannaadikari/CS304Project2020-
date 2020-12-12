@@ -2,7 +2,10 @@ import React, { Component } from 'react'
 import Header from "../../components/Header";
 import { Container, Row, Col, Card, CardTitle, Input,Form,FormGroup,Button,CardBody, CardText} from 'reactstrap';
 import _ from 'lodash';
+import {Offline,Online} from "react-detect-offline";
+
 import Db from "../../helpers/Db";
+import * as ROUTES from '../../helpers/routes';
 
 function searchingFor(search){
     return function(x){
@@ -57,7 +60,7 @@ export class Search extends Component {
             uid: data.uid
           });
         });
-    
+        appointments.sort(function (a,b) { return a.Adate - b.Adate })
         this.setState({ appointments: appointments,loading: false });
       }
 
@@ -69,6 +72,9 @@ export class Search extends Component {
           let key = item.key;
           let data = item.val();
           
+          if (this.state.user===null) {
+            this.props.history.push(ROUTES.HOME);
+          }else{
           profiles.push({
             key: key,
             title: data.title,
@@ -77,7 +83,7 @@ export class Search extends Component {
             address: data.address,
             phone: data.phone,
             uid: data.uid
-          });
+          });}
         });
     
         this.setState({
@@ -176,6 +182,7 @@ export class Search extends Component {
             <span className="sr-only">Loading...</span>
           </div> : null}
                 <hr md="12" className="py-3"/>
+                <Offline>Unable to connect. Please review your network settings...</Offline>
                 <Row>
                     {this.renderProfiles()}
                 </Row>

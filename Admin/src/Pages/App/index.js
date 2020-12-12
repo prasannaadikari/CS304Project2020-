@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import HomeView from '../Home/Home'
 import Appointments from '../Appointments/Appointments';
 import Search from '../Search/Search'
-import SearchAppointments from '../SearchAppointment/Appointments'
+import SearchAppointments from '../SearchAppointment/PreviousAppointments'
 import CreateAppointment from '../CreateAppointment/CreateAppointment'
 import Settings from '../Settings/CurrentSetting'
 import Login from '../Login/Login'

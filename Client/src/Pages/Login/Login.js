@@ -83,7 +83,7 @@ export default class Login extends Component {
           </div>
           
           <p>
-            Don't have an account? <Link href={ROUTES.SIGN_UP}>Sign up</Link>
+            Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign up</Link>
           </p>
         </form>
         </div>

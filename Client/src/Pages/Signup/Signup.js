@@ -57,8 +57,6 @@ export default class SignUp extends Component {
     }
   }
 
-  
-
   render() {
     return (
       <div><Header /><div className="container">
@@ -74,7 +72,7 @@ export default class SignUp extends Component {
           </div>
           <div className="form-group">
           <Label for="title">Password</Label>
-            <input className="form-control" placeholder="Enter your password" name="password" onChange={this.handleChange} value={this.state.password} type="password"></input>
+            <input type="password" className="form-control" placeholder="Enter your password" name="password" onChange={this.handleChange} value={this.state.password} type="password"></input>
           </div>
           <Row>
                         <Col md="6">
@@ -83,7 +81,7 @@ export default class SignUp extends Component {
                                 <Input type="select" name="title" id="title" placeholder="Select your title" value={this.state.title} onChange={this.handleChange} >
                                   <option className="d-none">Select your title</option>
                                     <option>Mr</option>
-                                    <option>Ms</option>
+                                    <option>Miss</option>
                                     <option>Mrs</option>
                                 </Input>
                             </FormGroup>

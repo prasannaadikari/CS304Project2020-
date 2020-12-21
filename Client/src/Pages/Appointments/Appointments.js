@@ -53,10 +53,11 @@ export default class AppointmentsList extends Component {
         Adate: data.Adate,
         status: data.status,
         description: data.description,
+        timestamp: data.timestamp
       });
       }
     });
-    appointments.sort(function (a,b) { return a.Adate - b.Adate });
+    appointments.sort(function (a,b) { return b.timestamp - a.timestamp });
     this.setState({ appointments: appointments, loading: false });
   }
 

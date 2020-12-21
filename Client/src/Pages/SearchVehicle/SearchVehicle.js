@@ -23,7 +23,6 @@ export class SearchVehicle extends Component {
             search:"",
             appointments: [],
             loading:true,
-            error:null
         }
     }
     searchHandler(event){
@@ -52,10 +51,11 @@ export class SearchVehicle extends Component {
             VNo: data.VNo,
             Adate: data.Adate,
             status: data.status,
-            description: data.description
+            description: data.description,
+            timestamp: data.timestamp
           });}
         });
-        appointments.sort(function (a,b) { return a.Adate - b.Adate })
+        appointments.sort(function (a,b) { return b.timestamp - a.timestamp })
         this.setState({ appointments: appointments, loading: false });
       }
 
@@ -87,7 +87,7 @@ export class SearchVehicle extends Component {
         )
     }
 
-    render() {  const {loading,error,search } = this.state;
+    render() {  const {loading,search } = this.state;
         return (
             <div><div className="py-4"></div><div className="fixed-top"><Header/></div><div className="container py-5">
                 <Row>

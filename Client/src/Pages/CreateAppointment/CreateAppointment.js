@@ -94,7 +94,7 @@ export class CreateAppointment extends Component {
       this.setState({ loading: false });
     }
     
-  saveAppointment() { const {d1,d2,d3,d4,d5,d6,d7,max,user,Adate,VNo,status } = this.state;
+  saveAppointment() { const {d1,d2,d3,d4,d5,d6,d7,max,user,Adate,VNo} = this.state;
   if (Adate === null || VNo === null) {
     this.setState({ Warning: null,error: 'Fieds can not be empty', msg: null });
     return;
@@ -102,7 +102,7 @@ export class CreateAppointment extends Component {
     this.setState({ Warning: null,msg: null, error:'Invalid Vehicle No'});
     return;
   }
-  if (Adate === moment().format("dddd Do MMMM YYYY") && d1==max) {
+  if (Adate === moment().format("dddd Do MMMM YYYY") && d1===max) {
     this.setState({ Warning: 'Reservations due to today are over. please book another day', error: null, msg: null });
   }else if (Adate === moment().add(1,'days').format("dddd Do MMMM YYYY") && d2 === max) {
     this.setState({ Warning: 'Reservations are over. please book another day' , error: null , msg: null });
@@ -162,7 +162,7 @@ export class CreateAppointment extends Component {
                         <FormGroup>
                                 <Input className="mr-3" type="select" name="Adate" id="Adate" value={this.state.Adate} onChange={this.onChangeAppointmentDate} >
                                     <option className="d-none">Select appointment date</option>
-                                    {holiday1===moment().format("dddd Do MMMM YYYY") || holiday2==moment().format("dddd Do MMMM YYYY")? null :<option>{moment().format("dddd Do MMMM YYYY")}</option>}
+                                    {holiday1===moment().format("dddd Do MMMM YYYY") || holiday2===moment().format("dddd Do MMMM YYYY")? null :<option>{moment().format("dddd Do MMMM YYYY")}</option>}
                                     {holiday1===moment().add(1,'days').format("dddd Do MMMM YYYY") || holiday2===moment().add(1,'days').format("dddd Do MMMM YYYY")  ? null :<option>{moment().add(1,'days').format("dddd Do MMMM YYYY")}</option>}
                                     {holiday1===moment().add(2,'days').format("dddd Do MMMM YYYY") || holiday2===moment().add(2,'days').format("dddd Do MMMM YYYY")  ? null :<option>{moment().add(2,'days').format("dddd Do MMMM YYYY")}</option>}
                                     {holiday1===moment().add(3,'days').format("dddd Do MMMM YYYY") || holiday2===moment().add(3,'days').format("dddd Do MMMM YYYY")  ? null :<option>{moment().add(3,'days').format("dddd Do MMMM YYYY")}</option>}

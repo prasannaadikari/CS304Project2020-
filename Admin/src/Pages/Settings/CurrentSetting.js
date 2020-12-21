@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import Db from "../../helpers/Db";
-import {Card, CardTitle, Form,Input,Container, FormGroup, CardBody, Button, Row, Col} from 'reactstrap';
-import moment from 'moment';
-import {Offline,Online} from "react-detect-offline";
+import {Container,Row, Col} from 'reactstrap';
+import {Offline} from "react-detect-offline";
 
 import Setting from "./Setting";
 import * as ROUTES from '../../helpers/routes';

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import Header from "../../components/Header";
-import { Container, Row, Col, Card, CardTitle, Input,Form,FormGroup,Button,CardBody, CardText} from 'reactstrap';
+import {  Row, Col, Card, Input,Form,FormGroup,CardBody} from 'reactstrap';
 import _ from 'lodash';
-import {Offline,Online} from "react-detect-offline";
+import {Offline} from "react-detect-offline";
 
 import Db from "../../helpers/Db";
 import * as ROUTES from '../../helpers/routes';

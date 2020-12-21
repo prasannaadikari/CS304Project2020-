@@ -10,7 +10,6 @@ export default class Login extends Component {
     super();
     this.state = {
       error: null,
-      email: "",
       user: auth().currentUser,
     };
     this.handleChange = this.handleChange.bind(this);
@@ -35,7 +34,7 @@ export default class Login extends Component {
   }
 
   
-  render() { const {error } = this.state;
+  render() { 
     return (
       <div><Header/><div className="container">
         <form

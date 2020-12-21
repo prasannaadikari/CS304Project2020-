@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Row, FormGroup, Input, Form,Alert, Button,Progress} from 'reactstrap';
+import { Col, Row, FormGroup, Input, Form, Button,Progress} from 'reactstrap';
 import moment from 'moment';
 import {Offline,Online} from "react-detect-offline";
 

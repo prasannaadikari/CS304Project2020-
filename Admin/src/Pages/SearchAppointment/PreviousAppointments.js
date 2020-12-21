@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import {Checkmark} from "react-checkmark";
 import Db from "../../helpers/Db";
-import {Card, CardTitle, Form,Input,Container, FormGroup, CardBody, Button, Row, Col} from 'reactstrap';
-import moment from 'moment';
-import {Offline,Online} from "react-detect-offline";
+import { Form,Input, FormGroup,  Row, Col} from 'reactstrap';
+import {Offline} from "react-detect-offline";
 
 import Appointment from "./component";
 import * as ROUTES from '../../helpers/routes';

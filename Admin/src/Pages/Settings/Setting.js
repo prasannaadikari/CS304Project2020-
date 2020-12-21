@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Db from "../../helpers/Db";
-import {Card, CardTitle, Form,Input,Container, FormGroup, Label, CardBody, Button, Row, Col} from 'reactstrap';
+import { Form,Input,Container, FormGroup, Button, Row, Col} from 'reactstrap';
 import moment from 'moment'
 
 export default class Setting extends Component {

@@ -16,7 +16,7 @@ function searchingFor(search){
 export class Search extends Component {
     constructor(props){
         super(props);
-        this.onDataChange = this.onDataChange.bind(this);
+        //this.onDataChange = this.onDataChange.bind(this);
         this.onDataChangeP = this.onDataChangeP.bind(this);
         this.searchHandler = this.searchHandler.bind(this);
 
@@ -35,16 +35,16 @@ export class Search extends Component {
     
       componentDidMount() {
         Db.getAllProfiles().on("value", this.onDataChangeP);
-        Db.getAllAppointments().on("value", this.onDataChange);
+        //Db.getAllAppointments().on("value", this.onDataChange);
       
       }
     
       componentWillUnmount() {
         Db.getAllProfiles().off("value", this.onDataChangeP);
-        Db.getAllAppointments().off("value", this.onDataChange);
+        //Db.getAllAppointments().off("value", this.onDataChange);
       }
     
-    onDataChange(items) {
+    /*onDataChange(items) {
         let appointments = [];
     
         items.forEach((item) => {
@@ -62,7 +62,7 @@ export class Search extends Component {
         });
         appointments.sort(function (a,b) { return a.Adate - b.Adate })
         this.setState({ appointments: appointments,loading: false });
-      }
+      }*/
 
       onDataChangeP(items) {
         this.setState({ loading: true });
@@ -91,7 +91,7 @@ export class Search extends Component {
         });
         this.setState({ loading: false });
       }
-    renderVehicles = () => {    const { appointments, search } = this.state;
+    /*renderVehicles = () => {    const { appointments, search } = this.state;
         return (
             _.map(appointments.filter(searchingFor(search)), (appointment) => {
                 return (
@@ -117,7 +117,7 @@ export class Search extends Component {
                 )
             })
         )
-    }
+    }*/
     renderProfiles = () => { const { profiles, search } = this.state;
         return (
             _.map(profiles.filter(searchingFor(search)), (profile) => {
@@ -186,10 +186,7 @@ export class Search extends Component {
                 <Row>
                     {this.renderProfiles()}
                 </Row>
-                <hr md="12" className="py-3"/>
-                <Row>
-                    {this.renderVehicles()}
-                </Row>
+                
             </div></div>
         )
     }

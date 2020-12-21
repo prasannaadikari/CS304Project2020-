@@ -81,7 +81,7 @@ export default class AppointmentsList extends Component {
    
 
     return (
-      <div> <Header/><div className="p-5">
+      <div> <div className="py-4"></div><div className="fixed-top"><Header/></div><div className="p-5">
       <Container>
         <div className=" justify-content-between mb-5">
           <h3>Appointments</h3>

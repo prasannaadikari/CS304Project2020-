@@ -85,7 +85,7 @@ export default class UpdateProfile extends Component {
     const { profiles, currentProfile, currentIndex,loading} = this.state;
 
     return (
-      <div> <Header/><div className="p-5">
+      <div><div className="py-4"></div><div className="fixed-top"><Header/></div><div className="p-5">
       <Container>
         <div className=" justify-content-between mb-5">
           <h3>Your profile</h3>
@@ -94,7 +94,7 @@ export default class UpdateProfile extends Component {
             <span className="sr-only">Loading...</span>
           </div> : null}
           <hr md="12" className="py-3"/>
-          <Offline>Unable to connect. Please review your network settings...</Offline>
+          <div className="text-secondary"><Offline>Unable to connect. Please review your network settings...</Offline></div>
 
         <Row>
           <Col sm="12" md={{ size: 6, offset: 3 }}>

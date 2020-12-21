@@ -117,7 +117,7 @@ export class Profile extends Component {
     render() {  const {error,msg } = this.state;
         
         return ( 
-          <div><Header/>
+          <div><div className="py-4"></div><div className="fixed-top"><Header/></div>
             <div className="container col-lg-5 my-3 min-vh-100 d-flex flex-column justify-content-center">
               
                 <Form className="p-5" >

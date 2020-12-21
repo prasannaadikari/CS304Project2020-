@@ -106,7 +106,7 @@ export class HomeView extends Component {
                             <CardTitle><p className="font-weight-bold">APPOINTMENTS</p></CardTitle>
                             <CardText>Make a reservation ahead of time to guarantee your spot. You can now make appointments through our website or give us a call.</CardText>
                             <div class="col-sm-12 .col-md-6 .offset-md-3">
-                                <Link className="btn btn-success" to={ROUTES.CREATE_APPOINTMENT}>MAKE AN APPOINTMENT</Link>
+                                <Link className="btn btn-outline-warning" to={ROUTES.CREATE_APPOINTMENT}>MAKE AN APPOINTMENT</Link>
                             </div>
                         </CardBody>
                     </Card>
@@ -177,7 +177,7 @@ export class HomeView extends Component {
                         {auth().currentUser
                             ?<div>
                                 <div class="col-xs-6 ml-3 mb-3">
-                                <Link className="btn btn-outline-primary" to={ROUTES.CREATE_APPOINTMENT}>MAKE AN APPOINTMENT</Link>
+                                <Link className="btn btn-outline-warning" to={ROUTES.CREATE_APPOINTMENT}>MAKE AN APPOINTMENT</Link>
                                 </div>
                                 <Row><Col>
                                 <div class="col-xs-6 ml-3 mb-3">
@@ -187,7 +187,7 @@ export class HomeView extends Component {
                             </div>
                             :<div>
                                 <div class="col-xs-6 ml-3 mb-3">
-                                <Link className="btn btn-outline-primary" to={ROUTES.CREATE_APPOINTMENT}>MAKE AN APPOINTMENT</Link>
+                                <Link className="btn btn-outline-warning" to={ROUTES.CREATE_APPOINTMENT}>MAKE AN APPOINTMENT</Link>
                                 </div>
                                 <div class="col-xs-6 ml-3 mb-3">
                                 <Link className="btn btn-outline-primary" to={ROUTES.SIGN_UP}>Sign up</Link>
@@ -205,7 +205,7 @@ export class HomeView extends Component {
 
     render() {
         return (
-            <div><Header/><div style={{ 'background': '#333'}}>
+            <div><div className="py-4"></div><div className="fixed-top"><Header/></div><div style={{ 'background': '#333'}}>
                 <div>
                     <AutoplaySlider buttons={false} bullets={false} cancelOnInteraction={false} interval={5000}>
                         {this.renderSlider()}

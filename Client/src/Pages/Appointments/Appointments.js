@@ -84,7 +84,7 @@ export default class AppointmentsList extends Component {
       <div> <Header/><div className="p-5">
       <Container>
         <div className=" justify-content-between mb-5">
-          <h4>Appointments</h4>
+          <h3>Appointments</h3>
 
           {loading 
           ? <div className="spinner-border text-success" role="status">
@@ -103,7 +103,7 @@ export default class AppointmentsList extends Component {
               </div>)}
             </div>
             <hr md="12" className="py-3"/>
-            <Offline>Unable to connect. Please review your network settings...</Offline>
+            <div className="text-secondary"><Offline>Unable to connect. Please review your network settings...</Offline></div>
 
               <ul className="list-group">
                 {appointments && appointments.map((appointment, index) => (

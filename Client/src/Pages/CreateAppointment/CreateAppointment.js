@@ -20,8 +20,6 @@ export class CreateAppointment extends Component {
         this.state = {
           Adate: null,
           VNo: null,
-          status: "Waiting",
-          description:'',
           user: auth().currentUser,
           d1: 0,
           d2: 0,
@@ -123,7 +121,7 @@ export class CreateAppointment extends Component {
         let data = {
           Adate: Adate,
           VNo: VNo,
-          status: status,
+          status:"Waiting",
           description:'',
           timestamp: Date.now(),
           uid: user.uid,
@@ -143,7 +141,7 @@ export class CreateAppointment extends Component {
 
   render() {  const {loading,holiday1,holiday2,error,msg,Warning,d1,d2,d3,d4,d5,d6,d7,max } = this.state;
       return ( 
-            <div><Header/><div className="container py-5">
+            <div><div className="py-4"></div><div className="fixed-top"><Header/></div><div className="container py-5">
                 <h3>Create an appointment</h3>
 
                 
@@ -194,16 +192,22 @@ export class CreateAppointment extends Component {
                 <div>
                   <h6>{moment().format("dddd Do MMMM YYYY")}</h6>
                     {holiday1===moment().format("dddd Do MMMM YYYY") || holiday2===moment().format("dddd Do MMMM YYYY")?<Progress animated color="primary" value={10*10}>Holiday</Progress> :<Progress animated color="info" value={d1*(100/max)}>{d1}/{max}</Progress>}
+                  <div className="py-3">
                   <h6>{moment().add(1,'days').format("dddd Do MMMM YYYY")}</h6>
                     {holiday1===moment().add(1,'days').format("dddd Do MMMM YYYY") || holiday2===moment().add(1,'days').format("dddd Do MMMM YYYY")?<Progress animated color="primary" value={10*10}>Holiday</Progress> :<Progress animated color="info" value={d2*(100/max)}>{d2}/{max}</Progress>}
+                  </div>
                   <h6>{moment().add(2,'days').format("dddd Do MMMM YYYY")}</h6>
                     {holiday1===moment().add(2,'days').format("dddd Do MMMM YYYY") || holiday2===moment().add(2,'days').format("dddd Do MMMM YYYY")?<Progress animated color="primary" value={10*10}>Holiday</Progress> :<Progress animated color="info" value={d3*(100/max)}>{d3}/{max}</Progress>}
+                    <div className="py-3">
                   <h6>{moment().add(3,'days').format("dddd Do MMMM YYYY")}</h6>
                     {holiday1===moment().add(3,'days').format("dddd Do MMMM YYYY") || holiday2===moment().add(3,'days').format("dddd Do MMMM YYYY")?<Progress animated color="primary" value={10*10}>Holiday</Progress> :<Progress animated color="info" value={d4*(100/max)}>{d4}/{max}</Progress>}
+                    </div>
                   <h6>{moment().add(4,'days').format("dddd Do MMMM YYYY")}</h6>
                     {holiday1===moment().add(4,'days').format("dddd Do MMMM YYYY") || holiday2===moment().add(4,'days').format("dddd Do MMMM YYYY")?<Progress animated color="primary" value={10*10}>Holiday</Progress> :<Progress animated color="info" value={d5*(100/max)}>{d5}/{max}</Progress>}
+                    <div className="py-3">
                   <h6>{moment().add(5,'days').format("dddd Do MMMM YYYY")}</h6>
                     {holiday1===moment().add(5,'days').format("dddd Do MMMM YYYY") || holiday2===moment().add(5,'days').format("dddd Do MMMM YYYY")?<Progress animated color="primary" value={10*10}>Holiday</Progress> :<Progress animated color="info" value={d6*(100/max)}>{d6}/{max}</Progress>}
+                    </div>
                   <h6>{moment().add(6,'days').format("dddd Do MMMM YYYY")}</h6>
                     {holiday1===moment().add(6,'days').format("dddd Do MMMM YYYY") || holiday2===moment().add(6,'days').format("dddd Do MMMM YYYY")?<Progress animated color="primary" value={10*10}>Holiday</Progress> :<Progress animated color="info" value={d7*(100/max)}>{d7}/{max}</Progress>}
                 </div>

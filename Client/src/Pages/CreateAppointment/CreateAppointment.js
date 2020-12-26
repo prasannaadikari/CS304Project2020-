@@ -95,14 +95,16 @@ export class CreateAppointment extends Component {
     }
     
   saveAppointment() { const {d1,d2,d3,d4,d5,d6,d7,max,user,Adate,VNo} = this.state;
-  if (Adate === null || VNo === null) {
+  if(Adate === null || VNo === null) {
     this.setState({ Warning: null,error: 'Fieds can not be empty', msg: null });
     return;
   }else if(!VNo.match(/^([0-9]{1,3}|[A-Za-z]{1,3})-([0-9]{4})$/)){ 
     this.setState({ Warning: null,msg: null, error:'Invalid Vehicle No'});
     return;
   }
-  if (Adate === moment().format("dddd Do MMMM YYYY") && d1===max) {
+  if(user === null){
+    this.setState({ Warning: null,msg: null, error:'Please login to your account'});
+  }else if (Adate === moment().format("dddd Do MMMM YYYY") && d1===max) {
     this.setState({ Warning: 'Reservations due to today are over. please book another day', error: null, msg: null });
   }else if (Adate === moment().add(1,'days').format("dddd Do MMMM YYYY") && d2 === max) {
     this.setState({ Warning: 'Reservations are over. please book another day' , error: null , msg: null });

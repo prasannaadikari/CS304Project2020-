@@ -72,7 +72,7 @@ export default class Appointment extends Component {
     const { currentAppointment } = this.state;
 
     return (
-      <div className="p-5">
+      <div >
                 <Container>
                   {currentAppointment ? (
                   <Card  className="h-100 shadow" style={{ 'background': '#FFF', 'color': '#000' }}>

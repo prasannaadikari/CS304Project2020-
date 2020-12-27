@@ -82,7 +82,7 @@ export default class AppointmentsList extends Component {
    
 
     return (
-      <div> <div className="py-4"></div><div className="fixed-top"><Header/></div><div className="p-5">
+      <div> <div ref={(ref)=>this.myRef=ref} className="py-4"></div><div className="fixed-top"><Header/></div><div className="py-5">
       <Container>
         <div className=" justify-content-between mb-5">
           <h3>Appointments</h3>
@@ -93,7 +93,7 @@ export default class AppointmentsList extends Component {
             </div> 
           :null}
 
-          <div ref={(ref)=>this.myRef=ref}>{currentAppointment 
+          <div  className="py-3">{currentAppointment 
           ? (<div><Appointment
                   appointment={currentAppointment}
                   refreshList={this.refreshList}

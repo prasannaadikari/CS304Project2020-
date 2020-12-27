@@ -91,7 +91,7 @@ export default class Appointment extends Component {
                           {currentAppointment.status==="Waiting" ? <Button onClick={this.deleteAppointment} className="btn-block" color="danger">Delete</Button>:null}      
                       </Col>    
                       </Row>
-                    <Row></Row>
+                    <Row><Col>{currentAppointment.description ? <p className="py">{currentAppointment.description}</p> : null}</Col></Row>
                     </CardBody>
                   </Card>
                     ) : null}

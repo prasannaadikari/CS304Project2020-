@@ -85,7 +85,7 @@ export default class UpdateProfile extends Component {
     const { profiles, currentProfile, currentIndex,loading} = this.state;
 
     return (
-      <div><div className="py-4"></div><div className="fixed-top"><Header/></div><div className="p-5">
+      <div><div className="py-4"></div><div className="fixed-top"><Header/></div><div className="py-5">
       <Container>
         <div className=" justify-content-between mb-5">
           <h3>Your profile</h3>
@@ -108,11 +108,10 @@ export default class UpdateProfile extends Component {
               null
               )}
             </div>
-            <hr md="12" className="py-3"/>
             </Col>
         </Row>
 
-          <ul className="list-group col-lg-9">
+          <ul className="list-group py-3">
                 {profiles && profiles.map((profile, index) => (
                 <li className={ "list-group-item " + (index === currentIndex ? "active" : "") }
                   onClick={() => this.setActiveProfile(profile, index)}
@@ -120,30 +119,30 @@ export default class UpdateProfile extends Component {
                   <Row><Col>
                     <Row><Col xs="auto">
                         <h6><b>Name:</b></h6>
-                        </Col><Col>
-                        {profile.lastname ? <h6>{profile.title}. {profile.lastname}</h6> : null}
+                        </Col><Col xs="auto">
+                        {profile.lastname ? <p>{profile.title}.{profile.lastname}</p> : null}
                         </Col>
                     </Row>
                     <Row><Col xs="auto">
                         <h6><b>Contact email:</b></h6>
-                        </Col><Col>
-                        <h6>{profile.email}</h6>
+                        </Col><Col xs="auto">
+                        <p>{profile.email}</p>
                         </Col>
                     </Row>
                     <Row><Col xs="auto">
                         <h6 ><b>Address:</b></h6>
-                        </Col><Col>
-                        <h6>{profile.address}</h6>
+                        </Col><Col xs="auto">
+                        <p>{profile.address}</p>
                         </Col>
                     </Row>
                     <Row><Col xs="auto">
                         <h6><b>Telephone:</b></h6>
-                        </Col><Col>
-                        <h6>{profile.phone}</h6>
+                        </Col><Col xs="auto">
+                        <p>{profile.phone}</p>
                         </Col>
                     </Row>
                     </Col>
-                    <Col><h5 className="text-primary">Edit</h5></Col>
+                    <Col><h5 className="text-primary text-right">Edit</h5></Col>
                     </Row>
                 </li>))}
           </ul>

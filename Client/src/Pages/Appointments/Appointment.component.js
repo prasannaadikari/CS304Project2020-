@@ -88,7 +88,7 @@ export default class Appointment extends Component {
                           {currentAppointment.status==="Done"  ?<CardTitle className="ml-3 text-left text-uppercase text-success" ><b>{currentAppointment.status}</b></CardTitle> :null}  
                           </Col>
                       <Col xs="auto">
-                          <Button onClick={this.deleteAppointment} className="btn-block" color="danger">Delete</Button>          
+                          {currentAppointment.status==="Waiting" ? <Button onClick={this.deleteAppointment} className="btn-block" color="danger">Delete</Button>:null}      
                       </Col>    
                       </Row>
                     <Row></Row>

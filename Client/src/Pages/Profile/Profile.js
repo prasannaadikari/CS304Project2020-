@@ -3,6 +3,7 @@ import {Form,Input,Container, FormGroup, Label,Button, Row, Col} from 'reactstra
 import {Offline,Online} from "react-detect-offline";
 
 import Db from "../../helpers/Db";
+import * as ROUTES from '../../helpers/routes';
 
 export default class Profile extends Component {
   constructor(props) {
@@ -167,7 +168,7 @@ export default class Profile extends Component {
           <Container>
           <div>
           <Form >
-                    <h3 className="text-center">Update your profile</h3>
+                    <h4>Update your profile</h4>
                     <hr className="mb-5" />
 
                     <Row>

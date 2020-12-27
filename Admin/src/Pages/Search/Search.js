@@ -16,7 +16,6 @@ function searchingFor(search){
 export class Search extends Component {
     constructor(props){
         super(props);
-        //this.onDataChange = this.onDataChange.bind(this);
         this.onDataChangeP = this.onDataChangeP.bind(this);
         this.searchHandler = this.searchHandler.bind(this);
 
@@ -35,34 +34,13 @@ export class Search extends Component {
     
       componentDidMount() {
         Db.getAllProfiles().on("value", this.onDataChangeP);
-        //Db.getAllAppointments().on("value", this.onDataChange);
       
       }
     
       componentWillUnmount() {
         Db.getAllProfiles().off("value", this.onDataChangeP);
-        //Db.getAllAppointments().off("value", this.onDataChange);
       }
     
-    /*onDataChange(items) {
-        let appointments = [];
-    
-        items.forEach((item) => {
-          let key = item.key;
-          let data = item.val();
-          
-          appointments.push({
-            key: key,
-            VNo: data.VNo,
-            Adate: data.Adate,
-            status: data.status,
-            description: data.description,
-            uid: data.uid
-          });
-        });
-        appointments.sort(function (a,b) { return a.Adate - b.Adate })
-        this.setState({ appointments: appointments,loading: false });
-      }*/
 
       onDataChangeP(items) {
         this.setState({ loading: true });
@@ -91,33 +69,6 @@ export class Search extends Component {
         });
         this.setState({ loading: false });
       }
-    /*renderVehicles = () => {    const { appointments, search } = this.state;
-        return (
-            _.map(appointments.filter(searchingFor(search)), (appointment) => {
-                return (
-                    <Col md="4" className="p-2">
-                        <Card className="h-100 shadow p-2" style={{ 'background': '#FFF', 'color': '#000' }}>
-                            <CardBody>
-                            <CardTitle ><h5>{appointment.VNo}</h5></CardTitle>
-                                <Row>
-                                <CardText >Serviced on:</CardText>
-                                </Row>
-                                <Row>
-                                <CardText  className="text-primary">{appointment.Adate}</CardText>
-                                </Row>
-                                <Row>
-                                <CardText >Status:</CardText>
-                                </Row>
-                                <Row>
-                                <CardText  className="text-primary">{appointment.description}</CardText>
-                                </Row>
-                            </CardBody>
-                        </Card>
-                    </Col>
-                )
-            })
-        )
-    }*/
     renderProfiles = () => { const { profiles, search } = this.state;
         return (
             _.map(profiles.filter(searchingFor(search)), (profile) => {

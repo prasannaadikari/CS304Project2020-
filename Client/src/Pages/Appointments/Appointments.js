@@ -100,7 +100,7 @@ export default class AppointmentsList extends Component {
                 />
               </div>)
           : (<div>
-                <Online><p className="text-info">Please click on an appointment to remove...</p></Online>
+                <Online><p className="text-info">Please click on an appointment for more features...</p></Online>
               </div>)}
             </div>
             <hr md="12" className="py-3"/>
